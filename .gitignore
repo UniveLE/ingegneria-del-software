@@ -2,6 +2,7 @@
 
 # npm dependencies
 node_modules/
+.DS_Store
 
 # Files and directories created by pub
 .dart_tool/
