@@ -1,17 +1,260 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="main.dart" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lib/main.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6731077f-20b4-46a5-8165-a0d1de92722c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/Badge.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/Button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/Coupon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/Frame .png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/Fruit_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/Group1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/Group2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/Group3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/Line.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/almond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/banner_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/beef.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/benner_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/bluebarry.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/bread.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/cabbage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/card.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/cobbage1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/corn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/crad.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/denmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/font/AirbnbCereal_W_Bd.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/font/AirbnbCereal_W_Bk.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/font/AirbnbCereal_W_Md.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/frame.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/frozen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fruit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fruit_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fruit_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fruit_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/gf.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/gogrowsery.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/imageedit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/japan.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/kiw.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/kiwi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/Badge_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/Help_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/Line_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/Line_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/about.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/about_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/account1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/bag.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/buissness.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/calander.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/cansel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/cart.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/cash.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/contact_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/credit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/cvv.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/dark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/delete.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/delete_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/editor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/faq_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/fav.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/favr.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/finance.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/flag.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/growcery.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/home1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/i_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/i_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/i_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/invite_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/language_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/like.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/location.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/mainas.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/notification.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/notification_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/num.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/order.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/pass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/pay.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/payal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/percantage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/plus_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/privecy_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/pro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/profi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/rate_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/search_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/setting.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/share.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/slide_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/slide_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/slide_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/terms_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/upload.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/logo/voucher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/meat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/milk_egg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/monaco.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/organic.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/orrange.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/panipuri.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/pasta.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/pepper.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/plus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/plus1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/pro_pic.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/pro_pic_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/profile_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/profiles.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/promotion.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/sea_food.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/slide1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/slide2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/slide3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/south korea.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/stew.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/thailand.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/truck.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/united kingdom.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/veg1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/veg2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/veg3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/veg4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/veg5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/veg6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/vegeteble.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/about.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/account/account.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/account/edit_pro.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/account/notifi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/account/password.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/account/payment.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/account/profile.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/bottom.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cart/all_c.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cart/artichoke.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cart/cart.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cart/foryou.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/cart/payment_cart.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/contact.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/favourite_/favurite.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/feedback.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/firebase_options.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/help.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/home_page/address.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/home_page/detail.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/home_page/home.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/home_page/map.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/home_page/new_address.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/home_page/photo.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/home_page/search.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/home_page/vegetable.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/language.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/login_screen/bottombar.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/login_screen/create_easy.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/login_screen/login.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/login_screen/login_num.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/login_screen/otp.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/login_screen/register.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/login_screen/splesh_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/login_screen/welcome.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/notification/notification.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/notification/promo_ditail.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/notification/promocode.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/notification/transection.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/notification/update.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/order_/all.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/order_/all_o.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/order_/o_ditail.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/order_/order.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/order_/press.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/order_/previous.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/privacy.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/theme/colors.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/theme/theme_manager.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/voucher.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/Debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/Debug.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/Release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/Release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcworkspace/contents.xcworkspacedata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/Flutter-Debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/Flutter-Debug.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/Flutter-Release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/Flutter-Release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myfoodtracker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/myfoodtracker.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/widget_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/widget_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2WJ4m7NRJBQzBVUmlk6GJReunpy" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" />
+    <panes>
+      <pane id="ProjectPane">
+        <option name="show-excluded-files" value="false" />
+      </pane>
+    </panes>
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/Users/eliacoro/Desktop/Github/ingegneria-del-software",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/lib" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6731077f-20b4-46a5-8165-a0d1de92722c" name="Changes" comment="" />
+      <created>1696437504356</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1696437504356</updated>
+    </task>
+    <servers />
   </component>
   <component name="ToolWindowManager">
     <editor active="true" />
@@ -19,18 +262,15 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
     </layout>
   </component>
-  <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <option name="show-excluded-files" value="false" />
-      </pane>
-    </panes>
-  </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="dart.analysis.tool.window.force.activate" value="true" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$USER_HOME$/.pub-cache/hosted/pub.dev/get-4.6.6/lib/get_navigation/src/extension_navigation.dart</url>
+          <line>1176</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
