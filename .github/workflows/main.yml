@@ -14,7 +14,7 @@ jobs:
       - uses: subosito/flutter-action@v2
       - run: flutter --version
       - run: echo "Installato flutter."
-      - run: flutter pub get
+      - run: dart pub get
       - run: echo "Installate dependency di Flutter."
       - run: flutter build apk
       - run: echo "Costruito apk android."
