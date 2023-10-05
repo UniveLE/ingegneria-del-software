@@ -112,6 +112,7 @@ class _LoginState extends State<Login> {
         ),
         backgroundColor: notifire.spleshscreenprimerycolor,
         body: SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 20),
           child: Column(
             children: [
               Container(
@@ -321,7 +322,6 @@ class _LoginState extends State<Login> {
               ),
             ],
           ),
-          padding: const EdgeInsets.only(bottom: 20),
         ),
       ),
     );

@@ -84,11 +84,11 @@ class _VoucherState extends State<Voucher> {
                             fontSize: 14),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                       width: 279,
                       child: Row(
-                        children: const [
+                        children: [
                           Text(
                             "Special offer up to 50% off.",
                             style: TextStyle(

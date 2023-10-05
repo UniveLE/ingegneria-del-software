@@ -2068,7 +2068,7 @@ class _AccountState extends State<Account> {
   // building page indicator
   Widget _buildPageIndicator() {
     Row row =
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: const []);
+        const Row(mainAxisAlignment: MainAxisAlignment.center, children: []);
     for (int i = 0; i < _slides.length; i++) {
       row.children.add(_buildPageIndicatorItem(i));
       if (i != _slides.length - 1)

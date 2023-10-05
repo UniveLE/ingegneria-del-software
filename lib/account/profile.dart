@@ -78,7 +78,7 @@ class _ProfileState extends State<Profile> {
         ],
       ),
       backgroundColor: notifire.spleshscreenprimerycolor,
-      body: Column(children: const [
+      body: const Column(children: [
         SizedBox(
           height: 330,
           width: 375,

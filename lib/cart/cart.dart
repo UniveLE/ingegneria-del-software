@@ -88,7 +88,7 @@ class _CartState extends State<Cart> with SingleTickerProviderStateMixin {
             automaticallyImplyLeading: false,
             backgroundColor: notifire.spleshscreenprimerycolor,
             elevation: 0,
-            actions: [
+            actions: const [
               Column(),
             ]),
         backgroundColor: notifire.blackwhite,
