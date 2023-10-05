@@ -2928,7 +2928,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   // building page indicator
   Widget _buildPageIndicator() {
-    Row row = Row(mainAxisAlignment: MainAxisAlignment.center, children: []);
+    Row row =
+        const Row(mainAxisAlignment: MainAxisAlignment.center, children: []);
     for (int i = 0; i < _slides.length; i++) {
       row.children.add(_buildPageIndicatorItem(i));
       if (i != _slides.length - 1)

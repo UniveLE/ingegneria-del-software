@@ -207,7 +207,12 @@ class _OtpState extends State<Otp> {
             ),
             InkWell(
               onTap: () {
-                showModalBottomSheet(
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return const Bottombar();
+                  },
+                ));
+                /*showModalBottomSheet(
                     isScrollControlled: true,
                     context: context,
                     backgroundColor: Colors.transparent,
@@ -330,7 +335,7 @@ class _OtpState extends State<Otp> {
                           ),
                         ),
                       );
-                    });
+                    });*/
               },
               child: Container(
                 margin: const EdgeInsets.only(bottom: 15),
