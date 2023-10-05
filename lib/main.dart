@@ -31,7 +31,6 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  throw Exception("Test Crash");
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(
