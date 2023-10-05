@@ -81,7 +81,7 @@ class _OnbordingState extends State<Onbording> {
             margin: const EdgeInsets.only(left: 50, right: 50),
             //     margin: EdgeInsets.only(top: 350),
             child: const Text(
-              "GoGrocery",
+              "MyFoodTracker",
               style: TextStyle(
                   fontFamily: "AirbnbCereal_W_Bd",
                   fontSize: 35,
@@ -179,7 +179,7 @@ class _WelcomeState extends State<Welcome> {
                   height: 25,
                   width: 150,
                   child: Center(
-                      child: Text("Welcome to",
+                      child: Text("Benvenutæ",
                           style: TextStyle(
                               fontSize: 20,
                               color: notifire.textshscreenprimerycolor,
@@ -194,7 +194,7 @@ class _WelcomeState extends State<Welcome> {
                   height: 50,
                   width: 270,
                   child: const Center(
-                      child: Text("GoGrocery",
+                      child: Text("MyFoodTracker",
                           style: TextStyle(
                               fontSize: 40,
                               color: Color(0xff00AB67),
@@ -213,7 +213,7 @@ class _WelcomeState extends State<Welcome> {
                   //color: Colors.green,
                   child: Center(
                     child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur ",
+                      "Gestisci la tua credenza in modo ",
                       style: TextStyle(
                           fontFamily: "AirbnbCereal_W_Bk",
                           color: Color(0xff808080),
@@ -230,7 +230,7 @@ class _WelcomeState extends State<Welcome> {
                   width: 300,
                   //color: Colors.green,
                   child: Center(
-                    child: Text("adipiscing elit, sed do elusmod.",
+                    child: Text("semplice e dinamico.",
                         style: TextStyle(
                             fontSize: 16,
                             color: Color(0xff808080),
@@ -260,7 +260,7 @@ class _WelcomeState extends State<Welcome> {
                         borderRadius: BorderRadius.circular(20)),
                     child: const Center(
                         child: Text(
-                      "Get started",
+                      "Inizia",
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.white,
