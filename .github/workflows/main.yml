@@ -12,6 +12,7 @@ jobs:
           java-version: '17'
       - run: echo "Installato java."
       - uses: subosito/flutter-action@v2
+      - run: flutter --version
       - run: echo "Installato flutter."
       - run: flutter pub get
       - run: echo "Installate dependency di Flutter."
