@@ -10,6 +10,8 @@ import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'bottombar.dart';
+
 class Onbording extends StatefulWidget {
   const Onbording({Key? key}) : super(key: key);
 
@@ -32,7 +34,7 @@ class _OnbordingState extends State<Onbording> {
 
       if (FirebaseAuth.instance.currentUser != null) {
         Navigator.pushReplacement(
-            context, new MaterialPageRoute(builder: (context) => Home()));
+            context, new MaterialPageRoute(builder: (context) => Bottombar()));
       } else {
         Navigator.push(
             context,

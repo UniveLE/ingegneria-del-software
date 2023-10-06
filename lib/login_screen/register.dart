@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home_page/home.dart';
+import 'bottombar.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -450,7 +451,7 @@ void registration(context, name, email, password) async{
         ?.updateDisplayName(name);
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
-        return Home();
+        return Bottombar();
       },
     ));
   } on FirebaseAuthException catch (e) {

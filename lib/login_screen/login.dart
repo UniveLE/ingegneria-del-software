@@ -10,8 +10,7 @@ import 'package:myfoodtracker/login_screen/register.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../home_page/home.dart';
+import 'bottombar.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -39,7 +38,7 @@ class _LoginState extends State<Login> {
   void check_if_already_login() async {
     if (FirebaseAuth.instance.currentUser != null) {
       Navigator.pushReplacement(
-          context, new MaterialPageRoute(builder: (context) => Home()));
+          context, new MaterialPageRoute(builder: (context) => Bottombar()));
     } /*else {
       Navigator.push(
           context,
@@ -375,7 +374,7 @@ class _LoginState extends State<Login> {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Bottombar()));
     } on FirebaseAuthException catch (e) {
       String errorText = "";
       if (e.message != null) errorText = e.message!;
@@ -420,7 +419,7 @@ void loginWithGoogle(context) async {
           await auth.signInWithCredential(credential);
 
       user = userCredential.user;
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Bottombar()));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         // handle the error here
