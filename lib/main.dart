@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 void main() async {
   await GetStorage.init();
@@ -24,6 +25,8 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   OpenFoodAPIConfiguration.userAgent = UserAgent(
     name: 'MyFoodTracker',
