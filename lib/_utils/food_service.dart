@@ -1,10 +1,24 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
-//TODO: implementare sistema di cache per limitare le richieste al server
 class FoodService {
-  static void searchProduct(
-      {String? name, String? brand, int size = 10, int page = 1}) async {
+  static Future<List<Product>?> searchProduct(
+      {String? name,
+      String? brand,
+      String? category,
+      int size = 10,
+      int page = 1}) async {
+    var cache = await DefaultCacheManager()
+        .getFileFromCache('search-$name-$category-$brand-$size-$page');
+    if (cache != null && cache.validTill.isAfter(DateTime.now())) {
+      return jsonDecode(cache.file.readAsStringSync())
+          .map<Product>((model) => Product.fromJson(model))
+          .toList();
+    }
+
     var parametersList = [
       PageSize(size: size),
       PageNumber(page: page),
@@ -24,22 +38,49 @@ class FoodService {
       );
     }
 
+    if (category != null) {
+      parametersList.add(
+        TagFilter.fromType(
+          tagFilterType: TagFilterType.CATEGORIES,
+          tagName: category,
+        ),
+      );
+    }
+
     final ProductSearchQueryConfiguration configuration =
         ProductSearchQueryConfiguration(
       parametersList: parametersList,
-      language: OpenFoodFactsLanguage.ENGLISH,
+      language: OpenFoodFactsLanguage.ITALIAN,
       fields: [ProductField.ALL],
       version: ProductQueryVersion.v3,
     );
-    /*final ProductResultV3 result =
-        await OpenFoodAPIClient.getProductV3(configuration);*/
+
+    final SearchResult searchResult =
+        await OpenFoodAPIClient.searchProducts(null, configuration);
+
+    if (searchResult.products == null || searchResult.count == null) {
+      throw Exception('no products found');
+    }
+
+    await DefaultCacheManager().putFile(
+      'search-$name-$category-$brand-$size-$page',
+      Uint8List.fromList(utf8.encode(jsonEncode(searchResult.products))),
+      fileExtension: '.json',
+      maxAge: const Duration(days: 3),
+    );
+    return searchResult.products;
   }
 
   /// Function used to get a product by its barcode
   static Future<Product?> getProduct(String barcode) async {
+    var cache = await DefaultCacheManager().getFileFromCache(barcode);
+    if (cache != null && cache.validTill.isAfter(DateTime.now())) {
+      return Product.fromJson(jsonDecode(cache.file.readAsStringSync()));
+    }
+
     final ProductQueryConfiguration configuration = ProductQueryConfiguration(
       barcode,
-      language: OpenFoodFactsLanguage.ENGLISH,
+      language: OpenFoodFactsLanguage.ITALIAN,
       fields: [ProductField.ALL],
       version: ProductQueryVersion.v3,
     );
@@ -48,6 +89,12 @@ class FoodService {
         await OpenFoodAPIClient.getProductV3(configuration);
 
     if (result.status == ProductResultV3.statusSuccess) {
+      await DefaultCacheManager().putFile(
+        barcode,
+        Uint8List.fromList(utf8.encode(jsonEncode(result.product?.toJson()))),
+        fileExtension: '.json',
+        maxAge: const Duration(days: 3),
+      );
       return result.product;
     } else {
       throw Exception('product not found, please insert data for $barcode');
