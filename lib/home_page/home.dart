@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:myfoodtracker/about.dart';
 import 'package:myfoodtracker/contact.dart';
 import 'package:myfoodtracker/help.dart';
-import 'package:myfoodtracker/home_page/address.dart';
 import 'package:myfoodtracker/home_page/search.dart';
 import 'package:myfoodtracker/home_page/vegetable.dart';
 import 'package:myfoodtracker/language.dart';
@@ -407,11 +406,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           //  SizedBox(height: 1,),
                           InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
+                              /*Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const Address();
                                 },
-                              ));
+                              ));*/
                             },
                             child: ListTile(
                               leading: Icon(Icons.flag,

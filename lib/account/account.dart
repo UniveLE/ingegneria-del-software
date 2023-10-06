@@ -6,7 +6,6 @@ import 'package:myfoodtracker/account/payment.dart';
 import 'package:myfoodtracker/account/profile.dart';
 import 'package:myfoodtracker/favourite_/favurite.dart';
 import 'package:myfoodtracker/help.dart';
-import 'package:myfoodtracker/home_page/address.dart';
 import 'package:myfoodtracker/language.dart';
 import 'package:myfoodtracker/login_screen/bottombar.dart';
 import 'package:myfoodtracker/notification/notification.dart';
@@ -425,11 +424,11 @@ class _AccountState extends State<Account> {
                         top: 215,
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
+                            /*Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
                                 return const Address();
                               },
-                            ));
+                            ));*/
                           },
                           child: Column(
                             children: [

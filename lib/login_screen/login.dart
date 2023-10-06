@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:myfoodtracker/login_screen/login_num.dart';
 import 'package:myfoodtracker/login_screen/register.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
