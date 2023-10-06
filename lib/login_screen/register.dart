@@ -381,45 +381,7 @@ class _RegisterState extends State<Register> {
                 // },
                 InkWell(
                     onTap: () async {
-                      try {
-                        await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
-
-                        await FirebaseAuth.instance.currentUser
-                            ?.updateDisplayName(nameController.text);
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return Home();
-                          },
-                        ));
-                      } on FirebaseAuthException catch (e) {
-                        String errorText = "";
-                        if (e.code == 'weak-password') {
-                          errorText = 'The password provided is too weak.';
-                        } else if (e.code == 'email-already-in-use') {
-                          errorText =
-                              'The account already exists for that email.';
-                        } else if(e.code == "invalid-email") {
-                          errorText = "email invalida.";
-                        }
-
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Errore'),
-                                  content: Text(errorText),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'OK'),
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                ));
-                      }
+                      registration(context, nameController.text, emailController.text, passwordController.text);
                     },
                     child: Container(
                       height: 60,
@@ -473,5 +435,48 @@ class _RegisterState extends State<Register> {
             ),
           ),
         ));
+  }
+}
+
+void registration(context, name, email, password) async{
+  try {
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    await FirebaseAuth.instance.currentUser
+        ?.updateDisplayName(name);
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return Home();
+      },
+    ));
+  } on FirebaseAuthException catch (e) {
+    String errorText = "";
+    if (e.code == 'weak-password') {
+      errorText = 'The password provided is too weak.';
+    } else if (e.code == 'email-already-in-use') {
+      errorText =
+      'The account already exists for that email.';
+    } else if (e.code == "invalid-email") {
+      errorText = "email invalida.";
+    }
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+            AlertDialog(
+              title: const Text('Errore'),
+              content: Text(errorText),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () =>
+                      Navigator.pop(context, 'OK'),
+                  child: const Text('OK'),
+                ),
+              ],
+            ));
   }
 }

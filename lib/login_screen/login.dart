@@ -270,7 +270,7 @@ class _LoginState extends State<Login> {
               ),
               InkWell(
                 onTap: () {
-                  loginapi();
+                  loginapi(context);
                   /*Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return const Loginnums();
@@ -371,7 +371,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  loginapi() async {
+  loginapi(context) async {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
