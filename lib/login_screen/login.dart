@@ -1,12 +1,15 @@
 // ignore_for_file: file_names
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:myfoodtracker/login_screen/login_num.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:myfoodtracker/login_screen/register.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'bottombar.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -18,31 +21,31 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   bool hiddenpassword = true;
   late Colornotifire notifire;
-  TextEditingController phonenumber = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late SharedPreferences logindata;
   late bool newuser;
   var output = "";
-  //
-  // @override
-  // void initState() {
-  //
-  //   super.initState();
-  //   check_if_already_login();
-  // }
 
-  // void check_if_already_login() async {
-  //   logindata = await SharedPreferences.getInstance();
-  //   newuser = (logindata.getBool('login') ?? true);
-  //   print(newuser);
-  //   if (newuser == false) {
-  //     Navigator.pushReplacement(
-  //         context, new MaterialPageRoute(builder: (context) => home()));
-  //   }
-  //   // if(newuser == true){
-  //   //   Navigator.push(context, MaterialPageRoute(builder: (context) => login(),));
-  //   // }
-  // }
+  //
+  @override
+  void initState() {
+    super.initState();
+    check_if_already_login();
+  }
+
+  void check_if_already_login() async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      Navigator.pushReplacement(
+          context, new MaterialPageRoute(builder: (context) => Bottombar()));
+    } /*else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(),
+          ));
+    }*/
+  }
 
   // @override
   // void dispose() {
@@ -61,6 +64,7 @@ class _LoginState extends State<Login> {
       notifire.setlsDark = previusstate;
     }
   }
+
   // Future<bool> _onWillPop() async {
   //   return (await showDialog(
   //     context: context,
@@ -132,7 +136,7 @@ class _LoginState extends State<Login> {
                 margin: const EdgeInsets.only(right: 120),
                 width: 200,
                 child: Text(
-                  "Email or Phone Number",
+                  "Email",
                   style: TextStyle(
                       fontSize: 12,
                       color: notifire.mintextscreenprimerycolor,
@@ -171,12 +175,12 @@ class _LoginState extends State<Login> {
                           height: 48,
                           width: 230,
                           child: TextField(
-                            controller: phonenumber,
+                            controller: emailController,
                             decoration: InputDecoration(
                                 disabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 enabledBorder: InputBorder.none,
-                                hintText: "Email or Phone Number",
+                                hintText: "Email",
                                 hintStyle: TextStyle(
                                     color: notifire.mintextscreenprimerycolor,
                                     fontSize: 14)
@@ -260,16 +264,16 @@ class _LoginState extends State<Login> {
                 ),
               ),
               const SizedBox(
-                height: 220,
+                height: 100,
               ),
               InkWell(
                 onTap: () {
-                  // loginapi();
-                  Navigator.push(context, MaterialPageRoute(
+                  loginapi(context);
+                  /*Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return const Loginnums();
                     },
-                  ));
+                  ));*/
                 },
                 child: Container(
                   height: 60,
@@ -287,6 +291,44 @@ class _LoginState extends State<Login> {
                         fontFamily: "AirbnbCereal_W_Bd"),
                   )),
                 ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              InkWell(
+                child: Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    height: MediaQuery.of(context).size.height / 18,
+                    margin: EdgeInsets.only(top: 25),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.black),
+                    child: Center(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          height: 30.0,
+                          width: 30.0,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/google.jpg'),
+                                fit: BoxFit.cover),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const Text(
+                          'Sign in with Google',
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ))),
+                onTap: () {
+                  loginWithGoogle(context);
+                },
               ),
               const SizedBox(
                 height: 40,
@@ -327,34 +369,64 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // loginapi() {
-  //   var data = {
-  //     "mobile": Phonenumber.text.toString(),
-  //     "password": passwordController.text.toString()
-  //   };
-  //   // ApiWrapper.dataPost("rider_login.php", data);
-  //   ApiWrapper.dataPost(AppUrl.login, data).then((val) {
-  //     if ((val != null) && (val.isNotEmpty)) {
-  //       // print(val);
-  //       if ((val['ResponseCode'] == "200") && (val['Result'] == "true")) {
-  //         // save("Firstuser", true);
-  //         setState(() {
-  //           save("user", val["user"]);
-  //           print("result${getData.read("user")}");
-  //           print("result${getData.read("partnerdata")}");
-  //           ApiWrapper.showToastMessage(val["ResponseMsg"]);
-  //         });
-  //         if (Phonenumber != '' && passwordController != '') {
-  //           print('Successfull');
-  //           logindata.setBool('login', false);
-  //           logindata.setString('mobile', passwordController.text);
-  //           Navigator.push(
-  //               context, MaterialPageRoute(builder: (context) => home()));
-  //         }
-  //       } else {
-  //         ApiWrapper.showToastMessage(val["ResponseMsg"]);
-  //       }
-  //     }
-  //   });
-  // }
+  loginapi(context) async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Bottombar()));
+    } on FirebaseAuthException catch (e) {
+      String errorText = "";
+      if (e.message != null) errorText = e.message!;
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text('Errore'),
+                content: Text(errorText),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ));
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
+void loginWithGoogle(context) async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? user;
+
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+  if (googleSignInAccount != null) {
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    try {
+      final UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+
+      user = userCredential.user;
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Bottombar()));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        // handle the error here
+      } else if (e.code == 'invalid-credential') {
+        // handle the error here
+      }
+    } catch (e) {
+      // handle the error here
+    }
+  }
 }
