@@ -8,7 +8,7 @@ import 'package:myfoodtracker/contact.dart';
 import 'package:myfoodtracker/help.dart';
 import 'package:myfoodtracker/home_page/address.dart';
 import 'package:myfoodtracker/home_page/search.dart';
-import 'package:myfoodtracker/home_page/vegetable.dart';
+import 'package:myfoodtracker/home_page/search_result.dart';
 import 'package:myfoodtracker/language.dart';
 import 'package:myfoodtracker/login_screen/bottombar.dart';
 import 'package:myfoodtracker/notification/notification.dart';
@@ -192,14 +192,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 child: Container(
                   margin: const EdgeInsets.only(right: 30, left: 10),
                   width: 120,
-                  child: Text("GoGrocery",
+                  child: Text("MyFoodTracker",
                       style: TextStyle(
                           fontFamily: "AirbnbCereal_W_Bd",
-                          fontSize: 21,
+                          fontSize: 15,
                           color: notifire.textshscreenprimerycolor)),
                 ),
               ),
-              Container(
+              /*Container(
                 margin: const EdgeInsets.only(top: 7, bottom: 7, right: 5),
                 height: 15,
                 width: 100,
@@ -249,7 +249,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     ]),
                   ),
                 ),
-              )
+              )*/
             ]),
         drawer: Drawer(
             child: Container(
@@ -703,7 +703,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             height: 50,
                             width: 200,
                             child: Text(
-                              "Search anything",
+                              "Ricerca prodotto...",
                               style: TextStyle(
                                   fontSize: 14,
                                   fontFamily: "AirbnbCereal_W_Md",
@@ -727,7 +727,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     height: 30,
                     width: 200,
                     child: Text(
-                      "What are you looking for?",
+                      "Cosa stai cercando?",
                       style: TextStyle(
                           fontFamily: "AirbnbCereal_W_Bd",
                           fontSize: 16,
@@ -750,7 +750,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
-                                    return const Vegetable();
+                                    return const SearchResult(
+                                        category: 'Vegetale');
                                   },
                                 ));
                               },
@@ -768,11 +769,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
-                                    return const Vegetable();
+                                    return const SearchResult(
+                                        category: 'Vegetale');
                                   },
                                 ));
                               },
-                              child: Text("vegetable",
+                              child: Text("Cibi vegetali",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
@@ -784,7 +786,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(category: 'Carne');
                                 },
                               ));
                             },
@@ -802,7 +804,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(category: 'Carne');
                                 },
                               ));
                             },
@@ -810,7 +812,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               margin: const EdgeInsets.only(left: 40, top: 12),
                               height: 20,
                               width: 50,
-                              child: Text("Meat",
+                              child: Text("Carne",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
@@ -826,7 +828,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(category: 'Frutta');
                                 },
                               ));
                             },
@@ -845,7 +847,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(category: 'Frutta');
                                 },
                               ));
                             },
@@ -853,7 +855,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               margin: const EdgeInsets.only(left: 35, top: 12),
                               height: 20,
                               width: 55,
-                              child: Text("Fruit",
+                              child: Text("Frutta",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
@@ -865,7 +867,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(
+                                      category: 'Surgelati');
                                 },
                               ));
                             },
@@ -884,7 +887,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(
+                                      category: 'Surgelati');
                                 },
                               ));
                             },
@@ -892,7 +896,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               margin: const EdgeInsets.only(left: 30, top: 12),
                               height: 20,
                               width: 60,
-                              child: Text("Frozen",
+                              child: Text("Surgelati",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
@@ -908,7 +912,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(category: 'Mare');
                                 },
                               ));
                             },
@@ -926,7 +930,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(category: 'Mare');
                                 },
                               ));
                             },
@@ -934,7 +938,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               margin: const EdgeInsets.only(left: 10, top: 12),
                               height: 20,
                               width: 60,
-                              child: Text("Sea food",
+                              child: Text("Mare",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
@@ -946,7 +950,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(category: 'Pane');
                                 },
                               ));
                             },
@@ -964,7 +968,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(category: 'Pane');
                                 },
                               ));
                             },
@@ -972,7 +976,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               margin: const EdgeInsets.only(left: 20, top: 12),
                               height: 20,
                               width: 50,
-                              child: Text("Bread",
+                              child: Text("Pane",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
@@ -988,7 +992,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(category: 'Uova');
                                 },
                               ));
                             },
@@ -1007,7 +1011,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(category: 'Uova');
                                 },
                               ));
                             },
@@ -1016,7 +1020,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   left: 15, top: 12, right: 20),
                               height: 20,
                               width: 60,
-                              child: Text("Milk & Egg",
+                              child: Text("Uova",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
@@ -1028,7 +1032,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(
+                                      category: 'Verdura');
                                 },
                               ));
                             },
@@ -1047,7 +1052,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const Vegetable();
+                                  return const SearchResult(
+                                      category: 'Verdura');
                                 },
                               ));
                             },
@@ -1056,7 +1062,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   left: 20, top: 12, right: 20),
                               height: 20,
                               width: 60,
-                              child: Text("Organic",
+                              child: Text("Verdura",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
@@ -1192,7 +1198,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
-                                return const Vegetable();
+                                return const SearchResult();
                               },
                             ));
                           },
