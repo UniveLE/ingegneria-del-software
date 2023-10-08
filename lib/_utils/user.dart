@@ -12,16 +12,22 @@ void test() async {
   User user = User.getActualUser();
 
   Product? p = await FoodService.getProduct('42046202');
-  //user.addProductToShoppingList(p!);
-  //user.addProductToStorageList(p!, 1, DateTime.now().add(Duration(days: 1)));
+  //await user.addProductToShoppingList(p!);
+  //await user.addProductToStorageList(p!, 1, DateTime.now().add(Duration(days: 1)));
 
   Product? p2 = await FoodService.getProduct('8013355998832');
-  //user.addProductToShoppingList(p2!);
-  user.addProductToStorageList(p2!, 1, DateTime.now().add(Duration(days: 1)));
-  /*
+  //await user.addProductToShoppingList(p2!);
+  //await user.addProductToStorageList(p2!, 1, DateTime.now().add(Duration(days: 1)));
 
-  user.addProductToShoppingList(p!);
-  user.addProductToStorageList(p!, 1, DateTime.now().add(Duration(days: 1)));*/
+  //await user.addProductToShoppingList(p!);
+  //await user.addProductToStorageList(p!, 1, DateTime.now().add(Duration(days: 1)));
+
+  await user.removeProductFromShoppingListByProduct(p!);
+  await user.removeProductFromShoppingListByProduct(p2!);
+  await user.removeProductFromStorageListByProduct(
+      p!, 10, DateTime.now().add(Duration(days: 1)));
+  await user.removeProductFromStorageListByProduct(
+      p2!, 3, DateTime.now().add(Duration(days: 1)));
 }
 
 class User {
@@ -47,11 +53,11 @@ class User {
     // Aggiungi l'elemento all'array nel documento
     await documentReference.update({
       'deiceId':
-          FieldValue.arrayUnion([await FirebaseMessaging.instance.getToken()])
+      FieldValue.arrayUnion([await FirebaseMessaging.instance.getToken()])
     });
   }
 
-  void addProductToShoppingList(Product product) async {
+  Future<bool> addProductToShoppingList(Product product) async {
     String array_name = "ShoppingList";
 
     DocumentSnapshot documentSnapshot = await documentReference.get();
@@ -69,10 +75,28 @@ class User {
         array_name: FieldValue.arrayUnion([product.barcode])
       });
     }
+    return true;
   }
 
-  void addProductToStorageList(
-      Product product, int quantity, DateTime expiration) async {
+  Future<bool> removeProductFromShoppingListByProduct(Product product) {
+    return removeProductFromShoppingListByBarcode(product.barcode!);
+  }
+
+  Future<bool> removeProductFromShoppingListByBarcode(String barcode) async {
+    String array_name = "ShoppingList";
+
+    DocumentSnapshot documentSnapshot = await documentReference.get();
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+
+    if (!data.containsKey(array_name)) return false;
+
+    data[array_name].removeWhere((row) => row == barcode);
+    await documentReference.update({array_name: data[array_name]});
+    return true;
+  }
+
+  Future<bool> addProductToStorageList(Product product, int quantity,
+      DateTime expiration) async {
     String array_name = "StorageList";
     DateFormat formatter = DateFormat('dd-MM-yyyy');
 
@@ -104,6 +128,50 @@ class User {
     }
 
     await documentReference.update({array_name: fieldList});
+    return true;
+  }
+
+  Future<bool> removeProductFromStorageListByProduct(Product product,
+      int quantity, DateTime expiration) {
+    return removeProductFromStorageListByBarcode(
+        product.barcode!, quantity, expiration);
+  }
+
+  Future<bool> removeProductFromStorageListByBarcode(String barcode,
+      int quantity, DateTime expiration) async {
+    String array_name = "StorageList";
+    DateFormat formatter = DateFormat('dd-MM-yyyy');
+    DocumentSnapshot documentSnapshot = await documentReference.get();
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+
+    if (!data.containsKey(array_name)) {
+      return false;
+    }
+
+    List<dynamic> fieldList = data[array_name];
+    print(fieldList[0].runtimeType);
+
+    data[array_name].forEach((instance) {
+      if (instance['barcode'] == barcode &&
+          instance['expiration'] == formatter.format(expiration)) {
+        instance['quantity'] -= quantity;
+      }
+    });
+    print(data[array_name]);
+    print(data[array_name].runtimeType);
+    //data[array_name].removeWhere((element) => element['quantity'] <= 0);
+
+    int i = 0;
+    while(i < data[array_name].length){
+      if(data[array_name][i]['quantity'] <= 0)
+        data[array_name].remove(data[array_name][i]);
+      else
+        i++;
+    }
+
+
+    await documentReference.update({array_name: data[array_name]});
+    return true;
   }
 
   static User getActualUser() {
