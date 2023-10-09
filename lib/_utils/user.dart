@@ -12,22 +12,27 @@ void test() async {
   User user = User.getActualUser();
 
   Product? p = await FoodService.getProduct('42046202');
-  //await user.addProductToShoppingList(p!);
-  //await user.addProductToStorageList(p!, 1, DateTime.now().add(Duration(days: 1)));
-
   Product? p2 = await FoodService.getProduct('8013355998832');
-  //await user.addProductToShoppingList(p2!);
-  //await user.addProductToStorageList(p2!, 1, DateTime.now().add(Duration(days: 1)));
 
-  //await user.addProductToShoppingList(p!);
-  //await user.addProductToStorageList(p!, 1, DateTime.now().add(Duration(days: 1)));
 
-  user.removeProductFromShoppingListByProduct(p!);
-  user.removeProductFromShoppingListByProduct(p2!);
-  user.removeProductFromStorageListByProduct(
-      p!, 10, DateTime.now().add(Duration(days: 1)));
-  user.removeProductFromStorageListByProduct(
-      p2!, 3, DateTime.now().add(Duration(days: 1)));
+  await user.addProductToShoppingList(p!);
+  await user.addProductToStorageList(p!, 1, DateTime.now().add(Duration(days: 1)));
+
+
+  await user.addProductToShoppingList(p2!);
+  await user.addProductToStorageList(p2!, 1, DateTime.now().add(Duration(days: 1)));
+
+  await user.addProductToShoppingList(p!);
+  await user.addProductToStorageList(p!, 11, DateTime.now().add(Duration(days: 100)));
+
+
+  await user.removeProductFromShoppingListByProduct(p!);
+  await user.removeProductFromShoppingListByProduct(p2!);
+  await user.removeProductFromStorageListByProduct(
+      p!, 10, DateTime.now().add(Duration(days: 100)));
+  await user.removeProductFromStorageListByProduct(
+      p2!, 5, DateTime.now().add(Duration(days: 1)));
+
 }
 
 class User {
@@ -52,12 +57,12 @@ class User {
   void _addDeviceToFirestore() async {
     // Aggiungi l'elemento all'array nel documento
     await documentReference.update({
-      'deiceId':
+      'deviceId':
       FieldValue.arrayUnion([await FirebaseMessaging.instance.getToken()])
     });
   }
 
-  void addProductToShoppingList(Product product) async {
+  Future<void> addProductToShoppingList(Product product) async {
     String array_name = "ShoppingList";
 
     DocumentSnapshot documentSnapshot = await documentReference.get();
@@ -69,19 +74,18 @@ class User {
       data = documentSnapshot.data() as Map<String, dynamic>;
     }
 
-    List<dynamic> fieldList = data[array_name];
-    if (!fieldList.contains(product.barcode)) {
+    if (!data[array_name].contains(product.barcode)) {
       await documentReference.update({
         array_name: FieldValue.arrayUnion([product.barcode])
       });
     }
   }
 
-  void removeProductFromShoppingListByProduct(Product product) {
-    removeProductFromShoppingListByBarcode(product.barcode!);
+  Future<void> removeProductFromShoppingListByProduct(Product product) {
+    return removeProductFromShoppingListByBarcode(product.barcode!);
   }
 
-  void removeProductFromShoppingListByBarcode(String barcode) async {
+  Future<void> removeProductFromShoppingListByBarcode(String barcode) async {
     String array_name = "ShoppingList";
 
     DocumentSnapshot documentSnapshot = await documentReference.get();
@@ -93,7 +97,7 @@ class User {
     await documentReference.update({array_name: data[array_name]});
   }
 
-  void addProductToStorageList(Product product, int quantity,
+  Future<void> addProductToStorageList(Product product, int quantity,
       DateTime expiration) async {
     String array_name = "StorageList";
     DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -128,13 +132,13 @@ class User {
     await documentReference.update({array_name: fieldList});
   }
 
-  void removeProductFromStorageListByProduct(Product product,
+  Future<void> removeProductFromStorageListByProduct(Product product,
       int quantity, DateTime expiration) {
-    removeProductFromStorageListByBarcode(
+    return removeProductFromStorageListByBarcode(
         product.barcode!, quantity, expiration);
   }
 
-  void removeProductFromStorageListByBarcode(String barcode,
+  Future<void> removeProductFromStorageListByBarcode(String barcode,
       int quantity, DateTime expiration) async {
     String array_name = "StorageList";
     DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -145,8 +149,6 @@ class User {
       return;
     }
 
-    List<dynamic> fieldList = data[array_name];
-    print(fieldList[0].runtimeType);
 
     data[array_name].forEach((instance) {
       if (instance['barcode'] == barcode &&
@@ -154,8 +156,6 @@ class User {
         instance['quantity'] -= quantity;
       }
     });
-    print(data[array_name]);
-    print(data[array_name].runtimeType);
     //data[array_name].removeWhere((element) => element['quantity'] <= 0);
 
     int i = 0;
