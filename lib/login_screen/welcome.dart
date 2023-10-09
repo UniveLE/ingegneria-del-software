@@ -32,7 +32,6 @@ class _OnbordingState extends State<Onbording> {
     super.initState();
     Timer(const Duration(seconds: 3), () async {
       //await FirebaseAuth.instance.signOut();
-      test();
       if (FirebaseAuth.instance.currentUser != null) {
         Navigator.pushReplacement(
             context, new MaterialPageRoute(builder: (context) => Bottombar()));
