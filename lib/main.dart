@@ -1,4 +1,5 @@
 // ignore_for_file: file_names
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -27,6 +28,7 @@ void main() async {
   };
 
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   OpenFoodAPIConfiguration.userAgent = UserAgent(
     name: 'MyFoodTracker',
