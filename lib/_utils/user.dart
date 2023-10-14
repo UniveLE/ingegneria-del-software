@@ -14,6 +14,7 @@ void test() async {
   print(await user.getShoppingList());
   print(await user.getStorageBarcodeList());
 
+  print("finito!");
   /*Product? p = await FoodService.getProduct('42046202');
   Product? p2 = await FoodService.getProduct('8013355998832');
 
@@ -35,7 +36,6 @@ void test() async {
       p!, 10, DateTime.now().add(Duration(days: 100)));
   await user.removeProductFromStorageListByProduct(
       p2!, 5, DateTime.now().add(Duration(days: 1)));*/
-
 }
 
 class User {
@@ -63,7 +63,7 @@ class User {
     // Aggiungi l'elemento all'array nel documento
     await documentReference.update({
       'deviceId':
-      FieldValue.arrayUnion([await FirebaseMessaging.instance.getToken()])
+          FieldValue.arrayUnion([await FirebaseMessaging.instance.getToken()])
     });
   }
 
@@ -88,35 +88,45 @@ class User {
     return removeProductFromShoppingListByBarcode(product.barcode!);
   }
 
-  Future<List<String>> getShoppingList()async{
+  Future<List<dynamic>> getShoppingList() async {
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
     if (!data.containsKey(shoppingArrayList)) {
       return [];
     }
-    List<String> r = [];
-    data[shoppingArrayList].forEach((instance) {
-      r.add(instance);
-    });
+    List<Product> r = [];
+    /*await data[shoppingArrayList].forEach((instance) async {
+      Product? p = await FoodService.getProduct(instance);
+      print(p);
+      if (p != null) {
+        r.add(p);
+      }
+    });*/
+
+    for(int i = 0; i < data[shoppingArrayList].length; i++){
+      Product? p = await FoodService.getProduct(data[shoppingArrayList][i]);
+      if (p != null) {
+        r.add(p);
+      }
+    }
 
     return r;
   }
 
   Future<void> removeProductFromShoppingListByBarcode(String barcode) async {
-
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
     if (!data.containsKey(shoppingArrayList)) return;
 
     data[shoppingArrayList].removeWhere((row) => row == barcode);
-    await documentReference.update({shoppingArrayList: data[shoppingArrayList]});
+    await documentReference
+        .update({shoppingArrayList: data[shoppingArrayList]});
   }
 
-  Future<void> addProductToStorageList(Product product, int quantity,
-      DateTime expiration) async {
-
+  Future<void> addProductToStorageList(
+      Product product, int quantity, DateTime expiration) async {
     DateFormat formatter = DateFormat('dd-MM-yyyy');
 
     DocumentSnapshot documentSnapshot = await documentReference.get();
@@ -149,29 +159,49 @@ class User {
     await documentReference.update({storageArrayName: data[storageArrayName]});
   }
 
-  Future<List<String>> getStorageBarcodeList()async{
+  Future<List> getStorageBarcodeList() async {
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
     if (!data.containsKey(storageArrayName)) {
       return [];
     }
-    List<String> r = [];
-    data[storageArrayName].forEach((instance) {
-      r.add(instance);
-    });
+    List r = [];
+    /*await data[storageArrayName].forEach((instance) async {
+      Product? p = await FoodService.getProduct(instance['barcode']);
+      print(p);
+      print(p.runtimeType);
+      if (p != null) {
+        r.add({
+          'product': p,
+          'expiration': instance['expiration'],
+          'quantity': instance['quantity']
+        });
+      }
+    });*/
+
+    for(int i = 0; i < data[storageArrayName].length; i++){
+      Product? p = await FoodService.getProduct(data[storageArrayName][i]['barcode']);
+      if (p != null) {
+        r.add({
+          'product': p,
+          'expiration': data[storageArrayName][i]['expiration'],
+          'quantity': data[storageArrayName][i]['quantity']
+        });
+      }
+    }
 
     return r;
   }
 
-  Future<void> removeProductFromStorageListByProduct(Product product,
-      int quantity, DateTime expiration) {
+  Future<void> removeProductFromStorageListByProduct(
+      Product product, int quantity, DateTime expiration) {
     return removeProductFromStorageListByBarcode(
         product.barcode!, quantity, expiration);
   }
 
-  Future<void> removeProductFromStorageListByBarcode(String barcode,
-      int quantity, DateTime expiration) async {
+  Future<void> removeProductFromStorageListByBarcode(
+      String barcode, int quantity, DateTime expiration) async {
     DateFormat formatter = DateFormat('dd-MM-yyyy');
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
@@ -189,8 +219,8 @@ class User {
     //data[array_name].removeWhere((element) => element['quantity'] <= 0);
 
     int i = 0;
-    while(i < data[storageArrayName].length){
-      if(data[storageArrayName][i]['quantity'] <= 0)
+    while (i < data[storageArrayName].length) {
+      if (data[storageArrayName][i]['quantity'] <= 0)
         data[storageArrayName].remove(data[storageArrayName][i]);
       else
         i++;

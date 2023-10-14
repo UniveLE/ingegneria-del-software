@@ -5,19 +5,21 @@ import 'package:myfoodtracker/order_/order.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../home_page/home.dart';
+import '../cart/artichoke.dart';
 
 int selectedIndex = 0;
 
 class Bottombar extends StatefulWidget {
   const Bottombar({Key? key}) : super(key: key);
+
   @override
   _BottombarState createState() => _BottombarState();
 }
 
 class _BottombarState extends State<Bottombar> with TickerProviderStateMixin {
   late TabController tabController;
+
   @override
   void initState() {
     super.initState();
@@ -27,11 +29,12 @@ class _BottombarState extends State<Bottombar> with TickerProviderStateMixin {
   List<Widget> myChilders = const [
     Home(),
     Order(),
-    Cart(),
+    Artichoke(),
     Account(),
   ];
 
   late Colornotifire notifire;
+
   getdarkmodepreviousstate() async {
     final prefs = await SharedPreferences.getInstance();
     bool? previusstate = prefs.getBool("setIsDark");
@@ -88,7 +91,7 @@ class _BottombarState extends State<Bottombar> with TickerProviderStateMixin {
                         ? const Color(0xff00AB67)
                         : notifire.mintextscreenprimerycolor,
                     height: MediaQuery.of(context).size.height / 45),
-                label: 'Cart'),
+                label: 'Spesa'),
             BottomNavigationBarItem(
               icon: Image.asset("assets/logo/account1.png",
                   color: selectedIndex == 3
@@ -107,13 +110,13 @@ class _BottombarState extends State<Bottombar> with TickerProviderStateMixin {
       body: myChilders[selectedIndex],
     );
   }
-  // getdarkmodepreviousstate() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   bool? previusstate = prefs.getBool("setIsDark");
-  //   if (previusstate == null) {
-  //     notifire.setIsDark = false;
-  //   } else {
-  //     notifire.setIsDark = previusstate;
-  //   }
-  // }
+// getdarkmodepreviousstate() async {
+//   final prefs = await SharedPreferences.getInstance();
+//   bool? previusstate = prefs.getBool("setIsDark");
+//   if (previusstate == null) {
+//     notifire.setIsDark = false;
+//   } else {
+//     notifire.setIsDark = previusstate;
+//   }
+// }
 }
