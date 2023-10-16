@@ -2,7 +2,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:myfoodtracker/home_page/home.dart';
 import 'package:myfoodtracker/login_screen/create_easy.dart';
@@ -32,7 +32,8 @@ class _OnbordingState extends State<Onbording> {
     super.initState();
     Timer(const Duration(seconds: 3), () async {
       //await FirebaseAuth.instance.signOut();
-      if (FirebaseAuth.instance.currentUser != null) {
+      await User.getActualUser();
+      if (firebaseAuth.FirebaseAuth.instance.currentUser != null) {
         Navigator.pushReplacement(
             context, new MaterialPageRoute(builder: (context) => Bottombar()));
       } else {

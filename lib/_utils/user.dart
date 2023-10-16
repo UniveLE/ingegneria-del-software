@@ -11,7 +11,11 @@ CollectionReference users = FirebaseFirestore.instance.collection('users');
 void test() async {
   User user = User.getActualUser();
 
-  Product? p = await FoodService.getProduct('42046202');
+  print(await user.getShoppingList());
+  print(await user.getStorageBarcodeList());
+
+  print("finito!");
+  /*Product? p = await FoodService.getProduct('42046202');
   Product? p2 = await FoodService.getProduct('8013355998832');
 
 
@@ -31,20 +35,21 @@ void test() async {
   await user.removeProductFromStorageListByProduct(
       p!, 10, DateTime.now().add(Duration(days: 100)));
   await user.removeProductFromStorageListByProduct(
-      p2!, 5, DateTime.now().add(Duration(days: 1)));
-
+      p2!, 5, DateTime.now().add(Duration(days: 1)));*/
 }
 
 class User {
   String uid;
   late DocumentReference documentReference;
+  static String storageArrayName = "StorageList";
+  static String shoppingArrayList = "ShoppingList";
 
   User(this.uid) {
     _addUserToFirestore();
   }
 
   void _addUserToFirestore() async {
-    documentReference = await users.doc(uid);
+    documentReference = users.doc(uid);
     DocumentSnapshot documentSnapshot = await documentReference.get();
     if (!documentSnapshot.exists) {
       await documentReference.set({
@@ -58,25 +63,23 @@ class User {
     // Aggiungi l'elemento all'array nel documento
     await documentReference.update({
       'deviceId':
-      FieldValue.arrayUnion([await FirebaseMessaging.instance.getToken()])
+          FieldValue.arrayUnion([await FirebaseMessaging.instance.getToken()])
     });
   }
 
   Future<void> addProductToShoppingList(Product product) async {
-    String array_name = "ShoppingList";
-
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
-    if (!data.containsKey(array_name)) {
-      await documentReference.update({array_name: []});
+    if (!data.containsKey(shoppingArrayList)) {
+      await documentReference.update({shoppingArrayList: []});
       documentSnapshot = await documentReference.get();
       data = documentSnapshot.data() as Map<String, dynamic>;
     }
 
-    if (!data[array_name].contains(product.barcode)) {
+    if (!data[shoppingArrayList].contains(product.barcode)) {
       await documentReference.update({
-        array_name: FieldValue.arrayUnion([product.barcode])
+        shoppingArrayList: FieldValue.arrayUnion([product.barcode])
       });
     }
   }
@@ -85,36 +88,60 @@ class User {
     return removeProductFromShoppingListByBarcode(product.barcode!);
   }
 
-  Future<void> removeProductFromShoppingListByBarcode(String barcode) async {
-    String array_name = "ShoppingList";
-
+  Future<List<dynamic>> getShoppingList() async {
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
-    if (!data.containsKey(array_name)) return;
+    if (!data.containsKey(shoppingArrayList)) {
+      return [];
+    }
+    List<Product> r = [];
+    /*await data[shoppingArrayList].forEach((instance) async {
+      Product? p = await FoodService.getProduct(instance);
+      print(p);
+      if (p != null) {
+        r.add(p);
+      }
+    });*/
 
-    data[array_name].removeWhere((row) => row == barcode);
-    await documentReference.update({array_name: data[array_name]});
+    for(int i = 0; i < data[shoppingArrayList].length; i++){
+      Product? p = await FoodService.getProduct(data[shoppingArrayList][i]);
+      if (p != null) {
+        r.add(p);
+      }
+    }
+
+    return r;
   }
 
-  Future<void> addProductToStorageList(Product product, int quantity,
-      DateTime expiration) async {
-    String array_name = "StorageList";
+  Future<void> removeProductFromShoppingListByBarcode(String barcode) async {
+    DocumentSnapshot documentSnapshot = await documentReference.get();
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+
+    if (!data.containsKey(shoppingArrayList)) return;
+
+    data[shoppingArrayList].removeWhere((row) => row == barcode);
+    await documentReference
+        .update({shoppingArrayList: data[shoppingArrayList]});
+  }
+
+  Future<void> addProductToStorageList(
+      Product product, int quantity, DateTime expiration) async {
     DateFormat formatter = DateFormat('dd-MM-yyyy');
 
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
-    if (!data.containsKey(array_name)) {
-      await documentReference.update({array_name: []});
+    if (!data.containsKey(storageArrayName)) {
+      await documentReference.update({storageArrayName: []});
       documentSnapshot = await documentReference.get();
       data = documentSnapshot.data() as Map<String, dynamic>;
     }
 
-    List<dynamic> fieldList = data[array_name];
+    //List<dynamic> fieldList = data[storageArrayName];
 
     bool added = false;
-    fieldList.forEach((instance) {
+    data[storageArrayName].forEach((instance) {
       if (instance['barcode'] == product.barcode &&
           instance['expiration'] == formatter.format(expiration)) {
         instance['quantity'] += quantity;
@@ -122,35 +149,68 @@ class User {
       }
     });
     if (!added) {
-      fieldList.add({
+      data[storageArrayName].add({
         'barcode': product.barcode,
         'quantity': quantity,
         'expiration': formatter.format(expiration)
       });
     }
 
-    await documentReference.update({array_name: fieldList});
+    await documentReference.update({storageArrayName: data[storageArrayName]});
   }
 
-  Future<void> removeProductFromStorageListByProduct(Product product,
-      int quantity, DateTime expiration) {
+  Future<List> getStorageBarcodeList() async {
+    DocumentSnapshot documentSnapshot = await documentReference.get();
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+
+    if (!data.containsKey(storageArrayName)) {
+      return [];
+    }
+    List r = [];
+    /*await data[storageArrayName].forEach((instance) async {
+      Product? p = await FoodService.getProduct(instance['barcode']);
+      print(p);
+      print(p.runtimeType);
+      if (p != null) {
+        r.add({
+          'product': p,
+          'expiration': instance['expiration'],
+          'quantity': instance['quantity']
+        });
+      }
+    });*/
+
+    for(int i = 0; i < data[storageArrayName].length; i++){
+      Product? p = await FoodService.getProduct(data[storageArrayName][i]['barcode']);
+      if (p != null) {
+        r.add({
+          'product': p,
+          'expiration': data[storageArrayName][i]['expiration'],
+          'quantity': data[storageArrayName][i]['quantity']
+        });
+      }
+    }
+
+    return r;
+  }
+
+  Future<void> removeProductFromStorageListByProduct(
+      Product product, int quantity, DateTime expiration) {
     return removeProductFromStorageListByBarcode(
         product.barcode!, quantity, expiration);
   }
 
-  Future<void> removeProductFromStorageListByBarcode(String barcode,
-      int quantity, DateTime expiration) async {
-    String array_name = "StorageList";
+  Future<void> removeProductFromStorageListByBarcode(
+      String barcode, int quantity, DateTime expiration) async {
     DateFormat formatter = DateFormat('dd-MM-yyyy');
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
-    if (!data.containsKey(array_name)) {
+    if (!data.containsKey(storageArrayName)) {
       return;
     }
 
-
-    data[array_name].forEach((instance) {
+    data[storageArrayName].forEach((instance) {
       if (instance['barcode'] == barcode &&
           instance['expiration'] == formatter.format(expiration)) {
         instance['quantity'] -= quantity;
@@ -159,15 +219,14 @@ class User {
     //data[array_name].removeWhere((element) => element['quantity'] <= 0);
 
     int i = 0;
-    while(i < data[array_name].length){
-      if(data[array_name][i]['quantity'] <= 0)
-        data[array_name].remove(data[array_name][i]);
+    while (i < data[storageArrayName].length) {
+      if (data[storageArrayName][i]['quantity'] <= 0)
+        data[storageArrayName].remove(data[storageArrayName][i]);
       else
         i++;
     }
 
-
-    await documentReference.update({array_name: data[array_name]});
+    await documentReference.update({storageArrayName: data[storageArrayName]});
   }
 
   static User getActualUser() {
