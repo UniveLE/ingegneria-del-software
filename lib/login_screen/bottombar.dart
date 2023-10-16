@@ -6,7 +6,7 @@ import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../home_page/home.dart';
-import '../cart/artichoke.dart';
+import '../cart/shoppingList.dart';
 
 int selectedIndex = 0;
 
@@ -29,7 +29,7 @@ class _BottombarState extends State<Bottombar> with TickerProviderStateMixin {
   List<Widget> myChilders = const [
     Home(),
     Order(),
-    Artichoke(),
+    ShoppingListPage(),
     Account(),
   ];
 
