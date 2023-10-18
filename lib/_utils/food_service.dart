@@ -8,7 +8,7 @@ class FoodService {
   static Future<List<Product>?> searchProduct(
       {String? name,
       String? brand,
-      String? category,
+      PnnsGroup2? category,
       int size = 10,
       int page = 1}) async {
     var cache = await DefaultCacheManager()
@@ -39,12 +39,7 @@ class FoodService {
     }
 
     if (category != null) {
-      parametersList.add(
-        TagFilter.fromType(
-          tagFilterType: TagFilterType.CATEGORIES,
-          tagName: category,
-        ),
-      );
+      parametersList.add(PnnsGroup2Filter(pnnsGroup2: category));
     }
 
     final ProductSearchQueryConfiguration configuration =

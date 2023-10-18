@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchResult extends StatefulWidget {
-  final String? category;
+  final PnnsGroup2? category;
   final String? name;
   final String? brand;
   final String? title; //TODO: se selezionato mostrare il titolo
