@@ -166,8 +166,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                                                             .only(top: 30),
                                                         height: 5,
                                                         width: 50,
-                                                        child: Image.network(
-                                                            "${shoppingList[index].imageFrontUrl}"),
+                                                        child: Image.asset("assets/Line.png"),
                                                       ),
                                                       Column(children: [
                                                         Center(
@@ -323,20 +322,42 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                                                                 'Seleziona la scadenza'),
                                                             style: ElevatedButton.styleFrom(
                                                                 textStyle:
-                                                                const TextStyle(fontSize: 14)),
+                                                                    const TextStyle(
+                                                                        fontSize:
+                                                                            14)),
                                                           ),
                                                           ElevatedButton(
-                                                              onPressed:() async {
-                                                                await User.getActualUser().addProductToStorageList(shoppingList[index],cnt, selectedDate);
-                                                                await User.getActualUser().removeProductFromShoppingListByProduct(shoppingList[index]);
-                                                                shoppingList = await User.getActualUser().getShoppingList();
-                                                                Navigator.pop(context);
-                                                              },
-                                                              child: Text("Compra!"),
+                                                            onPressed:
+                                                                () async {
+                                                              await User
+                                                                      .getActualUser()
+                                                                  .addProductToStorageList(
+                                                                      shoppingList[
+                                                                          index],
+                                                                      cnt,
+                                                                      selectedDate);
+                                                              await User
+                                                                      .getActualUser()
+                                                                  .removeProductFromShoppingListByProduct(
+                                                                      shoppingList[
+                                                                          index]);
+                                                              shoppingList = await User
+                                                                      .getActualUser()
+                                                                  .getShoppingList();
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child:
+                                                                Text("Compra!"),
                                                             style: ElevatedButton.styleFrom(
                                                                 textStyle:
-                                                                const TextStyle(fontSize: 14),
-                                                                backgroundColor: Colors.green),)
+                                                                    const TextStyle(
+                                                                        fontSize:
+                                                                            14),
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .green),
+                                                          )
                                                         ])
                                                       ])
                                                     ]))
