@@ -6,7 +6,6 @@ import 'package:myfoodtracker/_utils/food_service.dart';
 import 'package:myfoodtracker/about.dart';
 import 'package:myfoodtracker/contact.dart';
 import 'package:myfoodtracker/help.dart';
-import 'package:myfoodtracker/home_page/address.dart';
 import 'package:myfoodtracker/home_page/search.dart';
 import 'package:myfoodtracker/home_page/search_result.dart';
 import 'package:myfoodtracker/language.dart';
@@ -316,11 +315,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           //  SizedBox(height: 1,),
                           InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
+                              /*Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const Address();
                                 },
-                              ));
+                              ));*/
                             },
                             child: ListTile(
                               leading: Icon(Icons.flag,
@@ -1417,7 +1416,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   // building page indicator
   Widget _buildPageIndicator() {
-    Row row = Row(mainAxisAlignment: MainAxisAlignment.center, children: []);
+    Row row =
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: []);
     for (int i = 0; i < _slides.length; i++) {
       row.children.add(_buildPageIndicatorItem(i));
       if (i != _slides.length - 1)

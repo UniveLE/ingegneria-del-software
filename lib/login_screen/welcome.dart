@@ -2,11 +2,16 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
 import 'package:flutter/material.dart';
+import 'package:myfoodtracker/home_page/home.dart';
 import 'package:myfoodtracker/login_screen/create_easy.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../_utils/user.dart';
+import 'bottombar.dart';
 
 class Onbording extends StatefulWidget {
   const Onbording({Key? key}) : super(key: key);
@@ -25,25 +30,29 @@ class _OnbordingState extends State<Onbording> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      // if (newuser == false) {
-      //   Navigator.pushReplacement(
-      //       context, new MaterialPageRoute(builder: (context) => home()));
-      // }
-      // if (newuser == true) {
-      //   Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (context) => welcome(),
-      //       ));
-      Navigator.pushReplacement(context, MaterialPageRoute(
+    Timer(const Duration(seconds: 3), () async {
+      //await FirebaseAuth.instance.signOut();
+      await User.getActualUser();
+      if (firebaseAuth.FirebaseAuth.instance.currentUser != null) {
+        Navigator.pushReplacement(
+            context, new MaterialPageRoute(builder: (context) => Bottombar()));
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Welcome(),
+            ));
+        /*Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) {
           return const Welcome();
         },
-      ));
+      )
+      );*/
+      }
     });
-    //check_if_already_login();
   }
+
+  //check_if_already_login();
 
   // void check_if_already_login() async {
   //   logindata = await SharedPreferences.getInstance();
@@ -93,36 +102,36 @@ class _OnbordingState extends State<Onbording> {
     );
   }
 
-  // loginapi() {
-  //   var data = {
-  //     "mobile": Phonenumber.text.toString(),
-  //     "password": passwordController.text.toString()
-  //   };
-  //   // ApiWrapper.dataPost("rider_login.php", data);
-  //   ApiWrapper.dataPost(AppUrl.login, data).then((val) {
-  //     if ((val != null) && (val.isNotEmpty)) {
-  //       // print(val);
-  //       if ((val['ResponseCode'] == "200") && (val['Result'] == "true")) {
-  //         // save("Firstuser", true);
-  //         setState(() {
-  //           save("user", val["user"]);
-  //           print("result${getData.read("user")}");
-  //           print("result${getData.read("partnerdata")}");
-  //           ApiWrapper.showToastMessage(val["ResponseMsg"]);
-  //         });
-  //         if (Phonenumber != '' && passwordController != '') {
-  //           print('Successfull');
-  //           logindata.setBool('login', false);
-  //           logindata.setString('mobile', passwordController.text);
-  //           Navigator.push(
-  //               context, MaterialPageRoute(builder: (context) => home()));
-  //         }
-  //       } else {
-  //         ApiWrapper.showToastMessage(val["ResponseMsg"]);
-  //       }
-  //     }
-  //   });
-  // }
+// loginapi() {
+//   var data = {
+//     "mobile": Phonenumber.text.toString(),
+//     "password": passwordController.text.toString()
+//   };
+//   // ApiWrapper.dataPost("rider_login.php", data);
+//   ApiWrapper.dataPost(AppUrl.login, data).then((val) {
+//     if ((val != null) && (val.isNotEmpty)) {
+//       // print(val);
+//       if ((val['ResponseCode'] == "200") && (val['Result'] == "true")) {
+//         // save("Firstuser", true);
+//         setState(() {
+//           save("user", val["user"]);
+//           print("result${getData.read("user")}");
+//           print("result${getData.read("partnerdata")}");
+//           ApiWrapper.showToastMessage(val["ResponseMsg"]);
+//         });
+//         if (Phonenumber != '' && passwordController != '') {
+//           print('Successfull');
+//           logindata.setBool('login', false);
+//           logindata.setString('mobile', passwordController.text);
+//           Navigator.push(
+//               context, MaterialPageRoute(builder: (context) => home()));
+//         }
+//       } else {
+//         ApiWrapper.showToastMessage(val["ResponseMsg"]);
+//       }
+//     }
+//   });
+// }
 }
 
 class Welcome extends StatefulWidget {

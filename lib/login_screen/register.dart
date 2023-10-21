@@ -1,11 +1,14 @@
 // ignore_for_file: file_names
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myfoodtracker/login_screen/create_easy.dart';
 import 'package:myfoodtracker/login_screen/login.dart';
-import 'package:myfoodtracker/login_screen/login_num.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../home_page/home.dart';
+import 'bottombar.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -16,9 +19,9 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   bool hiddenpassword = true;
-  TextEditingController phonenumber = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController name = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
   ///============== email validation ====================
   //static const String email = 'email@example.com';
@@ -39,6 +42,7 @@ class _RegisterState extends State<Register> {
   }
 
   bool t1 = false;
+
   // void _submit() {
   //   final isValid = _formKey.currentState!.validate();
   //
@@ -161,7 +165,7 @@ class _RegisterState extends State<Register> {
                   margin: const EdgeInsets.only(right: 120),
                   width: 200,
                   child: Text(
-                    "Email or Phone Number",
+                    "Email",
                     style: TextStyle(
                         fontSize: 12,
                         color: notifire.mintextscreenprimerycolor,
@@ -199,12 +203,12 @@ class _RegisterState extends State<Register> {
                           height: 48,
                           width: 230,
                           child: TextFormField(
-                            // controller:Phonenumber ,
+                            controller: emailController,
                             decoration: InputDecoration(
                                 disabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 enabledBorder: InputBorder.none,
-                                hintText: "Email or Phone Number",
+                                hintText: "Email",
                                 hintStyle: TextStyle(
                                     color: notifire.mintextscreenprimerycolor,
                                     fontSize: 14)
@@ -261,7 +265,7 @@ class _RegisterState extends State<Register> {
                           height: 48,
                           width: 250,
                           child: TextFormField(
-                            // controller: passwordController,
+                            controller: passwordController,
                             obscureText: hiddenpassword,
                             decoration: InputDecoration(
                                 suffixIcon: IconButton(
@@ -377,12 +381,8 @@ class _RegisterState extends State<Register> {
                 //  print(passwordController.text);
                 // },
                 InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return const Loginnums();
-                        },
-                      ));
+                    onTap: () async {
+                      registration(context, nameController.text, emailController.text, passwordController.text);
                     },
                     child: Container(
                       height: 60,
@@ -436,5 +436,48 @@ class _RegisterState extends State<Register> {
             ),
           ),
         ));
+  }
+}
+
+void registration(context, name, email, password) async{
+  try {
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    await FirebaseAuth.instance.currentUser
+        ?.updateDisplayName(name);
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return Bottombar();
+      },
+    ));
+  } on FirebaseAuthException catch (e) {
+    String errorText = "";
+    if (e.code == 'weak-password') {
+      errorText = 'The password provided is too weak.';
+    } else if (e.code == 'email-already-in-use') {
+      errorText =
+      'The account already exists for that email.';
+    } else if (e.code == "invalid-email") {
+      errorText = "email invalida.";
+    }
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+            AlertDialog(
+              title: const Text('Errore'),
+              content: Text(errorText),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () =>
+                      Navigator.pop(context, 'OK'),
+                  child: const Text('OK'),
+                ),
+              ],
+            ));
   }
 }
