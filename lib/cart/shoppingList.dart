@@ -74,7 +74,8 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 0,
                                   mainAxisSpacing: 0,
-                                  mainAxisExtent: 270),
+                                  mainAxisExtent: 290
+                              ),
                           itemCount: snapshot.data.length,
                           addRepaintBoundaries: true,
                           itemBuilder: (context, index) {
@@ -99,7 +100,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                                   Container(
                                     margin: const EdgeInsets.only(
                                         left: 28, right: 28),
-                                    height: 30,
+                                    //height: 30,
                                     width: 132,
                                     child: Text(
                                       "${shoppingList[index].productName}",
@@ -237,7 +238,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                                                                       top: 20,
                                                                       right:
                                                                           28),
-                                                                  height: 30,
+                                                                  //height: 30,
                                                                   width: 220,
                                                                   child: Text(
                                                                       "${shoppingList[index].productName}",

@@ -21,6 +21,14 @@ class _SearchState extends State<Search> {
   late Colornotifire notifire;
   List<Product>? products = [];
 
+  @override
+  void initState(){
+    super.initState();
+    setState(() {
+      FoodService.searchProduct(name: '').then((result) => {products = result});
+    });
+  }
+
   getdarkmodepreviousstate() async {
     final prefs = await SharedPreferences.getInstance();
     bool? previusstate = prefs.getBool("setIsDark");
