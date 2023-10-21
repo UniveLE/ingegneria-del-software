@@ -7,11 +7,13 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchResult extends StatefulWidget {
-  final String? category;
+  final PnnsGroup2? category;
   final String? name;
   final String? brand;
+  final String? title; //TODO: se selezionato mostrare il titolo
 
-  const SearchResult({Key? key, this.category, this.name, this.brand})
+  const SearchResult(
+      {Key? key, this.title, this.category, this.name, this.brand})
       : super(key: key);
 
   @override
@@ -34,7 +36,7 @@ class _SearchResultState extends State<SearchResult> {
         brand: widget.brand,
         category: widget.category,
         page: page);
-    print(products?.length);
+    setState(() {});
   }
 
   bool selectedcar = true;
@@ -181,155 +183,7 @@ class _SearchResultState extends State<SearchResult> {
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 20),
-            height: 60,
-            width: MediaQuery.of(context).size.width,
-            color: notifire.topscreenprimerycolor,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      all = !true;
-                      you = !false;
-                      artichoke = !false;
-                      barcoli = !false;
-                      setState(() {});
-                    },
-                    child: Container(
-                      margin:
-                          const EdgeInsets.only(top: 8, bottom: 8, left: 28),
-                      height: 40,
-                      width: 55,
-                      decoration: BoxDecoration(
-                          color: all
-                              ? notifire.spleshscreenprimerycolor
-                              : Colors.green,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                              color: all ? Colors.black12 : Colors.green,
-                              width: 1)),
-                      child: Center(
-                        child: Text(
-                          "All",
-                          style: TextStyle(
-                              fontFamily: "AirbnbCereal_W_Md",
-                              color: all
-                                  ? notifire.mintextscreenprimerycolor
-                                  : Colors.white,
-                              fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      all = !false;
-                      you = !true;
-                      artichoke = !false;
-                      barcoli = !false;
-                      setState(() {});
-                    },
-                    child: Container(
-                      margin:
-                          const EdgeInsets.only(top: 8, bottom: 8, left: 16),
-                      height: 40,
-                      width: 90,
-                      decoration: BoxDecoration(
-                          color: you
-                              ? notifire.spleshscreenprimerycolor
-                              : Colors.green,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                              color: you ? Colors.black12 : Colors.green,
-                              width: 1)),
-                      child: Center(
-                        child: Text(
-                          "For You",
-                          style: TextStyle(
-                              fontFamily: "AirbnbCereal_W_Md",
-                              color: you
-                                  ? notifire.mintextscreenprimerycolor
-                                  : Colors.white,
-                              fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      all = !false;
-                      you = !false;
-                      artichoke = !true;
-                      barcoli = !false;
-                      setState(() {});
-                    },
-                    child: Container(
-                      margin:
-                          const EdgeInsets.only(top: 8, bottom: 8, left: 16),
-                      height: 40,
-                      width: 77,
-                      decoration: BoxDecoration(
-                          color: artichoke
-                              ? notifire.spleshscreenprimerycolor
-                              : Colors.green,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                              color: artichoke ? Colors.black12 : Colors.green,
-                              width: 1)),
-                      child: Center(
-                        child: Text(
-                          "Artichoke",
-                          style: TextStyle(
-                              fontFamily: "AirbnbCereal_W_Md",
-                              color: artichoke
-                                  ? notifire.mintextscreenprimerycolor
-                                  : Colors.white,
-                              fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      all = !false;
-                      you = !false;
-                      artichoke = !false;
-                      barcoli = !true;
-                      setState(() {});
-                    },
-                    child: Container(
-                      margin:
-                          const EdgeInsets.only(top: 8, bottom: 8, left: 16),
-                      height: 40,
-                      width: 90,
-                      decoration: BoxDecoration(
-                          color: barcoli
-                              ? notifire.spleshscreenprimerycolor
-                              : Colors.green,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                              color: barcoli ? Colors.black12 : Colors.green,
-                              width: 1)),
-                      child: Center(
-                        child: Text(
-                          "Broccoli",
-                          style: TextStyle(
-                              fontFamily: "AirbnbCereal_W_Md",
-                              color: barcoli
-                                  ? notifire.mintextscreenprimerycolor
-                                  : Colors.white,
-                              fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
+          const Padding(padding: EdgeInsets.only(top: 20)),
           Column(children: [
             Container(
               // margin: EdgeInsets.only(top: 10),

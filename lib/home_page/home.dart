@@ -1,18 +1,18 @@
 // ignore_for_file: file_names
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myfoodtracker/_utils/food_service.dart';
 import 'package:myfoodtracker/about.dart';
 import 'package:myfoodtracker/contact.dart';
 import 'package:myfoodtracker/help.dart';
 import 'package:myfoodtracker/home_page/search.dart';
 import 'package:myfoodtracker/home_page/search_result.dart';
 import 'package:myfoodtracker/language.dart';
-import 'package:myfoodtracker/login_screen/bottombar.dart';
 import 'package:myfoodtracker/notification/notification.dart';
 import 'package:myfoodtracker/privacy.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
+import 'package:openfoodfacts/openfoodfacts.dart' as off;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,72 +24,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  List<String> slide = [
-    "assets/logo/slide_1.png",
-    "assets/logo/slide_2.png",
-    "assets/logo/slide_3.png"
-  ];
-
   bool status = false;
   int cnt = 0;
-  List<List1> ditails = [
-    List1(
-        image1: "assets/crad.png",
-        name1: "Crab",
-        name2: "6ct | \$4.50/ct",
-        name3: "\$26.99")
-  ];
-  List<List2> ditails1 = [
-    List2(
-        image1: "assets/bluebarry.png",
-        name1: "Bluebarry",
-        name2: "approx 2lb",
-        name3: "\$2.99")
-  ];
-  List<List3> ditails2 = [
-    List3(
-        image1: "assets/cabbage.png",
-        name1: "Cabbage",
-        name2: "\$3.50 / 500g",
-        name3: "\$0.80")
-  ];
-  List image = [
-    "assets/promotion.png",
-    "assets/banner_1.png",
-    "assets/benner_2.png"
-  ];
-  List<List4> ditails3 = [
-    List4(
-        image1: "assets/kiwi.png",
-        name1: "Kiwifruit",
-        name2: "approx 0.25lb",
-        name3: "\$0.89"),
-    List4(
-        image1: "assets/cobbage1.png",
-        name1: "Cobbage",
-        name2: "approx 2lb",
-        name3: "\$3.49"),
-    List4(
-        image1: "assets/crad.png",
-        name1: "Crab",
-        name2: "6ct | \$4.50/ct",
-        name3: "\$26.9"),
-    List4(
-        image1: "assets/almond.png",
-        name1: "Almond",
-        name2: "16oz | \$8.99/lb",
-        name3: "\$8.99"),
-    List4(
-        image1: "assets/pasta.png",
-        name1: "Pasta",
-        name2: "19oz | \$4.91/lb",
-        name3: "\$3.49"),
-    List4(
-        image1: "assets/beef.png",
-        name1: "Beef Chuck Stew",
-        name2: "12 - 14ct/lb",
-        name3: "\$26.99"),
-  ];
   bool all = false;
   bool you = true;
   bool artichoke = true;
@@ -101,6 +37,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   List<Slid> _slides = [];
   PageController _pageController = PageController();
 
+  final ScrollController _gridViewScrollController = ScrollController();
+  List<off.Product>? mostScanned = [];
+  int _page = 0;
+
   @override
   void initState() {
     super.initState();
@@ -111,8 +51,28 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       Slid("assets/veg1.png"),
     ];
     _pageController = PageController(initialPage: _currentPage);
+    getProducts();
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _gridViewScrollController.addListener(() {
+      if (_gridViewScrollController.position.pixels >=
+          _gridViewScrollController.position.maxScrollExtent) {
+        _page++;
+        getProducts();
+      }
+    });
+  }
+
+  void getProducts() async {
+    print("Getting products...");
+    var products = await FoodService.searchProduct(size: 6, page: ++_page);
+    if (products != null) {
+      setState(() {
+        mostScanned!.addAll(products);
+      });
+    } else {
+      --_page;
+    }
   }
 
   int _currentPage = 0;
@@ -198,57 +158,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           color: notifire.textshscreenprimerycolor)),
                 ),
               ),
-              /*Container(
-                margin: const EdgeInsets.only(top: 7, bottom: 7, right: 5),
-                height: 15,
-                width: 100,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: notifire.topscreenprimerycolor)),
-                child: Center(
-                    child: Text(
-                  "Santa Ana,Ca",
-                  style: TextStyle(
-                      color: notifire.textshscreenprimerycolor,
-                      fontSize: 12,
-                      fontFamily: "AirbnbCereal_W_Bd"),
-                )),
-              ),
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.only(
-                      top: 5, left: 20, bottom: 4, right: 10),
-                  //    color: notifire.spleshscreenprimerycolor,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return const Notifications();
-                        },
-                      ));
-                    },
-                    child: Stack(children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 3),
-                        height: 17,
-                        width: 16,
-                        child: Image.asset(
-                          "assets/logo/notification.png",
-                          color: notifire.textshscreenprimerycolor,
-                          width: 17,
-                          height: 16,
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 8, bottom: 10),
-                        height: 12,
-                        width: 12,
-                        child: Image.asset("assets/Badge.png"),
-                      )
-                    ]),
-                  ),
-                ),
-              )*/
             ]),
         drawer: Drawer(
             child: Container(
@@ -668,6 +577,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 ]))),
         backgroundColor: notifire.blackwhite,
         body: SingleChildScrollView(
+          controller: _gridViewScrollController,
           child: Column(
             children: [
               Container(
@@ -750,7 +660,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     return const SearchResult(
-                                        category: 'Vegetale');
+                                        title: 'Vegetali',
+                                        category: off.PnnsGroup2.VEGETABLES);
                                   },
                                 ));
                               },
@@ -769,11 +680,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     return const SearchResult(
-                                        category: 'Vegetale');
+                                        title: 'Vegetali',
+                                        category: off.PnnsGroup2.VEGETABLES);
                                   },
                                 ));
                               },
-                              child: Text("Cibi vegetali",
+                              child: Text("Vegano",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
@@ -785,7 +697,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SearchResult(category: 'Carne');
+                                  return const SearchResult(
+                                      title: 'Carne',
+                                      category: off.PnnsGroup2.MEAT);
                                 },
                               ));
                             },
@@ -803,7 +717,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SearchResult(category: 'Carne');
+                                  return const SearchResult(
+                                      title: 'Carne',
+                                      category: off.PnnsGroup2.MEAT);
                                 },
                               ));
                             },
@@ -827,7 +743,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SearchResult(category: 'Frutta');
+                                  return const SearchResult(
+                                      title: 'Frutta',
+                                      category: off.PnnsGroup2.FRUITS);
                                 },
                               ));
                             },
@@ -846,7 +764,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SearchResult(category: 'Frutta');
+                                  return const SearchResult(
+                                      title: 'Frutta',
+                                      category: off.PnnsGroup2.FRUITS);
                                 },
                               ));
                             },
@@ -867,7 +787,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      category: 'Surgelati');
+                                      title: 'Dolci',
+                                      category: off.PnnsGroup2.SWEETS);
                                 },
                               ));
                             },
@@ -887,7 +808,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      category: 'Surgelati');
+                                      title: 'Dolci',
+                                      category: off.PnnsGroup2.SWEETS);
                                 },
                               ));
                             },
@@ -895,7 +817,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               margin: const EdgeInsets.only(left: 30, top: 12),
                               height: 20,
                               width: 60,
-                              child: Text("Surgelati",
+                              child: Text("Dolci",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
@@ -911,7 +833,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SearchResult(category: 'Mare');
+                                  return const SearchResult(
+                                      title: 'Mare',
+                                      category:
+                                          off.PnnsGroup2.FISH_AND_SEAFOOD);
                                 },
                               ));
                             },
@@ -929,7 +854,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SearchResult(category: 'Mare');
+                                  return const SearchResult(
+                                      title: 'Mare',
+                                      category:
+                                          off.PnnsGroup2.FISH_AND_SEAFOOD);
                                 },
                               ));
                             },
@@ -949,7 +877,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SearchResult(category: 'Pane');
+                                  return const SearchResult(
+                                      title: 'Pane',
+                                      category: off.PnnsGroup2.BREAD);
                                 },
                               ));
                             },
@@ -967,7 +897,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SearchResult(category: 'Pane');
+                                  return const SearchResult(
+                                      title: 'Pane',
+                                      category: off.PnnsGroup2.BREAD);
                                 },
                               ));
                             },
@@ -991,7 +923,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SearchResult(category: 'Uova');
+                                  return const SearchResult(
+                                      category:
+                                          off.PnnsGroup2.BREAKFAST_CEREALS);
                                 },
                               ));
                             },
@@ -1010,7 +944,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SearchResult(category: 'Uova');
+                                  return const SearchResult(
+                                      category:
+                                          off.PnnsGroup2.BREAKFAST_CEREALS);
                                 },
                               ));
                             },
@@ -1032,7 +968,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      category: 'Verdura');
+                                      category: off.PnnsGroup2.VEGETABLES);
                                 },
                               ));
                             },
@@ -1052,7 +988,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      category: 'Verdura');
+                                      category: off.PnnsGroup2.VEGETABLES);
                                 },
                               ));
                             },
@@ -1075,1299 +1011,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   )
                 ],
               ),
-              // Column(
-              //   children: [
-              //     Row(
-              //       children: [
-              //         Column(
-              //           children: [
-              //             Container(
-              //               margin: EdgeInsets.only(left: 25, top: 28),
-              //               height: 60,
-              //               width: 60,
-              //               child: Image.asset(
-              //                 "assets/meat.png",
-              //                 fit: BoxFit.cover,
-              //               ),
-              //             ),
-              //             Container(
-              //               margin: EdgeInsets.only(left: 50, top: 12),
-              //               height: 20,
-              //               width: 50,
-              //               child: Text("Meat",
-              //                   style: TextStyle(
-              //                       fontSize: 12,
-              //                       fontFamily: "AirbnbCereal_W_Md",
-              //                       color: notifire.textshscreenprimerycolor)),
-              //             )
-              //           ],
-              //         ),
-              //         Column(
-              //           children: [
-              //             Container(
-              //               margin: EdgeInsets.only(left: 15, right: 15, top: 28),
-              //               height: 60,
-              //               width: 60,
-              //               child: Image.asset(
-              //                 "assets/frozen.png",
-              //                 fit: BoxFit.cover,
-              //               ),
-              //             ),
-              //             Container(
-              //               margin: EdgeInsets.only(left: 30, top: 12),
-              //               height: 20,
-              //               width: 60,
-              //               child: Text("Frozen",
-              //                   style: TextStyle(
-              //                       fontSize: 12,
-              //                       fontFamily: "AirbnbCereal_W_Md",
-              //                       color: notifire.textshscreenprimerycolor)),
-              //             )
-              //           ],
-              //         ),
-              //         Column(
-              //           children: [
-              //             Container(
-              //               margin: EdgeInsets.only(top: 28),
-              //               height: 60,
-              //               width: 60,
-              //               child: Image.asset(
-              //                 "assets/bread.png",
-              //                 fit: BoxFit.cover,
-              //               ),
-              //             ),
-              //             Container(
-              //               margin: EdgeInsets.only(left: 15, top: 12),
-              //               height: 20,
-              //               width: 60,
-              //               child: Text("Bread",
-              //                   style: TextStyle(
-              //                       fontSize: 12,
-              //                       fontFamily: "AirbnbCereal_W_Md",
-              //                       color: notifire.textshscreenprimerycolor)),
-              //             )
-              //           ],
-              //         ),
-              //         Column(
-              //           children: [
-              //             Container(
-              //               margin: EdgeInsets.only(left: 15, right: 20, top: 28),
-              //               height: 60,
-              //               width: 60,
-              //               child: Image.asset(
-              //                 "assets/organic.png",
-              //                 fit: BoxFit.cover,
-              //               ),
-              //             ),
-              //             Container(
-              //               margin: EdgeInsets.only(left: 15, top: 12, right: 15),
-              //               height: 20,
-              //               width: 60,
-              //               child: Text("Organic",
-              //                   style: TextStyle(
-              //                       fontSize: 12,
-              //                       fontFamily: "AirbnbCereal_W_Md",
-              //                       color: notifire.textshscreenprimerycolor)),
-              //             )
-              //           ],
-              //         ),
-
-              Column(children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 28, top: 35, right: 180),
-                  height: 30,
-                  width: 143,
-                  child: Text("Today's Promotion",
-                      style: TextStyle(
-                          fontFamily: "AirbnbCereal_W_Bd",
-                          color: notifire.textshscreenprimerycolor,
-                          fontSize: 16)),
-                ),
-              ]),
-              SizedBox(
-                height: 150,
-                width: 319,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: image.length,
-                  itemBuilder: (context, index) {
-                    return Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return const SearchResult();
-                              },
-                            ));
-                          },
-                          child: Container(
-                              margin: const EdgeInsets.only(right: 15),
-                              child: Image.asset("${image[index]}")),
-                        )
-                      ],
-                    );
-                  },
-                ),
-              ),
-
               Column(
                 children: [
                   Container(
                     margin:
-                        const EdgeInsets.only(left: 28, right: 250, top: 28),
+                        const EdgeInsets.only(left: 28, right: 200, top: 28),
                     height: 30,
-                    width: 75,
-                    child: Text("Top Picks",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: notifire.textshscreenprimerycolor,
-                            fontFamily: "AirbnbCereal_W_Bd")),
-                  )
-                ],
-              ),
-              //SingleChildScrollView(scrollDirection: Axis.horizontal),
-
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 28),
-                      height: 240,
-                      width: 152,
-                      decoration: BoxDecoration(
-                        color: Colors.pink.shade50.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: ditails.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  context: context,
-                                  backgroundColor: Colors.transparent,
-                                  builder: (BuildContext context) {
-                                    return StatefulBuilder(builder: (BuildContext
-                                            context,
-                                        StateSetter
-                                            setState1 /*You can rename this!*/) {
-                                      return SizedBox(
-                                          child: SingleChildScrollView(
-                                              child: Column(children: [
-                                        Container(
-                                            margin:
-                                                const EdgeInsets.only(top: 70),
-                                            height: 610,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                color: notifire
-                                                    .spleshscreenprimerycolor,
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(28),
-                                                        topRight:
-                                                            Radius.circular(
-                                                                28))),
-                                            child: Column(children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    top: 30),
-                                                height: 5,
-                                                width: 50,
-                                                child: Image.asset(
-                                                    "assets/Line.png"),
-                                              ),
-                                              Column(children: [
-                                                Center(
-                                                  child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 18,
-                                                            top: 20,
-                                                            right: 18),
-                                                    height: 319,
-                                                    width: 319,
-                                                    child: Stack(
-                                                      children: [
-                                                        PageView(
-                                                            controller:
-                                                                _pageController,
-                                                            onPageChanged: (index) =>
-                                                                _handlingOnPageChanged(
-                                                                    index,
-                                                                    setState1),
-                                                            physics:
-                                                                const BouncingScrollPhysics(),
-                                                            children:
-                                                                _buildSlides()),
-                                                        Positioned(
-                                                            bottom: 40,
-                                                            left: 130,
-                                                            child:
-                                                                _buildPageIndicator())
-                                                      ],
-                                                    ),
-                                                    // child: PageView.builder(
-                                                    //     itemCount: slide.length,
-                                                    //     itemBuilder: (_, i) {
-                                                    //       return Column(
-                                                    //           children: [
-                                                    //             Row(
-                                                    //               children: [
-                                                    //                 Container(
-                                                    //                   margin: EdgeInsets.only(
-                                                    //                       left:
-                                                    //                       20,
-                                                    //                       right:
-                                                    //                       20),
-                                                    //                   height: 270,
-                                                    //                   width: 270,
-                                                    //                   //color: Colors.blueAccent,
-                                                    //                   child: Image
-                                                    //                       .asset(
-                                                    //                       "${ditails3[index].image1}"),
-                                                    //                 ),
-                                                    //               ],
-                                                    //             ),
-                                                    //             Row(
-                                                    //               children: [
-                                                    //                 Center(
-                                                    //                   child:
-                                                    //                   Container(
-                                                    //                     margin: EdgeInsets.only(
-                                                    //                         left:
-                                                    //                         130,
-                                                    //                         right:
-                                                    //                         120),
-                                                    //                     height: 8,
-                                                    //                     width: 46,
-                                                    //                     child: Image
-                                                    //                         .asset(
-                                                    //                       "${slide[i]}",
-                                                    //                       color: Colors
-                                                    //                           .black87,
-                                                    //                     ),
-                                                    //                   ),
-                                                    //                 ),
-                                                    //               ],
-                                                    //             ),
-                                                    //           ]);
-                                                    //     }),
-                                                  ),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 28,
-                                                                  top: 20,
-                                                                  right: 28),
-                                                          height: 30,
-                                                          width: 220,
-                                                          child: Text(
-                                                              "${ditails[index].name1}",
-                                                              style: TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: notifire
-                                                                      .textshscreenprimerycolor,
-                                                                  fontFamily:
-                                                                      "AirbnbCereal_W_Md")),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 28,
-                                                                  bottom: 20,
-                                                                  right: 150),
-                                                          height: 30,
-                                                          width: 100,
-                                                          child: Text(
-                                                              "${ditails[index].name2}",
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: notifire
-                                                                      .mintextscreenprimerycolor,
-                                                                  fontFamily:
-                                                                      "AirbnbCereal_W_Bk")),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(children: [
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            bottom: 20),
-                                                    height: 50,
-                                                    width: 375,
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 28,
-                                                                  bottom: 20,
-                                                                  top: 10),
-                                                          height: 30,
-                                                          //     width: 55,
-                                                          child: Text(
-                                                            "${ditails[index].name3}",
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    "AirbnbCereal_W_Bk",
-                                                                fontSize: 16,
-                                                                color: notifire
-                                                                    .textshscreenprimerycolor),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  bottom: 10,
-                                                                  right: 15),
-                                                          height: 20,
-                                                          width: 19,
-                                                          child: Text("/er",
-                                                              style: TextStyle(
-                                                                  fontSize: 12,
-                                                                  fontFamily:
-                                                                      "AirbnbCereal_W_Bk",
-                                                                  color: notifire
-                                                                      .mintextscreenprimerycolor)),
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            return setState(() {
-                                                              _dicrementcount();
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 77),
-                                                            height: 50,
-                                                            width: 50,
-                                                            child: Image.asset(
-                                                                "assets/logo/mainas.png"),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 50,
-                                                          width: 50,
-                                                          child: Center(
-                                                              child: Text(
-                                                            "$cnt",
-                                                            style: TextStyle(
-                                                                color: notifire
-                                                                    .textshscreenprimerycolor),
-                                                          )),
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            return setState(() {
-                                                              _incrementcount();
-                                                            });
-                                                          },
-                                                          child: SizedBox(
-                                                            height: 50,
-                                                            width: 50,
-                                                            child: Image.asset(
-                                                                "assets/logo/plus_1.png"),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        selectedIndex = 2;
-                                                      });
-                                                      Navigator.push(context,
-                                                          MaterialPageRoute(
-                                                        builder: (context) {
-                                                          return const Bottombar();
-                                                        },
-                                                      ));
-                                                    },
-                                                    child: Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              left: 20,
-                                                              right: 20,
-                                                              bottom: 10),
-                                                      height: 50,
-                                                      width: 290,
-                                                      decoration: BoxDecoration(
-                                                          color: const Color(
-                                                              0xff00AB67),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      16)),
-                                                      child: const Center(
-                                                          child: Text(
-                                                        "Add to Cart",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            fontFamily:
-                                                                "AirbnbCereal_W_Md",
-                                                            color:
-                                                                Colors.white),
-                                                      )),
-                                                    ),
-                                                  )
-                                                ])
-                                              ])
-                                            ]))
-                                      ])));
-                                    });
-                                  },
-                                );
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 16, right: 16),
-                                    height: 120,
-                                    width: 120,
-                                    child:
-                                        Image.asset("${ditails[index].image1}"),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 16, right: 16, top: 6),
-                                    height: 30,
-                                    width: 120,
-                                    child: Text(
-                                      "${ditails[index].name1}",
-                                      style: TextStyle(
-                                          fontFamily: "AirbnbCereal_W_Md",
-                                          color:
-                                              notifire.textshscreenprimerycolor,
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                    width: 120,
-                                    child: Text(
-                                      "${ditails[index].name2}",
-                                      style: TextStyle(
-                                          fontFamily: "AirbnbCereal_W_Bk",
-                                          color: notifire
-                                              .mintextscreenprimerycolor,
-                                          fontSize: 12),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                            left: 16, top: 16),
-                                        height: 30,
-                                        width: 56,
-                                        child: Text(
-                                          "${ditails[index].name3}",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: notifire
-                                                  .textshscreenprimerycolor,
-                                              fontFamily: "AirbnbCereal_W_Md"),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.only(right: 30),
-                                        height: 20,
-                                        width: 19,
-                                        child: Text(
-                                          "/ea",
-                                          style: TextStyle(
-                                              fontFamily: "AirbnbCereal_W_Bk",
-                                              fontSize: 12,
-                                              color: notifire
-                                                  .mintextscreenprimerycolor),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                        width: 30,
-                                        child: Image.asset(
-                                          "assets/plus.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ));
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 15),
-                      height: 240,
-                      width: 152,
-                      decoration: BoxDecoration(
-                        color: Colors.purple.shade50.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: ditails.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  context: context,
-                                  backgroundColor: Colors.transparent,
-                                  builder: (BuildContext context) {
-                                    return StatefulBuilder(builder: (BuildContext
-                                            context,
-                                        StateSetter
-                                            setState1 /*You can rename this!*/) {
-                                      return SizedBox(
-                                          child: SingleChildScrollView(
-                                              child: Column(children: [
-                                        Container(
-                                            margin:
-                                                const EdgeInsets.only(top: 70),
-                                            height: 610,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                color: notifire
-                                                    .spleshscreenprimerycolor,
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(28),
-                                                        topRight:
-                                                            Radius.circular(
-                                                                28))),
-                                            child: Column(children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    top: 30),
-                                                height: 5,
-                                                width: 50,
-                                                child: Image.asset(
-                                                    "assets/Line.png"),
-                                              ),
-                                              Column(children: [
-                                                Center(
-                                                  child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 18,
-                                                            top: 20,
-                                                            right: 18),
-                                                    height: 319,
-                                                    width: 319,
-                                                    child: Stack(
-                                                      children: [
-                                                        PageView(
-                                                            controller:
-                                                                _pageController,
-                                                            onPageChanged: (index) =>
-                                                                _handlingOnPageChanged(
-                                                                    index,
-                                                                    setState1),
-                                                            physics:
-                                                                const BouncingScrollPhysics(),
-                                                            children:
-                                                                _buildSlides()),
-                                                        Positioned(
-                                                            bottom: 40,
-                                                            left: 130,
-                                                            child:
-                                                                _buildPageIndicator())
-                                                      ],
-                                                    ),
-                                                    // child: PageView.builder(
-                                                    //     itemCount: slide.length,
-                                                    //     itemBuilder: (_, i) {
-                                                    //       return Column(
-                                                    //           children: [
-                                                    //             Row(
-                                                    //               children: [
-                                                    //                 Container(
-                                                    //                   margin: EdgeInsets.only(
-                                                    //                       left:
-                                                    //                       20,
-                                                    //                       right:
-                                                    //                       20),
-                                                    //                   height: 270,
-                                                    //                   width: 270,
-                                                    //                   //color: Colors.blueAccent,
-                                                    //                   child: Image
-                                                    //                       .asset(
-                                                    //                       "${ditails3[index].image1}"),
-                                                    //                 ),
-                                                    //               ],
-                                                    //             ),
-                                                    //             Row(
-                                                    //               children: [
-                                                    //                 Center(
-                                                    //                   child:
-                                                    //                   Container(
-                                                    //                     margin: EdgeInsets.only(
-                                                    //                         left:
-                                                    //                         130,
-                                                    //                         right:
-                                                    //                         120),
-                                                    //                     height: 8,
-                                                    //                     width: 46,
-                                                    //                     child: Image
-                                                    //                         .asset(
-                                                    //                       "${slide[i]}",
-                                                    //                       color: Colors
-                                                    //                           .black87,
-                                                    //                     ),
-                                                    //                   ),
-                                                    //                 ),
-                                                    //               ],
-                                                    //             ),
-                                                    //           ]);
-                                                    //     }),
-                                                  ),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 28,
-                                                                  top: 20,
-                                                                  right: 28),
-                                                          height: 30,
-                                                          width: 220,
-                                                          child: Text(
-                                                              "${ditails[index].name1}",
-                                                              style: TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: notifire
-                                                                      .textshscreenprimerycolor,
-                                                                  fontFamily:
-                                                                      "AirbnbCereal_W_Md")),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 28,
-                                                                  bottom: 20,
-                                                                  right: 150),
-                                                          height: 30,
-                                                          width: 100,
-                                                          child: Text(
-                                                              "${ditails[index].name2}",
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: notifire
-                                                                      .mintextscreenprimerycolor,
-                                                                  fontFamily:
-                                                                      "AirbnbCereal_W_Bk")),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(children: [
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            bottom: 20),
-                                                    height: 50,
-                                                    width: 375,
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 28,
-                                                                  bottom: 20,
-                                                                  top: 10),
-                                                          height: 30,
-                                                          //     width: 55,
-                                                          child: Text(
-                                                            "${ditails[index].name3}",
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    "AirbnbCereal_W_Bk",
-                                                                fontSize: 16,
-                                                                color: notifire
-                                                                    .textshscreenprimerycolor),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  bottom: 10,
-                                                                  right: 15),
-                                                          height: 20,
-                                                          width: 19,
-                                                          child: Text("/er",
-                                                              style: TextStyle(
-                                                                  fontSize: 12,
-                                                                  fontFamily:
-                                                                      "AirbnbCereal_W_Bk",
-                                                                  color: notifire
-                                                                      .mintextscreenprimerycolor)),
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            return setState(() {
-                                                              _dicrementcount();
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 77),
-                                                            height: 50,
-                                                            width: 50,
-                                                            child: Image.asset(
-                                                                "assets/logo/mainas.png"),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 50,
-                                                          width: 50,
-                                                          child: Center(
-                                                              child: Text(
-                                                            "$cnt",
-                                                            style: TextStyle(
-                                                                color: notifire
-                                                                    .textshscreenprimerycolor),
-                                                          )),
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            return setState(() {
-                                                              _incrementcount();
-                                                            });
-                                                          },
-                                                          child: SizedBox(
-                                                            height: 50,
-                                                            width: 50,
-                                                            child: Image.asset(
-                                                                "assets/logo/plus_1.png"),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        selectedIndex = 2;
-                                                      });
-                                                      Navigator.push(context,
-                                                          MaterialPageRoute(
-                                                        builder: (context) {
-                                                          return const Bottombar();
-                                                        },
-                                                      ));
-                                                    },
-                                                    child: Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              left: 20,
-                                                              right: 20,
-                                                              bottom: 10),
-                                                      height: 50,
-                                                      width: 290,
-                                                      decoration: BoxDecoration(
-                                                          color: const Color(
-                                                              0xff00AB67),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      16)),
-                                                      child: const Center(
-                                                          child: Text(
-                                                        "Add to Cart",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            fontFamily:
-                                                                "AirbnbCereal_W_Md",
-                                                            color:
-                                                                Colors.white),
-                                                      )),
-                                                    ),
-                                                  )
-                                                ])
-                                              ])
-                                            ]))
-                                      ])));
-                                    });
-                                  },
-                                );
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 16, right: 16),
-                                    height: 120,
-                                    width: 120,
-                                    child: Image.asset(
-                                        "${ditails1[index].image1}"),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 16, right: 16, top: 6),
-                                    height: 30,
-                                    width: 120,
-                                    child: Text(
-                                      "${ditails1[index].name1}",
-                                      style: TextStyle(
-                                          fontFamily: "AirbnbCereal_W_Md",
-                                          color:
-                                              notifire.textshscreenprimerycolor,
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                    width: 120,
-                                    child: Text(
-                                      "${ditails1[index].name2}",
-                                      style: TextStyle(
-                                          fontFamily: "AirbnbCereal_W_Bk",
-                                          color: notifire
-                                              .mintextscreenprimerycolor,
-                                          fontSize: 12),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                            left: 16, top: 16),
-                                        height: 30,
-                                        width: 56,
-                                        child: Text(
-                                          "${ditails1[index].name3}",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: notifire
-                                                  .textshscreenprimerycolor,
-                                              fontFamily: "AirbnbCereal_W_Md"),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.only(right: 30),
-                                        height: 20,
-                                        width: 19,
-                                        child: Text(
-                                          "/ea",
-                                          style: TextStyle(
-                                              fontFamily: "AirbnbCereal_W_Bk",
-                                              fontSize: 12,
-                                              color: notifire
-                                                  .mintextscreenprimerycolor),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                        width: 30,
-                                        child: Image.asset(
-                                          "assets/plus.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ));
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 15),
-                      height: 240,
-                      width: 152,
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade50.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: ditails.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  context: context,
-                                  backgroundColor: Colors.transparent,
-                                  builder: (BuildContext context) {
-                                    return StatefulBuilder(builder: (BuildContext
-                                            context,
-                                        StateSetter
-                                            setState1 /*You can rename this!*/) {
-                                      return SizedBox(
-                                          child: SingleChildScrollView(
-                                              child: Column(children: [
-                                        Container(
-                                            margin:
-                                                const EdgeInsets.only(top: 70),
-                                            height: 610,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                color: notifire
-                                                    .spleshscreenprimerycolor,
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(28),
-                                                        topRight:
-                                                            Radius.circular(
-                                                                28))),
-                                            child: Column(children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    top: 30),
-                                                height: 5,
-                                                width: 50,
-                                                child: Image.asset(
-                                                    "assets/Line.png"),
-                                              ),
-                                              Column(children: [
-                                                Center(
-                                                  child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 18,
-                                                            top: 20,
-                                                            right: 18),
-                                                    height: 319,
-                                                    width: 319,
-                                                    child: Stack(
-                                                      children: [
-                                                        PageView(
-                                                            controller:
-                                                                _pageController,
-                                                            onPageChanged: (index) =>
-                                                                _handlingOnPageChanged(
-                                                                    index,
-                                                                    setState1),
-                                                            physics:
-                                                                const BouncingScrollPhysics(),
-                                                            children:
-                                                                _buildSlides()),
-                                                        Positioned(
-                                                            bottom: 40,
-                                                            left: 130,
-                                                            child:
-                                                                _buildPageIndicator())
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 28,
-                                                                  top: 20,
-                                                                  right: 28),
-                                                          height: 30,
-                                                          width: 220,
-                                                          child: Text(
-                                                              "${ditails[index].name1}",
-                                                              style: TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: notifire
-                                                                      .textshscreenprimerycolor,
-                                                                  fontFamily:
-                                                                      "AirbnbCereal_W_Md")),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 28,
-                                                                  bottom: 20,
-                                                                  right: 150),
-                                                          height: 30,
-                                                          width: 100,
-                                                          child: Text(
-                                                              "${ditails[index].name2}",
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: notifire
-                                                                      .mintextscreenprimerycolor,
-                                                                  fontFamily:
-                                                                      "AirbnbCereal_W_Bk")),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(children: [
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            bottom: 20),
-                                                    height: 50,
-                                                    width: 375,
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 28,
-                                                                  bottom: 20,
-                                                                  top: 10),
-                                                          height: 30,
-                                                          //     width: 55,
-                                                          child: Text(
-                                                            "${ditails[index].name3}",
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    "AirbnbCereal_W_Bk",
-                                                                fontSize: 16,
-                                                                color: notifire
-                                                                    .textshscreenprimerycolor),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  bottom: 10,
-                                                                  right: 15),
-                                                          height: 20,
-                                                          width: 19,
-                                                          child: Text("/er",
-                                                              style: TextStyle(
-                                                                  fontSize: 12,
-                                                                  fontFamily:
-                                                                      "AirbnbCereal_W_Bk",
-                                                                  color: notifire
-                                                                      .mintextscreenprimerycolor)),
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            return setState(() {
-                                                              _dicrementcount();
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 77),
-                                                            height: 50,
-                                                            width: 50,
-                                                            child: Image.asset(
-                                                                "assets/logo/mainas.png"),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 50,
-                                                          width: 50,
-                                                          child: Center(
-                                                              child: Text(
-                                                            "$cnt",
-                                                            style: TextStyle(
-                                                                color: notifire
-                                                                    .textshscreenprimerycolor),
-                                                          )),
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            return setState(() {
-                                                              _incrementcount();
-                                                            });
-                                                          },
-                                                          child: SizedBox(
-                                                            height: 50,
-                                                            width: 50,
-                                                            child: Image.asset(
-                                                                "assets/logo/plus_1.png"),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        selectedIndex = 2;
-                                                      });
-                                                      Navigator.push(context,
-                                                          MaterialPageRoute(
-                                                        builder: (context) {
-                                                          return const Bottombar();
-                                                        },
-                                                      ));
-                                                    },
-                                                    child: Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              left: 20,
-                                                              right: 20,
-                                                              bottom: 10),
-                                                      height: 50,
-                                                      width: 290,
-                                                      decoration: BoxDecoration(
-                                                          color: const Color(
-                                                              0xff00AB67),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      16)),
-                                                      child: const Center(
-                                                          child: Text(
-                                                        "Add to Cart",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            fontFamily:
-                                                                "AirbnbCereal_W_Md",
-                                                            color:
-                                                                Colors.white),
-                                                      )),
-                                                    ),
-                                                  )
-                                                ])
-                                              ])
-                                            ]))
-                                      ])));
-                                    });
-                                  },
-                                );
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 16, right: 16),
-                                    height: 120,
-                                    width: 120,
-                                    child: Image.asset(
-                                        "${ditails2[index].image1}"),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 16, right: 16, top: 6),
-                                    height: 30,
-                                    width: 120,
-                                    child: Text(
-                                      "${ditails2[index].name1}",
-                                      style: TextStyle(
-                                          fontFamily: "AirbnbCereal_W_Md",
-                                          color:
-                                              notifire.textshscreenprimerycolor,
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                    width: 120,
-                                    child: Text(
-                                      "${ditails2[index].name2}",
-                                      style: TextStyle(
-                                          fontFamily: "AirbnbCereal_W_Bk",
-                                          color: notifire
-                                              .mintextscreenprimerycolor,
-                                          fontSize: 12),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                            left: 16, top: 16),
-                                        height: 30,
-                                        width: 56,
-                                        child: Text(
-                                          "${ditails2[index].name3}",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: notifire
-                                                  .textshscreenprimerycolor,
-                                              fontFamily: "AirbnbCereal_W_Md"),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.only(right: 30),
-                                        height: 20,
-                                        width: 19,
-                                        child: Text(
-                                          "/ea",
-                                          style: TextStyle(
-                                              fontFamily: "AirbnbCereal_W_Bk",
-                                              fontSize: 12,
-                                              color: notifire
-                                                  .mintextscreenprimerycolor),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                        width: 30,
-                                        child: Image.asset(
-                                          "assets/plus.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ));
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Column(
-                children: [
-                  Container(
-                    margin:
-                        const EdgeInsets.only(left: 28, right: 260, top: 28),
-                    height: 30,
-                    width: 68,
+                    width: 250,
                     child: Text(
-                      "Discover",
+                      "Più popolari",
                       style: TextStyle(
                           fontSize: 16,
                           fontFamily: "AirbnbCereal_W_Bd",
@@ -2376,161 +1028,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   )
                 ],
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                height: 60,
-                width: MediaQuery.of(context).size.width,
-                color: notifire.topscreenprimerycolor,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          all = !true;
-                          you = !false;
-                          artichoke = !false;
-                          barcoli = !false;
-                          setState(() {});
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                              top: 8, bottom: 8, left: 28),
-                          height: 40,
-                          width: 55,
-                          decoration: BoxDecoration(
-                              color: all
-                                  ? notifire.spleshscreenprimerycolor
-                                  : Colors.green,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color: all ? Colors.black12 : Colors.green,
-                                  width: 1)),
-                          child: Center(
-                            child: Text(
-                              "All",
-                              style: TextStyle(
-                                  fontFamily: "AirbnbCereal_W_Md",
-                                  color: all
-                                      ? notifire.mintextscreenprimerycolor
-                                      : Colors.white,
-                                  fontSize: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          all = !false;
-                          you = !true;
-                          artichoke = !false;
-                          barcoli = !false;
-                          setState(() {});
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                              top: 8, bottom: 8, left: 16),
-                          height: 40,
-                          width: 90,
-                          decoration: BoxDecoration(
-                              color: you
-                                  ? notifire.spleshscreenprimerycolor
-                                  : Colors.green,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color: you ? Colors.black12 : Colors.green,
-                                  width: 1)),
-                          child: Center(
-                            child: Text(
-                              "For You",
-                              style: TextStyle(
-                                  fontFamily: "AirbnbCereal_W_Md",
-                                  color: you
-                                      ? notifire.mintextscreenprimerycolor
-                                      : Colors.white,
-                                  fontSize: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          all = !false;
-                          you = !false;
-                          artichoke = !true;
-                          barcoli = !false;
-                          setState(() {});
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                              top: 8, bottom: 8, left: 16),
-                          height: 40,
-                          width: 77,
-                          decoration: BoxDecoration(
-                              color: artichoke
-                                  ? notifire.spleshscreenprimerycolor
-                                  : Colors.green,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color:
-                                      artichoke ? Colors.black12 : Colors.green,
-                                  width: 1)),
-                          child: Center(
-                            child: Text(
-                              "Artichoke",
-                              style: TextStyle(
-                                  fontFamily: "AirbnbCereal_W_Md",
-                                  color: artichoke
-                                      ? notifire.mintextscreenprimerycolor
-                                      : Colors.white,
-                                  fontSize: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          all = !false;
-                          you = !false;
-                          artichoke = !false;
-                          barcoli = !true;
-                          setState(() {});
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                              top: 8, bottom: 8, left: 16),
-                          height: 40,
-                          width: 90,
-                          decoration: BoxDecoration(
-                              color: barcoli
-                                  ? notifire.spleshscreenprimerycolor
-                                  : Colors.green,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color:
-                                      barcoli ? Colors.black12 : Colors.green,
-                                  width: 1)),
-                          child: Center(
-                            child: Text(
-                              "Broccoli",
-                              style: TextStyle(
-                                  fontFamily: "AirbnbCereal_W_Md",
-                                  color: barcoli
-                                      ? notifire.mintextscreenprimerycolor
-                                      : Colors.white,
-                                  fontSize: 12),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
               Column(children: [
                 Container(
                   // margin: EdgeInsets.only(top: 10),
-                  height: 680,
+                  height: _page * 680,
                   width: MediaQuery.of(context).size.width,
                   // color: Colors.blue,
                   color: notifire.spleshscreenprimerycolor,
@@ -2543,7 +1044,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             crossAxisSpacing: 0,
                             mainAxisSpacing: 0,
                             mainAxisExtent: 230),
-                    itemCount: ditails3.length,
+                    itemCount: mostScanned?.length,
                     addRepaintBoundaries: true,
                     itemBuilder: (context, index) {
                       return Container(
@@ -2600,22 +1101,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                   width: 319,
                                                   child: Stack(
                                                     children: [
-                                                      PageView(
-                                                          controller:
-                                                              _pageController,
-                                                          onPageChanged: (index) =>
-                                                              _handlingOnPageChanged(
-                                                                  index,
-                                                                  setState1),
-                                                          physics:
-                                                              const BouncingScrollPhysics(),
-                                                          children:
-                                                              _buildSlides()),
-                                                      Positioned(
-                                                          bottom: 40,
-                                                          left: 130,
-                                                          child:
-                                                              _buildPageIndicator())
+                                                      /*PageView(
+                                                      controller:
+                                                          _pageController,
+                                                      onPageChanged: (index) =>
+                                                          _handlingOnPageChanged(
+                                                              index, setState1),
+                                                      physics:
+                                                          const BouncingScrollPhysics(),
+                                                      children: _buildSlides()),
+                                                  Positioned(
+                                                      bottom: 40,
+                                                      left: 130,
+                                                      child:
+                                                          _buildPageIndicator())*/
                                                     ],
                                                   ),
                                                 ),
@@ -2633,7 +1132,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                         height: 30,
                                                         width: 220,
                                                         child: Text(
-                                                            "${ditails3[index].name1}",
+                                                            "${mostScanned?[index].productName}",
                                                             style: TextStyle(
                                                                 fontSize: 18,
                                                                 color: notifire
@@ -2650,7 +1149,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                         height: 30,
                                                         width: 100,
                                                         child: Text(
-                                                            "${ditails3[index].name2}",
+                                                            "${mostScanned?[index].productName}",
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 color: notifire
@@ -2679,7 +1178,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                         height: 30,
                                                         //     width: 55,
                                                         child: Text(
-                                                          "${ditails3[index].name3}",
+                                                          "${mostScanned?[index].productName}",
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   "AirbnbCereal_W_Bk",
@@ -2705,9 +1204,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                       ),
                                                       InkWell(
                                                         onTap: () {
-                                                          return setState(() {
-                                                            _dicrementcount();
-                                                          });
+                                                          /*return setState(() {
+                                                        _dicrementcount();
+                                                      });*/
                                                         },
                                                         child: Container(
                                                           margin:
@@ -2733,9 +1232,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                       ),
                                                       InkWell(
                                                         onTap: () {
-                                                          return setState(() {
-                                                            _incrementcount();
-                                                          });
+                                                          /*return setState(() {
+                                                        _incrementcount();
+                                                      });*/
                                                         },
                                                         child: SizedBox(
                                                           height: 50,
@@ -2749,15 +1248,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    setState(() {
-                                                      selectedIndex = 2;
-                                                    });
-                                                    Navigator.push(context,
-                                                        MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return const Bottombar();
-                                                      },
-                                                    ));
+                                                    print("Open product page");
+                                                    /*setState(() {
+                                                  selectedIndex = 2;
+                                                });
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return const Bottombar();
+                                                  },
+                                                ));*/
                                                   },
                                                   child: Container(
                                                     margin:
@@ -2798,17 +1298,25 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   margin: const EdgeInsets.only(left: 30),
                                   height: 128,
                                   width: 120,
-                                  child: Image.asset(
-                                    "${ditails3[index].image1}",
-                                  ),
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(mostScanned![
+                                                      index]
+                                                  .imageFrontUrl ??
+                                              'https://static.openfoodfacts.org/images/misc/openfoodfacts-logo-en-178x150.png'),
+                                          fit: BoxFit.cover),
+                                      border: Border.all(
+                                          width: 1,
+                                          color:
+                                              notifire.topscreenprimerycolor)),
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(
                                       left: 28, right: 28),
-                                  height: 30,
+                                  height: 60,
                                   width: 132,
                                   child: Text(
-                                    "${ditails3[index].name1}",
+                                    "${mostScanned?[index].productName}",
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: "AirbnbCereal_W_Md",
@@ -2816,46 +1324,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                             notifire.textshscreenprimerycolor),
                                   ),
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 28, right: 28),
-                                  height: 20,
-                                  width: 132,
-                                  child: Text(
-                                    "${ditails3[index].name2}",
-                                    style: TextStyle(
-                                        fontFamily: "AirbnbCereal_W_Bk",
-                                        fontSize: 12,
-                                        color:
-                                            notifire.mintextscreenprimerycolor),
-                                  ),
-                                ),
+                                /*Container(
+                              margin:
+                                  const EdgeInsets.only(left: 28, right: 28),
+                              height: 20,
+                              width: 132,
+                              child: Text(
+                                "${products?[index].productName}",
+                                style: TextStyle(
+                                    fontFamily: "AirbnbCereal_W_Bk",
+                                    fontSize: 12,
+                                    color: notifire.mintextscreenprimerycolor),
+                              ),
+                            ),*/
+                                //TODO: rimuovere row?
                                 Row(children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 28),
-                                    height: 30,
-                                    //     width: 55,
-                                    child: Text(
-                                      "${ditails3[index].name3}",
-                                      style: TextStyle(
-                                          fontFamily: "AirbnbCereal_W_Bk",
-                                          fontSize: 16,
-                                          color: notifire
-                                              .textshscreenprimerycolor),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        bottom: 10, right: 15),
-                                    height: 20,
-                                    width: 19,
-                                    child: Text("/er",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: "AirbnbCereal_W_Bk",
-                                            color: notifire
-                                                .mintextscreenprimerycolor)),
-                                  ),
                                   Container(
                                     margin: const EdgeInsets.only(left: 30),
                                     height: 30,
