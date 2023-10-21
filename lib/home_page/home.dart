@@ -38,7 +38,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   List<Slid> _slides = [];
   PageController _pageController = PageController();
 
-  ScrollController _gridViewScrollController = ScrollController();
+  final ScrollController _gridViewScrollController = ScrollController();
   List<off.Product>? mostScanned = [];
   int _page = 0;
 
@@ -56,7 +56,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _gridViewScrollController.addListener(() {
-      print("EVENT START");
       if (_gridViewScrollController.position.pixels >=
           _gridViewScrollController.position.maxScrollExtent) {
         _page++;
@@ -72,8 +71,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       setState(() {
         mostScanned!.addAll(products);
       });
+    } else {
+      --_page;
     }
-    //setState(() {});
   }
 
   int _currentPage = 0;
@@ -578,6 +578,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 ]))),
         backgroundColor: notifire.blackwhite,
         body: SingleChildScrollView(
+          controller: _gridViewScrollController,
           child: Column(
             children: [
               Container(
@@ -1038,7 +1039,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
                   child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
-                    controller: _gridViewScrollController,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
