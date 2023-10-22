@@ -205,7 +205,7 @@ class _SearchState extends State<Search> {
                                 margin: const EdgeInsets.only(
                                     top: 20, right: 150, left: 16),
                                 //height: 44,
-                                width: 164,
+                                width: 145,
                                 child: Text("${products?[index].productName}",
                                     style: TextStyle(
                                         fontSize: 16,
