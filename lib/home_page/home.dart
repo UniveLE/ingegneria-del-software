@@ -136,7 +136,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     notifire = Provider.of<Colornotifire>(context, listen: true);
-
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
