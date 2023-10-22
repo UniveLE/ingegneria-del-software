@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../_utils/food_service.dart';
 import '../_utils/user.dart';
 
 class Artichoke extends StatefulWidget {

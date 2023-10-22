@@ -35,7 +35,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   List<Slid> _slides = [];
-  PageController _pageController = PageController();
 
   final ScrollController _gridViewScrollController = ScrollController();
   List<off.Product>? mostScanned = [];
@@ -50,7 +49,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       Slid("assets/veg1.png"),
       Slid("assets/veg1.png"),
     ];
-    _pageController = PageController(initialPage: _currentPage);
     getProducts();
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
@@ -64,7 +62,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   void getProducts() async {
-    print("Getting products...");
     var products = await FoodService.searchProduct(size: 6, page: ++_page);
     if (products != null) {
       setState(() {
@@ -93,20 +90,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     } else {
       notifire.setlsDark = previusstate;
     }
-  }
-
-  void _incrementcount() {
-    setState(() {
-      cnt++;
-    });
-  }
-
-  void _dicrementcount() {
-    setState(() {
-      if (cnt > 0) {
-        cnt--;
-      }
-    });
   }
 
   Future<bool> _onWillPop() async {
@@ -1415,8 +1398,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   // building page indicator
   Widget _buildPageIndicator() {
-    Row row =
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: []);
+    Row row = Row(mainAxisAlignment: MainAxisAlignment.center, children: []);
     for (int i = 0; i < _slides.length; i++) {
       row.children.add(_buildPageIndicatorItem(i));
       if (i != _slides.length - 1)

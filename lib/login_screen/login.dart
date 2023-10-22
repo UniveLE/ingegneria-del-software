@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:myfoodtracker/login_screen/register.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
@@ -371,9 +370,11 @@ class _LoginState extends State<Login> {
 
   loginapi(context) async {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Bottombar()));
+      /*final credential = */ await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Bottombar()));
     } on FirebaseAuthException catch (e) {
       String errorText = "";
       if (e.message != null) errorText = e.message!;
@@ -398,7 +399,7 @@ class _LoginState extends State<Login> {
 
 void loginWithGoogle(context) async {
   FirebaseAuth auth = FirebaseAuth.instance;
-  User? user;
+  //User? user;
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -414,11 +415,13 @@ void loginWithGoogle(context) async {
     );
 
     try {
-      final UserCredential userCredential =
-          await auth.signInWithCredential(credential);
+      /*final UserCredential userCredential =
+          */
+      await auth.signInWithCredential(credential);
 
-      user = userCredential.user;
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Bottombar()));
+      //user = userCredential.user;
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Bottombar()));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         // handle the error here

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myfoodtracker/account/account.dart';
-import 'package:myfoodtracker/cart/cart.dart';
 import 'package:myfoodtracker/order_/order.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';

@@ -1,10 +1,8 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
-import 'package:openfoodfacts/openfoodfacts.dart' as openFoodFact;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../_utils/food_service.dart';
 import '../_utils/user.dart';
 
 class ShoppingListPage extends StatefulWidget {
@@ -74,8 +72,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 0,
                                   mainAxisSpacing: 0,
-                                  mainAxisExtent: 290
-                              ),
+                                  mainAxisExtent: 290),
                           itemCount: snapshot.data.length,
                           addRepaintBoundaries: true,
                           itemBuilder: (context, index) {
@@ -167,7 +164,8 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                                                             .only(top: 30),
                                                         height: 5,
                                                         width: 50,
-                                                        child: Image.asset("assets/Line.png"),
+                                                        child: Image.asset(
+                                                            "assets/Line.png"),
                                                       ),
                                                       Column(children: [
                                                         Center(

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:myfoodtracker/_utils/food_service.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:intl/intl.dart';
@@ -104,7 +103,7 @@ class User {
       }
     });*/
 
-    for(int i = 0; i < data[shoppingArrayList].length; i++){
+    for (int i = 0; i < data[shoppingArrayList].length; i++) {
       Product? p = await FoodService.getProduct(data[shoppingArrayList][i]);
       if (p != null) {
         r.add(p);
@@ -180,8 +179,9 @@ class User {
       }
     });*/
 
-    for(int i = 0; i < data[storageArrayName].length; i++){
-      Product? p = await FoodService.getProduct(data[storageArrayName][i]['barcode']);
+    for (int i = 0; i < data[storageArrayName].length; i++) {
+      Product? p =
+          await FoodService.getProduct(data[storageArrayName][i]['barcode']);
       if (p != null) {
         r.add({
           'product': p,

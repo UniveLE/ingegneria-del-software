@@ -6,8 +6,6 @@ import 'package:myfoodtracker/login_screen/login.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../home_page/home.dart';
 import 'bottombar.dart';
 
 class Register extends StatefulWidget {
@@ -382,7 +380,8 @@ class _RegisterState extends State<Register> {
                 // },
                 InkWell(
                     onTap: () async {
-                      registration(context, nameController.text, emailController.text, passwordController.text);
+                      registration(context, nameController.text,
+                          emailController.text, passwordController.text);
                     },
                     child: Container(
                       height: 60,
@@ -439,16 +438,14 @@ class _RegisterState extends State<Register> {
   }
 }
 
-void registration(context, name, email, password) async{
+void registration(context, name, email, password) async {
   try {
-    await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
-    await FirebaseAuth.instance.currentUser
-        ?.updateDisplayName(name);
+    await FirebaseAuth.instance.currentUser?.updateDisplayName(name);
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return Bottombar();
@@ -459,22 +456,19 @@ void registration(context, name, email, password) async{
     if (e.code == 'weak-password') {
       errorText = 'The password provided is too weak.';
     } else if (e.code == 'email-already-in-use') {
-      errorText =
-      'The account already exists for that email.';
+      errorText = 'The account already exists for that email.';
     } else if (e.code == "invalid-email") {
       errorText = "email invalida.";
     }
 
     showDialog(
         context: context,
-        builder: (BuildContext context) =>
-            AlertDialog(
+        builder: (BuildContext context) => AlertDialog(
               title: const Text('Errore'),
               content: Text(errorText),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () =>
-                      Navigator.pop(context, 'OK'),
+                  onPressed: () => Navigator.pop(context, 'OK'),
                   child: const Text('OK'),
                 ),
               ],

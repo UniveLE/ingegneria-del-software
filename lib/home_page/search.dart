@@ -5,9 +5,7 @@ import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../showModalProduct.dart';
-import '../theme/colors.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -16,13 +14,12 @@ class Search extends StatefulWidget {
   State<Search> createState() => _SearchState();
 }
 
-
 class _SearchState extends State<Search> {
   late Colornotifire notifire;
   List<Product>? products = [];
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     setState(() {
       FoodService.searchProduct(name: '').then((result) => {products = result});
@@ -157,38 +154,40 @@ class _SearchState extends State<Search> {
               delegate: SliverChildBuilderDelegate(
                 childCount: products != null ? products?.length : 0,
                 (context, index) {
-                  return
-                    GestureDetector(
-                      onTap: (){
-                      print("Container clicked AAAAAAAAAAAAAAAAAAA");
-                      showProductModal(products![index], context);
-                    },
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 28, top: 14),
-                          height: 50,
-                          width: 50,
-                          child:
-                          products?[index].imageFrontUrl != null ? Image.network("${products?[index].imageFrontUrl}") : Image.asset("assets/kiwi.png"),
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  top: 20, right: 150, left: 16),
-                              //height: 44,
-                              width: 164,
-                              child: Text("${products?[index].productName}",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: notifire.textshscreenprimerycolor,
-                                      fontFamily: "AirbnbCereal_W_Md")),
-                            ),
-                          ],
-                        )
-                      ],
-                    ));
+                  return GestureDetector(
+                      onTap: () {
+                        print("Container clicked AAAAAAAAAAAAAAAAAAA");
+                        showProductModal(products![index], context);
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 28, top: 14),
+                            height: 50,
+                            width: 50,
+                            child: products?[index].imageFrontUrl != null
+                                ? Image.network(
+                                    "${products?[index].imageFrontUrl}")
+                                : Image.asset("assets/kiwi.png"),
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(
+                                    top: 20, right: 150, left: 16),
+                                //height: 44,
+                                width: 164,
+                                child: Text("${products?[index].productName}",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            notifire.textshscreenprimerycolor,
+                                        fontFamily: "AirbnbCereal_W_Md")),
+                              ),
+                            ],
+                          )
+                        ],
+                      ));
                 },
               ),
             ),
@@ -196,5 +195,3 @@ class _SearchState extends State<Search> {
         ));
   }
 }
-
-

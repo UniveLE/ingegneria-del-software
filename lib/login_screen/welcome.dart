@@ -4,13 +4,10 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
 import 'package:flutter/material.dart';
-import 'package:myfoodtracker/home_page/home.dart';
 import 'package:myfoodtracker/login_screen/create_easy.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../_utils/user.dart';
 import 'bottombar.dart';
 
 class Onbording extends StatefulWidget {
@@ -32,7 +29,7 @@ class _OnbordingState extends State<Onbording> {
     super.initState();
     Timer(const Duration(seconds: 3), () async {
       //await FirebaseAuth.instance.signOut();
-      await User.getActualUser();
+      //await User.getActualUser();
       if (firebaseAuth.FirebaseAuth.instance.currentUser != null) {
         Navigator.pushReplacement(
             context, new MaterialPageRoute(builder: (context) => Bottombar()));
