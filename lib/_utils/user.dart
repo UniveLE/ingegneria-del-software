@@ -11,7 +11,7 @@ void test() async {
   User user = User.getActualUser();
 
   print(await user.getShoppingList());
-  print(await user.getStorageBarcodeList());
+  print(await user.getStorageList());
 
   print("finito!");
   /*Product? p = await FoodService.getProduct('42046202');
@@ -42,6 +42,7 @@ class User {
   late DocumentReference documentReference;
   static String storageArrayName = "StorageList";
   static String shoppingArrayList = "ShoppingList";
+  static DateFormat formatter = DateFormat('dd-MM-yyyy');
 
   User(this.uid) {
     _addUserToFirestore();
@@ -126,7 +127,7 @@ class User {
 
   Future<void> addProductToStorageList(
       Product product, int quantity, DateTime expiration) async {
-    DateFormat formatter = DateFormat('dd-MM-yyyy');
+
 
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
@@ -158,7 +159,7 @@ class User {
     await documentReference.update({storageArrayName: data[storageArrayName]});
   }
 
-  Future<List> getStorageBarcodeList() async {
+  Future<List> getStorageList() async {
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
@@ -202,7 +203,6 @@ class User {
 
   Future<void> removeProductFromStorageListByBarcode(
       String barcode, int quantity, DateTime expiration) async {
-    DateFormat formatter = DateFormat('dd-MM-yyyy');
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
@@ -231,5 +231,9 @@ class User {
 
   static User getActualUser() {
     return User(FirebaseAuth.instance.currentUser!.uid);
+  }
+
+  static DateTime toDateTime(String dm){
+    return formatter.parse(dm);
   }
 }
