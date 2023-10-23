@@ -28,7 +28,7 @@ class _OnbordingState extends State<Onbording> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () async {
-      //await FirebaseAuth.instance.signOut();
+      //await firebaseAuth.FirebaseAuth.instance.signOut();
       //await User.getActualUser();
       if (firebaseAuth.FirebaseAuth.instance.currentUser != null) {
         Navigator.pushReplacement(
