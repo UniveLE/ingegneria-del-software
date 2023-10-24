@@ -37,22 +37,8 @@ class _LoginState extends State<Login> {
     if (FirebaseAuth.instance.currentUser != null) {
       Navigator.pushReplacement(
           context, new MaterialPageRoute(builder: (context) => Bottombar()));
-    } /*else {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Login(),
-          ));
-    }*/
+    }
   }
-
-  // @override
-  // void dispose() {
-  //   // Clean up the controller when the widget is disposed.
-  //   passwordController.dispose();
-  //   Phonenumber.dispose();
-  //   super.dispose();
-  // }
 
   getdarkmodepreviousstate() async {
     final prefs = await SharedPreferences.getInstance();
@@ -63,30 +49,6 @@ class _LoginState extends State<Login> {
       notifire.setlsDark = previusstate;
     }
   }
-
-  // Future<bool> _onWillPop() async {
-  //   return (await showDialog(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       title: new Text('Are you sure?'),
-  //       content: new Text('Do you want to exit an App'),
-  //       actions: <Widget>[
-  //         TextButton(
-  //           onPressed: () => Navigator.of(context).pop(false),
-  //           //<-- SEE HERE
-  //           child: new Text('No'),
-  //         ),
-  //         TextButton(
-  //           onPressed: () {
-  //             exit(0);
-  //           }, // <-- SEE HERE
-  //           child: new Text('Yes'),
-  //         ),
-  //       ],
-  //     ),
-  //   )) ??
-  //       false;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -268,11 +230,6 @@ class _LoginState extends State<Login> {
               InkWell(
                 onTap: () {
                   loginapi(context);
-                  /*Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return const Loginnums();
-                    },
-                  ));*/
                 },
                 child: Container(
                   height: 60,
@@ -317,7 +274,7 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         const Text(
-                          'Sign in with Google',
+                          'Login con Google',
                           style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
@@ -336,7 +293,7 @@ class _LoginState extends State<Login> {
                 children: [
                   Container(
                     margin: const EdgeInsets.only(left: 65),
-                    child: Text("I dont't have an account.",
+                    child: Text("Non ho un account.",
                         style: TextStyle(
                             fontSize: 14,
                             fontFamily: "AirbnbCereal_W_Bd",
@@ -352,7 +309,7 @@ class _LoginState extends State<Login> {
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 65),
-                      child: const Text("  Register",
+                      child: const Text("Registrati",
                           style: TextStyle(
                               fontSize: 14,
                               fontFamily: "AirbnbCereal_W_Bd",

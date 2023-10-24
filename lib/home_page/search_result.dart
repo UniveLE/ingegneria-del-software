@@ -11,7 +11,7 @@ class SearchResult extends StatefulWidget {
   final PnnsGroup2? category;
   final String? name;
   final String? brand;
-  final String? title; //TODO: se selezionato mostrare il titolo
+  final String? title;
 
   const SearchResult(
       {Key? key, this.title, this.category, this.name, this.brand})
@@ -133,7 +133,8 @@ class _SearchResultState extends State<SearchResult> {
                   right: 160, left: 80, top: 8, bottom: 10),
               child: Center(
                 child: Text(
-                  widget.name?.toString() ??
+                  widget.title ??
+                      widget.name?.toString() ??
                       widget.category?.toString() ??
                       widget.brand.toString(),
                   style: TextStyle(
@@ -168,7 +169,7 @@ class _SearchResultState extends State<SearchResult> {
                         disabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
-                        hintText: "Search anything",
+                        hintText: "Ricarca prodotti",
                         hintStyle: TextStyle(
                             color: notifire.mintextscreenprimerycolor,
                             fontSize: 14)
