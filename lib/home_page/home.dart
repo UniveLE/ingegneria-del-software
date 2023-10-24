@@ -1,16 +1,11 @@
 // ignore_for_file: file_names
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myfoodtracker/_utils/food_service.dart';
-import 'package:myfoodtracker/about.dart';
-import 'package:myfoodtracker/contact.dart';
-import 'package:myfoodtracker/help.dart';
 import 'package:myfoodtracker/home_page/search.dart';
 import 'package:myfoodtracker/home_page/search_result.dart';
-import 'package:myfoodtracker/language.dart';
-import 'package:myfoodtracker/notification/notification.dart';
-import 'package:myfoodtracker/privacy.dart';
 import 'package:myfoodtracker/showModalProduct.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:openfoodfacts/openfoodfacts.dart' as off;
@@ -40,6 +35,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   final ScrollController _gridViewScrollController = ScrollController();
   List<off.Product>? mostScanned = [];
   int _page = 0;
+  User currentUser = FirebaseAuth.instance.currentUser!;
 
   @override
   void initState() {
@@ -166,75 +162,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 45, left: 80),
-                          height: 30,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.grey.shade200)),
-                          child: Center(
-                              child: Text(
-                            "Santa Ana,Ca",
-                            style: TextStyle(
-                                color: notifire.textshscreenprimerycolor,
-                                fontSize: 12,
-                                fontFamily: "AirbnbCereal_W_Bd"),
-                          )),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return const Search();
-                              },
-                            ));
-                          },
-                          child: Container(
-                              margin: const EdgeInsets.only(top: 48, left: 20),
-                              height: 16,
-                              width: 16,
-                              child: Image.asset(
-                                "assets/logo/search_1.png",
-                                color: notifire.textshscreenprimerycolor,
-                              )),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                                top: 47, right: 10, left: 20),
-                            //    color: notifire.spleshscreenprimerycolor,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return const Notifications();
-                                  },
-                                ));
-                              },
-                              child: Stack(children: [
-                                Container(
-                                  margin: const EdgeInsets.only(top: 3),
-                                  height: 17,
-                                  width: 16,
-                                  child: Image.asset(
-                                    "assets/logo/notification.png",
-                                    color: notifire.textshscreenprimerycolor,
-                                    width: 17,
-                                    height: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 8, bottom: 10),
-                                  height: 12,
-                                  width: 12,
-                                  child: Image.asset("assets/Badge.png"),
-                                )
-                              ]),
-                            ),
-                          ),
-                        ),
                       ]),
                   Container(
                     margin: const EdgeInsets.only(top: 25),
@@ -250,8 +177,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             width: 50,
                             child: const CircleAvatar(
                               radius: 25,
-                              backgroundImage:
-                                  AssetImage("assets/profile_1.png"),
+                              backgroundImage: AssetImage("assets/profile.png"),
                             )),
                         Column(
                           children: [
@@ -261,7 +187,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               height: 30,
                               width: 128,
                               child: Text(
-                                "Albert",
+                                currentUser.displayName.toString(),
                                 //getData.read("user")["name"],
                                 style: TextStyle(
                                     fontSize: 14,
@@ -275,7 +201,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               height: 20,
                               width: 130,
                               child: Text(
-                                "Albert123@gmail.com",
+                                currentUser.email.toString(),
                                 // getData.read("user")["email"],
                                 style: TextStyle(
                                     fontSize: 12,
@@ -288,7 +214,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  Container(
+                  /*Container(
                     margin: const EdgeInsets.only(left: 10, right: 80, top: 3),
                     height: 390,
                     width: 300,
@@ -462,6 +388,34 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             ),
                           )
                         ]),
+                  ),*/
+                  Container(
+                    margin: EdgeInsets.only(left: 13),
+                    child: InkWell(
+                      onTap: () {
+                        //TODO: inserire pagina carte fedeltà
+                        /*Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const Dataattribution();
+                          },
+                        ));*/
+                      },
+                      child: ListTile(
+                        leading: Image.asset(
+                          "assets/logo/about_1.png",
+                          height: 20,
+                          width: 20,
+                          color: notifire.mintextscreenprimerycolor,
+                        ),
+                        title: Text(
+                          "Carte fedeltà",
+                          style: TextStyle(
+                              fontFamily: "AirbnbCereal_W_Md",
+                              color: notifire.textshscreenprimerycolor,
+                              fontSize: 14),
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 10,
@@ -477,7 +431,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       Container(
                         margin: const EdgeInsets.only(right: 45),
                         child: Text(
-                          "Dark Mode",
+                          "Modalità scura",
                           style: TextStyle(
                               fontFamily: "AirbnbCereal_W_Md",
                               color: notifire.textshscreenprimerycolor,
@@ -486,7 +440,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ),
                       SizedBox(
                         height: 40,
-                        width: 100,
+                        width: 62,
                         child: Transform.scale(
                           alignment: Alignment.centerRight,
                           scale: 0.7,
@@ -528,18 +482,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
+                          /*Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
                               return const Language();
                             },
-                          ));
+                          ));*/
                         },
                         child: Container(
                           margin: const EdgeInsets.only(top: 10, right: 20),
                           height: 30,
                           width: 150,
                           child: Text(
-                            "Change Language",
+                            "Cambia lingua",
                             style: TextStyle(
                                 fontSize: 14,
                                 color: notifire.textshscreenprimerycolor,
@@ -550,7 +504,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       SizedBox(
                         height: 25,
                         width: 30,
-                        child: Image.asset("assets/logo/flag.png"),
+                        child: Image.asset("assets/flag_1.png"),
                       )
                     ],
                   ),
