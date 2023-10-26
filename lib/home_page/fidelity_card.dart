@@ -17,8 +17,6 @@ class FidelityCard extends StatefulWidget {
 class _FidelityCardState extends State<FidelityCard> {
   late Colornotifire notifire;
   List<FidelityCardModel.FidelityCard> cards = [];
-  TextEditingController nameController = TextEditingController();
-  TextEditingController codeController = TextEditingController();
 
   @override
   void initState() {
@@ -48,54 +46,11 @@ class _FidelityCardState extends State<FidelityCard> {
       backgroundColor: notifire.spleshscreenprimerycolor,
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                  height: 200,
-                  color: Colors.amber,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        TextField(
-                          controller: nameController,
-                          decoration: InputDecoration(
-                              disabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              hintText: "Nome",
-                              hintStyle: TextStyle(
-                                  color: notifire.mintextscreenprimerycolor,
-                                  fontSize: 14)
-                              //  labelText: "user name"
-                              ),
-                        ),
-                        TextField(
-                          controller: codeController,
-                          decoration: InputDecoration(
-                              disabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              hintText: "Codice",
-                              hintStyle: TextStyle(
-                                  color: notifire.mintextscreenprimerycolor,
-                                  fontSize: 14)
-                              //  labelText: "user name"
-                              ),
-                        ),
-                        const Text('Modal BottomSheet'),
-                        ElevatedButton(
-                          child: const Text('Chiudi'),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return FidelityCardPage();
               },
-            );
+            ));
           },
           backgroundColor: const Color(0xff00AB67),
           child: const Icon(Icons.add)),
@@ -162,6 +117,150 @@ class _FidelityCardState extends State<FidelityCard> {
                 }),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class FidelityCardPage extends StatelessWidget {
+  FidelityCardPage({super.key});
+
+  late Colornotifire notifire;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController codeController = TextEditingController();
+
+  getdarkmodepreviousstate() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool? previusstate = prefs.getBool("setIsDark");
+    if (previusstate == null) {
+      notifire.setlsDark = false;
+    } else {
+      notifire.setlsDark = previusstate;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    notifire = Provider.of<Colornotifire>(context, listen: true);
+    return Scaffold(
+      backgroundColor: notifire.spleshscreenprimerycolor,
+      appBar: AppBar(
+        backgroundColor: notifire.spleshscreenprimerycolor,
+        automaticallyImplyLeading: true,
+        elevation: 0,
+        toolbarHeight: 60,
+        title: Text(
+          'Nuova carta',
+          style: TextStyle(color: notifire.textshscreenprimerycolor),
+        ),
+        leading: BackButton(
+          color: notifire.textshscreenprimerycolor,
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            color: notifire.textshscreenprimerycolor,
+            onPressed: () {
+              User.getActualUser()
+                  .addFidelityCard(FidelityCardModel.FidelityCard(
+                      code: codeController.text, name: nameController.text))
+                  .then((value) => {Navigator.of(context).pop()});
+            },
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(right: 120),
+              width: 200,
+              child: Text(
+                "Nome carta",
+                style: TextStyle(
+                    fontSize: 12,
+                    color: notifire.mintextscreenprimerycolor,
+                    fontFamily: "AirbnbCereal_W_Bd"),
+              ),
+            ),
+            Center(
+              child: Container(
+                margin: const EdgeInsets.only(top: 12),
+                height: 60,
+                width: 319,
+                decoration: BoxDecoration(
+                  color: notifire.topscreenprimerycolor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Center(
+                  child: SizedBox(
+                    height: 48,
+                    width: 230,
+                    child: TextField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                          disabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          hintText: "Nome",
+                          hintStyle: TextStyle(
+                              color: notifire.mintextscreenprimerycolor,
+                              fontSize: 14)
+                          //  labelText: "user name"
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Container(
+              margin: const EdgeInsets.only(right: 120),
+              width: 200,
+              child: Text(
+                "Codice della carta",
+                style: TextStyle(
+                    fontSize: 12,
+                    color: notifire.mintextscreenprimerycolor,
+                    fontFamily: "AirbnbCereal_W_Bd"),
+              ),
+            ),
+            Center(
+              child: Container(
+                margin: const EdgeInsets.only(top: 12),
+                height: 60,
+                width: 319,
+                decoration: BoxDecoration(
+                  color: notifire.topscreenprimerycolor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Center(
+                  child: SizedBox(
+                    height: 48,
+                    width: 230,
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      controller: codeController,
+                      decoration: InputDecoration(
+                          disabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          hintText: "Codice",
+                          hintStyle: TextStyle(
+                              color: notifire.mintextscreenprimerycolor,
+                              fontSize: 14)
+                          //  labelText: "user name"
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
