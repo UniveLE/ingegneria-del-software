@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:myfoodtracker/_utils/food_service.dart';
+import 'package:myfoodtracker/_utils/model/fidelity_card.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:intl/intl.dart';
 
@@ -67,6 +70,28 @@ class User {
     });
   }
 
+  Future<void> addFidelityCard(FidelityCard card) async {}
+
+  Future<void> deleteFidelityCard(FidelityCard card) async {}
+
+  Future<List<FidelityCard>> getFidelityCards() async {
+    DocumentSnapshot documentSnapshot = await documentReference.get();
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+    List<FidelityCard> cards = [];
+
+    if (!data.containsKey('FidelityCards')) {
+      return cards;
+    }
+
+    for (int i = 0; i < data['FidelityCards'].length; i++) {
+      cards.add(FidelityCard(
+          name: data['FidelityCards'][i]['name'],
+          code: data['FidelityCards'][i]['code']));
+    }
+
+    return cards;
+  }
+
   Future<void> addProductToShoppingList(Product product) async {
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
@@ -127,8 +152,6 @@ class User {
 
   Future<void> addProductToStorageList(
       Product product, int quantity, DateTime expiration) async {
-
-
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
@@ -233,7 +256,7 @@ class User {
     return User(FirebaseAuth.instance.currentUser!.uid);
   }
 
-  static DateTime toDateTime(String dm){
+  static DateTime toDateTime(String dm) {
     return formatter.parse(dm);
   }
 }

@@ -8,6 +8,7 @@ import 'package:myfoodtracker/home_page/search.dart';
 import 'package:myfoodtracker/home_page/search_result.dart';
 import 'package:myfoodtracker/showModalProduct.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
+import 'package:myfoodtracker/home_page/fidelity_card.dart';
 import 'package:openfoodfacts/openfoodfacts.dart' as off;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -214,195 +215,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  /*Container(
-                    margin: const EdgeInsets.only(left: 10, right: 80, top: 3),
-                    height: 390,
-                    width: 300,
-                    child: ListView(
-                        padding: const EdgeInsets.only(top: 5),
-                        children: [
-                          //  SizedBox(height: 1,),
-                          InkWell(
-                            onTap: () {
-                              /*Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Address();
-                                },
-                              ));*/
-                            },
-                            child: ListTile(
-                              leading: Icon(Icons.flag,
-                                  color: notifire.mintextscreenprimerycolor,
-                                  size: 20),
-                              title: Text(
-                                "Address",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Dataattribution();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/about_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "About Us",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Contact();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/contact_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "Contact",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Dataattribution();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/faq_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "FAQ",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Privacy();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/terms_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "Terms & Condition",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Helpcentre();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/Help_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "Help Center",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Privacy();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/privecy_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "Privacy Policy",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          )
-                        ]),
-                  ),*/
                   Container(
                     margin: EdgeInsets.only(left: 13),
                     child: InkWell(
                       onTap: () {
-                        //TODO: inserire pagina carte fedeltà
-                        /*Navigator.push(context, MaterialPageRoute(
+                        Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return const Dataattribution();
+                            return const FidelityCard();
                           },
-                        ));*/
+                        ));
                       },
                       child: ListTile(
                         leading: Image.asset(
-                          "assets/logo/about_1.png",
+                          "assets/logo/voucher.png",
                           height: 20,
                           width: 20,
                           color: notifire.mintextscreenprimerycolor,
