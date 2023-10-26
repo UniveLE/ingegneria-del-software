@@ -215,7 +215,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  Container(
+                  /*Container(
                     margin: EdgeInsets.only(left: 13),
                     child: InkWell(
                       onTap: () {
@@ -241,7 +241,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
                   const SizedBox(
                     height: 10,
                   ),

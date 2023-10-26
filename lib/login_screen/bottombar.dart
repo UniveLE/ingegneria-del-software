@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myfoodtracker/account/account.dart';
+import 'package:myfoodtracker/home_page/fidelity_card.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:myfoodtracker/cart/storage.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +29,7 @@ class _BottombarState extends State<Bottombar> with TickerProviderStateMixin {
     Home(),
     Storage(),
     ShoppingListPage(),
-    Account(),
+    FidelityCard(),
   ];
 
   late Colornotifire notifire;
@@ -92,12 +92,12 @@ class _BottombarState extends State<Bottombar> with TickerProviderStateMixin {
                     height: MediaQuery.of(context).size.height / 45),
                 label: 'Spesa'),
             BottomNavigationBarItem(
-              icon: Image.asset("assets/logo/account1.png",
+              icon: Image.asset("assets/card.png",
                   color: selectedIndex == 3
                       ? const Color(0xff00AB67)
                       : notifire.mintextscreenprimerycolor,
-                  height: MediaQuery.of(context).size.height / 45),
-              label: 'Account',
+                  height: MediaQuery.of(context).size.height / 40),
+              label: 'Carte',
             ),
           ],
           onTap: (index) {

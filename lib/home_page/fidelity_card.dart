@@ -60,9 +60,9 @@ class _FidelityCardState extends State<FidelityCard> {
         elevation: 0,
         toolbarHeight: 60,
         backgroundColor: notifire.spleshscreenprimerycolor,
-        leading: BackButton(
+        /*leading: BackButton(
           color: notifire.textshscreenprimerycolor,
-        ),
+        ),*/
       ),
       body: Column(
         children: [
