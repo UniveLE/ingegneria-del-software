@@ -45,12 +45,13 @@ class _FidelityCardState extends State<FidelityCard> {
     return Scaffold(
       backgroundColor: notifire.spleshscreenprimerycolor,
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(
+          onPressed: () async {
+            await Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return FidelityCardPage();
               },
             ));
+            loadCards();
           },
           backgroundColor: const Color(0xff00AB67),
           child: const Icon(Icons.add)),
