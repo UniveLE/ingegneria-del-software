@@ -38,6 +38,7 @@ dependencies:
   openfoodfacts: ^3.0.0
   firebase_messaging: ^14.6.9
   intl: ^0.18.1
+  barcode_widget: ^2.0.4
 
   cupertino_icons: ^1.0.2
   flutter_cache_manager: ^3.3.1

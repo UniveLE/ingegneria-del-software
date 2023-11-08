@@ -37,6 +37,7 @@ class _SearchResultState extends State<SearchResult> {
         brand: widget.brand,
         category: widget.category,
         page: page);
+    print(products);
     setState(() {});
   }
 

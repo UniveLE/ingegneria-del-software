@@ -66,7 +66,7 @@ class _OnbordingState extends State<Onbording> {
               "MyFoodTracker",
               style: TextStyle(
                   fontFamily: "AirbnbCereal_W_Bd",
-                  fontSize: 35,
+                  fontSize: 30,
                   color: Colors.green),
             ),
           ),
