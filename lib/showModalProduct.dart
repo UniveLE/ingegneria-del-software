@@ -36,9 +36,10 @@ void showProductModal(OpenFoodFact.Product product, context) {
                       ),
                       Center(
                         child: Container(
+
                           margin: const EdgeInsets.only(
                               left: 5, top: 20, right: 5),
-                          //height: 319,
+                          height: 319,
                           //width: 319,
                           decoration: BoxDecoration(
                             color: const Color(0xffF2FBF7),
@@ -47,6 +48,7 @@ void showProductModal(OpenFoodFact.Product product, context) {
                           child: product.images != null &&
                                   product.images![0].url != null
                               ? PageView.builder(
+                                  scrollDirection: Axis.vertical,
                                   itemCount: product.images!.length,
                                   itemBuilder: (_, i) {
                                     return Column(

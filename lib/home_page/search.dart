@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:myfoodtracker/_utils/food_service.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
@@ -118,11 +119,39 @@ class _SearchState extends State<Search> {
                                     ),
                               ),
                             ),
-                            Container(
+                            /*Container(
                               margin: const EdgeInsets.only(left: 63),
                               child: const Icon(Icons.search,
                                   color: Color(0xffCCCCCC)),
-                            )
+                            ),*/
+                            Container(
+                                margin: const EdgeInsets.only(left: 55),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    try {
+                                      String barcode =
+                                          await FlutterBarcodeScanner
+                                              .scanBarcode("#ff6666", "Annulla",
+                                                  false, ScanMode.BARCODE);
+                                      if (barcode.length >= 6) {
+                                        FoodService.getProduct(barcode)
+                                            .then((result) => {
+                                                  if (result != null)
+                                                    {
+                                                      setState(() {
+                                                        products?.clear();
+                                                        products = [result];
+                                                      })
+                                                    }
+                                                });
+                                      }
+                                    } catch (e) {
+                                      print(e);
+                                    }
+                                  },
+                                  icon: const Icon(Icons.photo_camera,
+                                      color: Color(0xffCCCCCC)),
+                                ))
                           ],
                         ),
                       ),
@@ -164,7 +193,7 @@ class _SearchState extends State<Search> {
                           Container(
                             margin: const EdgeInsets.only(left: 28, top: 14),
                             height: 50,
-                            width: 50,
+                            width: 20,
                             child: products?[index].imageFrontUrl != null
                                 ? Image.network(
                                     "${products?[index].imageFrontUrl}")
@@ -176,7 +205,7 @@ class _SearchState extends State<Search> {
                                 margin: const EdgeInsets.only(
                                     top: 20, right: 150, left: 16),
                                 //height: 44,
-                                width: 164,
+                                width: 145,
                                 child: Text("${products?[index].productName}",
                                     style: TextStyle(
                                         fontSize: 16,
