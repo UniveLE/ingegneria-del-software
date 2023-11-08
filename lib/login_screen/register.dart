@@ -21,10 +21,6 @@ class _RegisterState extends State<Register> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
-  ///============== email validation ====================
-  //static const String email = 'email@example.com';
-  //final bool isValid = EmailValidator.validate(email);
-
   final _formKey = GlobalKey<FormState>();
   bool status = false;
   late Colornotifire notifire;
@@ -41,14 +37,6 @@ class _RegisterState extends State<Register> {
 
   bool t1 = false;
 
-  // void _submit() {
-  //   final isValid = _formKey.currentState!.validate();
-  //
-  //   if (!isValid) {
-  //     return;
-  //   }
-  //   _formKey.currentState!.save();
-  // }
   @override
   Widget build(BuildContext context) {
     notifire = Provider.of<Colornotifire>(context, listen: true);
@@ -87,7 +75,7 @@ class _RegisterState extends State<Register> {
                 Container(
                   margin: const EdgeInsets.only(left: 20, right: 240),
                   child: Text(
-                    "Register",
+                    "Registrati",
                     style: TextStyle(
                         fontFamily: "AirbnbCereal_W_Bd",
                         color: notifire.textshscreenprimerycolor,
@@ -100,7 +88,7 @@ class _RegisterState extends State<Register> {
                 Container(
                   margin: const EdgeInsets.only(right: 250),
                   child: Text(
-                    "Your Name",
+                    "Nome",
                     style: TextStyle(
                         fontSize: 12,
                         color: notifire.mintextscreenprimerycolor,
@@ -135,7 +123,7 @@ class _RegisterState extends State<Register> {
                                 disabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 enabledBorder: InputBorder.none,
-                                hintText: "user name",
+                                hintText: "nome utente",
                                 hintStyle: TextStyle(
                                     color: notifire.mintextscreenprimerycolor,
                                     fontSize: 14)
@@ -209,18 +197,7 @@ class _RegisterState extends State<Register> {
                                 hintText: "Email",
                                 hintStyle: TextStyle(
                                     color: notifire.mintextscreenprimerycolor,
-                                    fontSize: 14)
-                                //  labelText: "user name"
-                                ),
-                            // validator: (value) {
-                            //   if (value!.isEmpty ||
-                            //       !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            //           .hasMatch(value!)) {
-                            //     return 'Enter a valid Email or phone number!';
-                            //   }
-                            //   return null;
-                            // },
-                            // onChanged: (val) {},
+                                    fontSize: 14)),
                           ),
                         )
                       ],
@@ -286,19 +263,7 @@ class _RegisterState extends State<Register> {
                                 hintText: "password",
                                 hintStyle: TextStyle(
                                     color: notifire.mintextscreenprimerycolor,
-                                    fontSize: 14)
-                                //  labelText: "user name"
-                                ),
-                            // validator: (value) {
-                            //   if (value == null || value.isEmpty) {
-                            //     return "incorrect password. Please reenter your password and try again."
-                            //         " If the \n problem persists, try resetting your password by click ForgePassword?";
-                            //   } else if (value.length < 6) {
-                            //     return "password length should be atleast 6";
-                            //   }
-                            //   return null;
-                            // },
-                            // onChanged: (val) {},
+                                    fontSize: 14)),
                           ),
                         ),
                       ],
@@ -364,20 +329,6 @@ class _RegisterState extends State<Register> {
                 const SizedBox(
                   height: 70,
                 ),
-                // InkWell(onTap: () {
-                //  setState(() {
-                //    _submit();
-                //    if(_formKey.currentState!.validate()){
-                //      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //        return login_num();
-                //      },));
-                //    }
-                //  });
-                //  _submit();
-                //  print(name.text);
-                //  print(Phonenumber.text);
-                //  print(passwordController.text);
-                // },
                 InkWell(
                     onTap: () async {
                       registration(context, nameController.text,

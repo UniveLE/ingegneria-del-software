@@ -1,17 +1,14 @@
 // ignore_for_file: file_names
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myfoodtracker/_utils/food_service.dart';
-import 'package:myfoodtracker/about.dart';
-import 'package:myfoodtracker/contact.dart';
-import 'package:myfoodtracker/help.dart';
 import 'package:myfoodtracker/home_page/search.dart';
 import 'package:myfoodtracker/home_page/search_result.dart';
-import 'package:myfoodtracker/language.dart';
-import 'package:myfoodtracker/notification/notification.dart';
-import 'package:myfoodtracker/privacy.dart';
+import 'package:myfoodtracker/showModalProduct.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
+import 'package:myfoodtracker/home_page/fidelity_card.dart';
 import 'package:openfoodfacts/openfoodfacts.dart' as off;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +36,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   final ScrollController _gridViewScrollController = ScrollController();
   List<off.Product>? mostScanned = [];
   int _page = 0;
+  User currentUser = FirebaseAuth.instance.currentUser!;
 
   @override
   void initState() {
@@ -165,75 +163,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 45, left: 80),
-                          height: 30,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.grey.shade200)),
-                          child: Center(
-                              child: Text(
-                            "Santa Ana,Ca",
-                            style: TextStyle(
-                                color: notifire.textshscreenprimerycolor,
-                                fontSize: 12,
-                                fontFamily: "AirbnbCereal_W_Bd"),
-                          )),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return const Search();
-                              },
-                            ));
-                          },
-                          child: Container(
-                              margin: const EdgeInsets.only(top: 48, left: 20),
-                              height: 16,
-                              width: 16,
-                              child: Image.asset(
-                                "assets/logo/search_1.png",
-                                color: notifire.textshscreenprimerycolor,
-                              )),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                                top: 47, right: 10, left: 20),
-                            //    color: notifire.spleshscreenprimerycolor,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return const Notifications();
-                                  },
-                                ));
-                              },
-                              child: Stack(children: [
-                                Container(
-                                  margin: const EdgeInsets.only(top: 3),
-                                  height: 17,
-                                  width: 16,
-                                  child: Image.asset(
-                                    "assets/logo/notification.png",
-                                    color: notifire.textshscreenprimerycolor,
-                                    width: 17,
-                                    height: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 8, bottom: 10),
-                                  height: 12,
-                                  width: 12,
-                                  child: Image.asset("assets/Badge.png"),
-                                )
-                              ]),
-                            ),
-                          ),
-                        ),
                       ]),
                   Container(
                     margin: const EdgeInsets.only(top: 25),
@@ -249,8 +178,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             width: 50,
                             child: const CircleAvatar(
                               radius: 25,
-                              backgroundImage:
-                                  AssetImage("assets/profile_1.png"),
+                              backgroundImage: AssetImage("assets/profile.png"),
                             )),
                         Column(
                           children: [
@@ -260,7 +188,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               height: 30,
                               width: 128,
                               child: Text(
-                                "Albert",
+                                currentUser.displayName.toString(),
                                 //getData.read("user")["name"],
                                 style: TextStyle(
                                     fontSize: 14,
@@ -274,7 +202,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               height: 20,
                               width: 130,
                               child: Text(
-                                "Albert123@gmail.com",
+                                currentUser.email.toString(),
                                 // getData.read("user")["email"],
                                 style: TextStyle(
                                     fontSize: 12,
@@ -287,181 +215,33 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 10, right: 80, top: 3),
-                    height: 390,
-                    width: 300,
-                    child: ListView(
-                        padding: const EdgeInsets.only(top: 5),
-                        children: [
-                          //  SizedBox(height: 1,),
-                          InkWell(
-                            onTap: () {
-                              /*Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Address();
-                                },
-                              ));*/
-                            },
-                            child: ListTile(
-                              leading: Icon(Icons.flag,
-                                  color: notifire.mintextscreenprimerycolor,
-                                  size: 20),
-                              title: Text(
-                                "Address",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Dataattribution();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/about_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "About Us",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Contact();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/contact_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "Contact",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Dataattribution();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/faq_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "FAQ",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Privacy();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/terms_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "Terms & Condition",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Helpcentre();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/Help_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "Help Center",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const Privacy();
-                                },
-                              ));
-                            },
-                            child: ListTile(
-                              leading: Image.asset(
-                                "assets/logo/privecy_1.png",
-                                height: 20,
-                                width: 20,
-                                color: notifire.mintextscreenprimerycolor,
-                              ),
-                              title: Text(
-                                "Privacy Policy",
-                                style: TextStyle(
-                                    fontFamily: "AirbnbCereal_W_Md",
-                                    color: notifire.textshscreenprimerycolor,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          )
-                        ]),
-                  ),
+                  /*Container(
+                    margin: EdgeInsets.only(left: 13),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const FidelityCard();
+                          },
+                        ));
+                      },
+                      child: ListTile(
+                        leading: Image.asset(
+                          "assets/logo/voucher.png",
+                          height: 20,
+                          width: 20,
+                          color: notifire.mintextscreenprimerycolor,
+                        ),
+                        title: Text(
+                          "Carte fedeltà",
+                          style: TextStyle(
+                              fontFamily: "AirbnbCereal_W_Md",
+                              color: notifire.textshscreenprimerycolor,
+                              fontSize: 14),
+                        ),
+                      ),
+                    ),
+                  ),*/
                   const SizedBox(
                     height: 10,
                   ),
@@ -476,7 +256,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       Container(
                         margin: const EdgeInsets.only(right: 45),
                         child: Text(
-                          "Dark Mode",
+                          "Modalità scura",
                           style: TextStyle(
                               fontFamily: "AirbnbCereal_W_Md",
                               color: notifire.textshscreenprimerycolor,
@@ -485,7 +265,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ),
                       SizedBox(
                         height: 40,
-                        width: 100,
+                        width: 62,
                         child: Transform.scale(
                           alignment: Alignment.centerRight,
                           scale: 0.7,
@@ -527,18 +307,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
+                          /*Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
                               return const Language();
                             },
-                          ));
+                          ));*/
                         },
                         child: Container(
                           margin: const EdgeInsets.only(top: 10, right: 20),
                           height: 30,
                           width: 150,
                           child: Text(
-                            "Change Language",
+                            "Cambia lingua",
                             style: TextStyle(
                                 fontSize: 14,
                                 color: notifire.textshscreenprimerycolor,
@@ -549,7 +329,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       SizedBox(
                         height: 25,
                         width: 30,
-                        child: Image.asset("assets/logo/flag.png"),
+                        child: Image.asset("assets/flag_1.png"),
                       )
                     ],
                   ),
@@ -1036,243 +816,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   color: notifire.topscreenprimerycolor)),
                           child: InkWell(
                             onTap: () {
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                builder: (BuildContext context) {
-                                  return StatefulBuilder(builder: (BuildContext
-                                          context,
-                                      StateSetter
-                                          setState1 /*You can rename this!*/) {
-                                    return SizedBox(
-                                        child: SingleChildScrollView(
-                                            child: Column(children: [
-                                      Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 70),
-                                          height: 610,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                              color: notifire
-                                                  .spleshscreenprimerycolor,
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(28),
-                                                      topRight:
-                                                          Radius.circular(28))),
-                                          child: Column(children: [
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  top: 30),
-                                              height: 5,
-                                              width: 50,
-                                              child: Image.asset(
-                                                  "assets/Line.png"),
-                                            ),
-                                            Column(children: [
-                                              Center(
-                                                child: Container(
-                                                  margin: const EdgeInsets.only(
-                                                      left: 18,
-                                                      top: 20,
-                                                      right: 18),
-                                                  height: 319,
-                                                  width: 319,
-                                                  child: Stack(
-                                                    children: [
-                                                      /*PageView(
-                                                      controller:
-                                                          _pageController,
-                                                      onPageChanged: (index) =>
-                                                          _handlingOnPageChanged(
-                                                              index, setState1),
-                                                      physics:
-                                                          const BouncingScrollPhysics(),
-                                                      children: _buildSlides()),
-                                                  Positioned(
-                                                      bottom: 40,
-                                                      left: 130,
-                                                      child:
-                                                          _buildPageIndicator())*/
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Column(
-                                                    children: [
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .only(
-                                                            left: 28,
-                                                            top: 20,
-                                                            right: 28),
-                                                        height: 30,
-                                                        width: 220,
-                                                        child: Text(
-                                                            "${mostScanned?[index].productName}",
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                color: notifire
-                                                                    .textshscreenprimerycolor,
-                                                                fontFamily:
-                                                                    "AirbnbCereal_W_Md")),
-                                                      ),
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .only(
-                                                            left: 28,
-                                                            bottom: 20,
-                                                            right: 150),
-                                                        height: 30,
-                                                        width: 100,
-                                                        child: Text(
-                                                            "${mostScanned?[index].productName}",
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                color: notifire
-                                                                    .mintextscreenprimerycolor,
-                                                                fontFamily:
-                                                                    "AirbnbCereal_W_Bk")),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(children: [
-                                                Container(
-                                                  margin: const EdgeInsets.only(
-                                                      bottom: 20),
-                                                  height: 50,
-                                                  width: 375,
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .only(
-                                                            left: 28,
-                                                            bottom: 20,
-                                                            top: 10),
-                                                        height: 30,
-                                                        //     width: 55,
-                                                        child: Text(
-                                                          "${mostScanned?[index].productName}",
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  "AirbnbCereal_W_Bk",
-                                                              fontSize: 16,
-                                                              color: notifire
-                                                                  .textshscreenprimerycolor),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .only(
-                                                            bottom: 10,
-                                                            right: 15),
-                                                        height: 20,
-                                                        width: 19,
-                                                        child: Text("/er",
-                                                            style: TextStyle(
-                                                                fontSize: 12,
-                                                                fontFamily:
-                                                                    "AirbnbCereal_W_Bk",
-                                                                color: notifire
-                                                                    .mintextscreenprimerycolor)),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          /*return setState(() {
-                                                        _dicrementcount();
-                                                      });*/
-                                                        },
-                                                        child: Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 77),
-                                                          height: 50,
-                                                          width: 50,
-                                                          child: Image.asset(
-                                                              "assets/logo/mainas.png"),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 50,
-                                                        width: 50,
-                                                        child: Center(
-                                                            child: Text(
-                                                          "$cnt",
-                                                          style: TextStyle(
-                                                              color: notifire
-                                                                  .textshscreenprimerycolor),
-                                                        )),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          /*return setState(() {
-                                                        _incrementcount();
-                                                      });*/
-                                                        },
-                                                        child: SizedBox(
-                                                          height: 50,
-                                                          width: 50,
-                                                          child: Image.asset(
-                                                              "assets/logo/plus_1.png"),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    print("Open product page");
-                                                    /*setState(() {
-                                                  selectedIndex = 2;
-                                                });
-                                                Navigator.push(context,
-                                                    MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return const Bottombar();
-                                                  },
-                                                ));*/
-                                                  },
-                                                  child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 20,
-                                                            right: 20,
-                                                            bottom: 10),
-                                                    height: 50,
-                                                    width: 290,
-                                                    decoration: BoxDecoration(
-                                                        color: const Color(
-                                                            0xff00AB67),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16)),
-                                                    child: const Center(
-                                                        child: Text(
-                                                      "Add to Cart",
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          fontFamily:
-                                                              "AirbnbCereal_W_Md",
-                                                          color: Colors.white),
-                                                    )),
-                                                  ),
-                                                )
-                                              ])
-                                            ])
-                                          ]))
-                                    ])));
-                                  });
-                                },
-                              );
+                              showProductModal(mostScanned![index], context);
                             },
                             child: Column(
                               children: [

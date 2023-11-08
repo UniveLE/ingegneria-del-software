@@ -2,46 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:myfoodtracker/_utils/food_service.dart';
+import 'package:myfoodtracker/_utils/model/fidelity_card.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:intl/intl.dart';
 
 CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-void test() async {
-  User user = User.getActualUser();
-
-  print(await user.getShoppingList());
-  print(await user.getStorageBarcodeList());
-
-  print("finito!");
-  /*Product? p = await FoodService.getProduct('42046202');
-  Product? p2 = await FoodService.getProduct('8013355998832');
-
-
-  await user.addProductToShoppingList(p!);
-  await user.addProductToStorageList(p!, 1, DateTime.now().add(Duration(days: 1)));
-
-
-  await user.addProductToShoppingList(p2!);
-  await user.addProductToStorageList(p2!, 1, DateTime.now().add(Duration(days: 1)));
-
-  await user.addProductToShoppingList(p!);
-  await user.addProductToStorageList(p!, 11, DateTime.now().add(Duration(days: 100)));
-
-
-  await user.removeProductFromShoppingListByProduct(p!);
-  await user.removeProductFromShoppingListByProduct(p2!);
-  await user.removeProductFromStorageListByProduct(
-      p!, 10, DateTime.now().add(Duration(days: 100)));
-  await user.removeProductFromStorageListByProduct(
-      p2!, 5, DateTime.now().add(Duration(days: 1)));*/
-}
 
 class User {
   String uid;
   late DocumentReference documentReference;
   static String storageArrayName = "StorageList";
   static String shoppingArrayList = "ShoppingList";
+  static DateFormat formatter = DateFormat('dd-MM-yyyy');
 
   User(this.uid) {
     _addUserToFirestore();
@@ -64,6 +36,44 @@ class User {
       'deviceId':
           FieldValue.arrayUnion([await FirebaseMessaging.instance.getToken()])
     });
+  }
+
+  Future<void> addFidelityCard(FidelityCard card) async {
+    DocumentSnapshot documentSnapshot = await documentReference.get();
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+
+    if (!data.containsKey('FidelityCards')) {
+      await documentReference.update({'FidelityCards': []});
+      documentSnapshot = await documentReference.get();
+      data = documentSnapshot.data() as Map<String, dynamic>;
+    }
+
+    if (!data['FidelityCards'].contains(card.code)) {
+      Map<String, dynamic> mcard = {'name': card.name, 'code': card.code};
+      await documentReference.update({
+        'FidelityCards': FieldValue.arrayUnion([mcard])
+      });
+    }
+  }
+
+  Future<void> deleteFidelityCard(FidelityCard card) async {}
+
+  Future<List<FidelityCard>> getFidelityCards() async {
+    DocumentSnapshot documentSnapshot = await documentReference.get();
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+    List<FidelityCard> cards = [];
+
+    if (!data.containsKey('FidelityCards')) {
+      return cards;
+    }
+
+    for (int i = 0; i < data['FidelityCards'].length; i++) {
+      cards.add(FidelityCard(
+          name: data['FidelityCards'][i]['name'],
+          code: data['FidelityCards'][i]['code']));
+    }
+
+    return cards;
   }
 
   Future<void> addProductToShoppingList(Product product) async {
@@ -126,8 +136,6 @@ class User {
 
   Future<void> addProductToStorageList(
       Product product, int quantity, DateTime expiration) async {
-    DateFormat formatter = DateFormat('dd-MM-yyyy');
-
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
@@ -158,7 +166,7 @@ class User {
     await documentReference.update({storageArrayName: data[storageArrayName]});
   }
 
-  Future<List> getStorageBarcodeList() async {
+  Future<List> getStorageList() async {
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
@@ -202,7 +210,6 @@ class User {
 
   Future<void> removeProductFromStorageListByBarcode(
       String barcode, int quantity, DateTime expiration) async {
-    DateFormat formatter = DateFormat('dd-MM-yyyy');
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
@@ -231,5 +238,9 @@ class User {
 
   static User getActualUser() {
     return User(FirebaseAuth.instance.currentUser!.uid);
+  }
+
+  static DateTime toDateTime(String dm) {
+    return formatter.parse(dm);
   }
 }
