@@ -140,7 +140,7 @@ class _SearchState extends State<Search> {
                                                     {
                                                       setState(() {
                                                         products?.clear();
-                                                        products?.add(result);
+                                                        products = [result];
                                                       })
                                                     }
                                                 });
@@ -193,7 +193,7 @@ class _SearchState extends State<Search> {
                           Container(
                             margin: const EdgeInsets.only(left: 28, top: 14),
                             height: 50,
-                            width: 50,
+                            width: 20,
                             child: products?[index].imageFrontUrl != null
                                 ? Image.network(
                                     "${products?[index].imageFrontUrl}")
