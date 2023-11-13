@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ import 'package:myfoodtracker/home_page/fidelity_card.dart';
 import 'package:openfoodfacts/openfoodfacts.dart' as off;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../login_screen/welcome.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -72,6 +75,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   int _currentPage = 0;
   int currentIndex = 0;
+
 //  late PageController _controller;
 
   @override
@@ -92,8 +96,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
+      context: context,
+      builder: (context) =>
+          AlertDialog(
             title: const Text('Are you sure?'),
             content: const Text('Do you want to exit an App'),
             actions: <Widget>[
@@ -110,7 +115,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ],
           ),
-        )) ??
+    )) ??
         false;
   }
 
@@ -141,12 +146,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ]),
         drawer: Drawer(
             child: Container(
-                //  height: 90,
+              //  height: 90,
                 width: 50,
                 color: notifire.blackwhite,
                 child: Column(children: [
                   Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
                           onTap: () {
@@ -167,7 +172,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   Container(
                     margin: const EdgeInsets.only(top: 25),
                     height: 80,
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     color: notifire.topscreenprimerycolor,
                     child: Row(
                       children: [
@@ -198,7 +206,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             ),
                             Container(
                               margin:
-                                  const EdgeInsets.only(left: 15, right: 30),
+                              const EdgeInsets.only(left: 15, right: 30),
                               height: 20,
                               width: 130,
                               child: Text(
@@ -284,9 +292,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 status = value;
                               });
                               final prefs =
-                                  await SharedPreferences.getInstance();
+                              await SharedPreferences.getInstance();
                               setState(
-                                () {
+                                    () {
                                   notifire.setlsDark = value;
                                   prefs.setBool("setIsDark", value);
                                 },
@@ -335,7 +343,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   ),
                   const SizedBox(
                     height: 15,
-                  )
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white),
+                    onPressed: () async {
+                      await firebaseAuth.FirebaseAuth.instance.signOut();
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => Onbording(),
+                      ));
+                    },
+                    child: const Text('Logout'),
+                  ),
                 ]))),
         backgroundColor: notifire.blackwhite,
         body: SingleChildScrollView(
@@ -394,7 +414,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 children: [
                   Container(
                     margin:
-                        const EdgeInsets.only(left: 28, top: 28, right: 130),
+                    const EdgeInsets.only(left: 28, top: 28, right: 130),
                     height: 30,
                     width: 200,
                     child: Text(
@@ -452,7 +472,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                          notifire.textshscreenprimerycolor)),
+                                      notifire.textshscreenprimerycolor)),
                             ),
                           ),
                           InkWell(
@@ -494,7 +514,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                          notifire.textshscreenprimerycolor)),
+                                      notifire.textshscreenprimerycolor)),
                             ),
                           )
                         ],
@@ -541,7 +561,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                          notifire.textshscreenprimerycolor)),
+                                      notifire.textshscreenprimerycolor)),
                             ),
                           ),
                           InkWell(
@@ -584,7 +604,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                          notifire.textshscreenprimerycolor)),
+                                      notifire.textshscreenprimerycolor)),
                             ),
                           )
                         ],
@@ -598,7 +618,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   return const SearchResult(
                                       title: 'Mare',
                                       category:
-                                          off.PnnsGroup2.FISH_AND_SEAFOOD);
+                                      off.PnnsGroup2.FISH_AND_SEAFOOD);
                                 },
                               ));
                             },
@@ -619,7 +639,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   return const SearchResult(
                                       title: 'Mare',
                                       category:
-                                          off.PnnsGroup2.FISH_AND_SEAFOOD);
+                                      off.PnnsGroup2.FISH_AND_SEAFOOD);
                                 },
                               ));
                             },
@@ -632,7 +652,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                          notifire.textshscreenprimerycolor)),
+                                      notifire.textshscreenprimerycolor)),
                             ),
                           ),
                           InkWell(
@@ -674,7 +694,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                          notifire.textshscreenprimerycolor)),
+                                      notifire.textshscreenprimerycolor)),
                             ),
                           )
                         ],
@@ -687,7 +707,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 builder: (context) {
                                   return const SearchResult(
                                       category:
-                                          off.PnnsGroup2.BREAKFAST_CEREALS);
+                                      off.PnnsGroup2.BREAKFAST_CEREALS);
                                 },
                               ));
                             },
@@ -708,7 +728,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 builder: (context) {
                                   return const SearchResult(
                                       category:
-                                          off.PnnsGroup2.BREAKFAST_CEREALS);
+                                      off.PnnsGroup2.BREAKFAST_CEREALS);
                                 },
                               ));
                             },
@@ -722,7 +742,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                          notifire.textshscreenprimerycolor)),
+                                      notifire.textshscreenprimerycolor)),
                             ),
                           ),
                           InkWell(
@@ -764,7 +784,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                          notifire.textshscreenprimerycolor)),
+                                      notifire.textshscreenprimerycolor)),
                             ),
                           )
                         ],
@@ -777,7 +797,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 children: [
                   Container(
                     margin:
-                        const EdgeInsets.only(left: 28, right: 200, top: 28),
+                    const EdgeInsets.only(left: 28, right: 200, top: 28),
                     height: 30,
                     width: 250,
                     child: Text(
@@ -794,18 +814,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 Container(
                   // margin: EdgeInsets.only(top: 10),
                   height: _page * 680,
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
                   // color: Colors.blue,
                   color: notifire.spleshscreenprimerycolor,
 
                   child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 0,
-                            mainAxisSpacing: 0,
-                            mainAxisExtent: 230),
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 0,
+                        mainAxisSpacing: 0,
+                        mainAxisExtent: 230),
                     itemCount: mostScanned?.length,
                     addRepaintBoundaries: true,
                     itemBuilder: (context, index) {
@@ -827,14 +850,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
                                           image: NetworkImage(mostScanned![
-                                                      index]
-                                                  .imageFrontUrl ??
+                                          index]
+                                              .imageFrontUrl ??
                                               'https://static.openfoodfacts.org/images/misc/openfoodfacts-logo-en-178x150.png'),
                                           fit: BoxFit.cover),
                                       border: Border.all(
                                           width: 1,
                                           color:
-                                              notifire.topscreenprimerycolor)),
+                                          notifire.topscreenprimerycolor)),
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(
@@ -847,7 +870,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                         fontSize: 14,
                                         fontFamily: "AirbnbCereal_W_Md",
                                         color:
-                                            notifire.textshscreenprimerycolor),
+                                        notifire.textshscreenprimerycolor),
                                   ),
                                 ),
                                 /*Container(
@@ -908,7 +931,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             // ignore: sized_box_for_whitespace
             child: Container(
               // height: Get.height / 2, //imagee size
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Stack(
