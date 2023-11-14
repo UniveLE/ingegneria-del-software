@@ -18,6 +18,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   late Colornotifire notifire;
   List<Product>? products = [];
+  dynamic dropdownValue;
 
   @override
   void initState() {
@@ -41,6 +42,7 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     notifire = Provider.of<Colornotifire>(context, listen: true);
 
+    String searchText = "";
     return Scaffold(
         appBar: AppBar(
           backgroundColor: notifire.spleshscreenprimerycolor,
@@ -101,9 +103,15 @@ class _SearchState extends State<Search> {
                               width: 200,
                               child: TextField(
                                 onChanged: (text) {
+                                  searchText = text;
                                   setState(() {
-                                    FoodService.searchProduct(name: text)
-                                        .then((result) => {products = result});
+                                    if(dropdownValue == null) {
+                                      FoodService.searchProduct(name: text)
+                                          .then((result) => {products = result});
+                                    } else {
+                                      FoodService.searchProduct(name: text, category: dropdownValue)
+                                          .then((result) => {products = result});
+                                    }
                                     //FoodService.getProduct('8013355998832').then((result) => {products?.add(result!)});
                                   });
                                 },
@@ -151,9 +159,109 @@ class _SearchState extends State<Search> {
                                   },
                                   icon: const Icon(Icons.photo_camera,
                                       color: Color(0xffCCCCCC)),
-                                ))
+                                )),
                           ],
                         ),
+                      ),
+                      Row(
+                        children: [
+                          Text("Seleziona categoria"),
+                          DropdownButton(
+                            value: dropdownValue,
+                            items: const [
+                              DropdownMenuItem(
+                                  child: Text("Tutte"), value: null),
+                              DropdownMenuItem(
+                                  child: Text("Succhi di frutta"),
+                                  value: PnnsGroup2.FRUIT_JUICES),
+                              DropdownMenuItem(
+                                  child: Text("Bevande alcoliche"),
+                                  value: PnnsGroup2.ALCOHOLIC_BEVERAGES),
+                              DropdownMenuItem(
+                                  child: Text("Bevande dolci"),
+                                  value: PnnsGroup2.SWEETENED_BEVERAGES),
+                              DropdownMenuItem(
+                                  child: Text("Bevade non dolci"),
+                                  value: PnnsGroup2.UNSWEETENED_BEVERAGES),
+                              DropdownMenuItem(
+                                  child: Text("Erbe, the e caffè"),
+                                  value: PnnsGroup2
+                                      .TEAS_AND_HERBAL_TEAS_AND_COFFEES),
+                              DropdownMenuItem(
+                                  child: Text("Cereali"),
+                                  value: PnnsGroup2.CEREALS),
+                              DropdownMenuItem(
+                                  child: Text("Pesticceria"),
+                                  value: PnnsGroup2.PASTRIES),
+                              DropdownMenuItem(
+                                  child: Text("Patate"),
+                                  value: PnnsGroup2.POTATOES),
+                              DropdownMenuItem(
+                                  child: Text("Pane"), value: PnnsGroup2.BREAD),
+                              DropdownMenuItem(
+                                  child: Text("Panini"),
+                                  value: PnnsGroup2.SANDWICHES),
+                              DropdownMenuItem(
+                                  child: Text("Zuppe"),
+                                  value: PnnsGroup2.SOUPS),
+                              DropdownMenuItem(
+                                  child: Text("Condimenti e salse"),
+                                  value: PnnsGroup2.DRESSINGS_AND_SAUCES),
+                              DropdownMenuItem(
+                                  child: Text("Carne"), value: PnnsGroup2.MEAT),
+                              DropdownMenuItem(
+                                  child: Text("Pesce"),
+                                  value: PnnsGroup2.FISH_AND_SEAFOOD),
+                              DropdownMenuItem(
+                                  child: Text("Frutta"),
+                                  value: PnnsGroup2.FRUITS),
+                              DropdownMenuItem(
+                                  child: Text("Vegetali"),
+                                  value: PnnsGroup2.VEGETABLES),
+                              DropdownMenuItem(
+                                  child: Text("Frutta secca"),
+                                  value: PnnsGroup2.DRIED_FRUITS),
+                              DropdownMenuItem(
+                                  child: Text("Legumi"),
+                                  value: PnnsGroup2.LEGUMES),
+                              DropdownMenuItem(
+                                  child: Text("Latticini"),
+                                  value: PnnsGroup2.MILK_AND_YOGURT),
+                              DropdownMenuItem(
+                                  child: Text("Formaggio"),
+                                  value: PnnsGroup2.CHEESE),
+                              DropdownMenuItem(
+                                  child: Text("Antipasti"),
+                                  value: PnnsGroup2.APPETIZERS),
+                              DropdownMenuItem(
+                                  child: Text("Dolci"),
+                                  value: PnnsGroup2.SWEETS),
+                              DropdownMenuItem(
+                                  child: Text("Cioccolato"),
+                                  value: PnnsGroup2.CHOCOLATE_PRODUCTS),
+                              DropdownMenuItem(
+                                  child: Text("Gelato"),
+                                  value: PnnsGroup2.ICE_CREAM),
+                            ],
+                            onChanged: (value) {
+                              dropdownValue = value;
+                              setState(() {
+                                dropdownValue = value;
+                                print(dropdownValue);
+                                if(searchText != "") {
+                                  FoodService.searchProduct(
+                                          name: searchText,
+                                          category: dropdownValue)
+                                      .then((result) => {products = result});
+                                }else{
+                                  FoodService.searchProduct(
+                                      category: dropdownValue)
+                                      .then((result) => {products = result});
+                                }
+                              });
+                            },
+                          ),
+                        ],
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 20),

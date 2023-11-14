@@ -54,7 +54,8 @@ class FoodService {
         await OpenFoodAPIClient.searchProducts(null, configuration);
 
     if (searchResult.products == null || searchResult.count == null) {
-      throw Exception('no products found');
+      //throw Exception('no products found');
+      return [];
     }
 
     await DefaultCacheManager().putFile(
