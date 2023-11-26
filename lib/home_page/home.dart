@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myfoodtracker/_utils/food_service.dart';
+import 'package:myfoodtracker/editProfile.dart';
 import 'package:myfoodtracker/home_page/search.dart';
 import 'package:myfoodtracker/home_page/search_result.dart';
 import 'package:myfoodtracker/showModalProduct.dart';
@@ -196,7 +197,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               height: 30,
                               width: 128,
                               child: Text(
-                                currentUser.displayName.toString(),
+                                FirebaseAuth.instance.currentUser!.displayName.toString(),
                                 //getData.read("user")["name"],
                                 style: TextStyle(
                                     fontSize: 14,
@@ -210,7 +211,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               height: 20,
                               width: 130,
                               child: Text(
-                                currentUser.email.toString(),
+                                FirebaseAuth.instance.currentUser!.email.toString(),
                                 // getData.read("user")["email"],
                                 style: TextStyle(
                                     fontSize: 12,
@@ -340,6 +341,23 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         child: Image.asset("assets/flag_1.png"),
                       )
                     ],
+                  ),
+                  if(FirebaseAuth.instance.currentUser?.providerData[0].providerId == 'password')
+                    const SizedBox(
+                      height: 15,
+                    ),
+                  if(FirebaseAuth.instance.currentUser?.providerData[0].providerId == 'password')
+                    TextButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white),
+                    onPressed: () async {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => editProfile(),
+                      )).then((_) => setState(() {}));
+                    },
+                    child: const Text('Modifica il profilo'),
+
                   ),
                   const SizedBox(
                     height: 15,
@@ -912,129 +930,5 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     );
   }
 
-  List<Widget> _buildSlides() {
-    return _slides.map(_buildSlide).toList();
-  }
-
-  Widget _buildSlide(Slid slid) {
-    notifire = Provider.of<Colornotifire>(context, listen: true);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: notifire.spleshscreenprimerycolor,
-      body: Column(
-        children: <Widget>[
-          // SizedBox(height: Get.height * 0.12),
-
-          // ignore: sized_box_for_whitespace
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            // ignore: sized_box_for_whitespace
-            child: Container(
-              // height: Get.height / 2, //imagee size
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    Image.asset(
-                      slid.image,
-                      fit: BoxFit.cover,
-                      //    height: Get.height / 1.9,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // SizedBox(
-          //   height: Get.height * 0.05,
-          // ),
-        ],
-      ),
-    );
-  }
-
-  _handlingOnPageChanged(int index, StateSetter setState1) {
-    // print('handle page--->$index');
-    // setState(() => _currentPage = index);
-
-    setState1(() => _currentPage = index);
-    //print('handle _currentPage--->$_currentPage');
-  }
-
-  // building page indicator
-  Widget _buildPageIndicator() {
-    Row row = Row(mainAxisAlignment: MainAxisAlignment.center, children: []);
-    for (int i = 0; i < _slides.length; i++) {
-      row.children.add(_buildPageIndicatorItem(i));
-      if (i != _slides.length - 1)
-        // ignore: curly_braces_in_flow_control_structures
-        row.children.add(const SizedBox(
-          width: 10,
-        ));
-      // setState1;
-    }
-    return row;
-  }
-
-  Widget _buildPageIndicatorItem(int index) {
-    // print("index--->$index");
-    // print("currentIndex--->$_currentPage");
-
-    return Container(
-      width: index == _currentPage ? 12 : 8,
-      height: index == _currentPage ? 12 : 8,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: index == _currentPage
-              ? const Color(0xff00AB67)
-              : const Color(0xff00AB67).withOpacity(0.2)),
-    );
-  }
 }
 
-class List1 {
-  String? image1;
-  String? name1;
-  String? name2;
-  String? name3;
-
-  List1({this.image1, this.name1, this.name2, this.name3});
-}
-
-class List2 {
-  String? image1;
-  String? name1;
-  String? name2;
-  String? name3;
-
-  List2({this.image1, this.name1, this.name2, this.name3});
-}
-
-class List3 {
-  String? image1;
-  String? name1;
-  String? name2;
-  String? name3;
-
-  List3({this.image1, this.name1, this.name2, this.name3});
-}
-
-class List4 {
-  String? image1;
-  String? name1;
-  String? name2;
-  String? name3;
-
-  List4({this.image1, this.name1, this.name2, this.name3});
-}
-
-class Slid {
-  String image;
-
-  Slid(this.image);
-}
