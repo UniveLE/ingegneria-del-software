@@ -130,7 +130,7 @@ class _WelcomeState extends State<Welcome> {
                   height: 25,
                   width: 150,
                   child: Center(
-                      child: Text("Benvenutæ",
+                      child: Text("Benvenuto",
                           style: TextStyle(
                               fontSize: 20,
                               color: notifire.textshscreenprimerycolor,

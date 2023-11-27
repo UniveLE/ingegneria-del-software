@@ -397,9 +397,10 @@ void registration(context, name, email, password) async {
     );
 
     await FirebaseAuth.instance.currentUser?.updateDisplayName(name);
+    await FirebaseAuth.instance.currentUser?.sendEmailVerification();
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
-        return Bottombar();
+        return const Bottombar();
       },
     ));
   } on FirebaseAuthException catch (e) {
