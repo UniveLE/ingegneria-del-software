@@ -8,13 +8,19 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchResult extends StatefulWidget {
-  final PnnsGroup2? category;
+  final PnnsGroup1? category;
+  final PnnsGroup2? category2;
   final String? name;
   final String? brand;
   final String? title;
 
   const SearchResult(
-      {Key? key, this.title, this.category, this.name, this.brand})
+      {Key? key,
+      this.title,
+      this.category,
+      this.category2,
+      this.name,
+      this.brand})
       : super(key: key);
 
   @override
@@ -36,8 +42,8 @@ class _SearchResultState extends State<SearchResult> {
         name: widget.name,
         brand: widget.brand,
         category: widget.category,
+        category2: widget.category2,
         page: page);
-    print(products);
     setState(() {});
   }
 

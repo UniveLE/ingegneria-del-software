@@ -5,11 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myfoodtracker/_utils/food_service.dart';
+import 'package:myfoodtracker/editProfile.dart';
 import 'package:myfoodtracker/home_page/search.dart';
 import 'package:myfoodtracker/home_page/search_result.dart';
 import 'package:myfoodtracker/showModalProduct.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
-import 'package:myfoodtracker/home_page/fidelity_card.dart';
 import 'package:openfoodfacts/openfoodfacts.dart' as off;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -96,9 +96,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
-      context: context,
-      builder: (context) =>
-          AlertDialog(
+          context: context,
+          builder: (context) => AlertDialog(
             title: const Text('Are you sure?'),
             content: const Text('Do you want to exit an App'),
             actions: <Widget>[
@@ -115,7 +114,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ],
           ),
-    )) ??
+        )) ??
         false;
   }
 
@@ -146,12 +145,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ]),
         drawer: Drawer(
             child: Container(
-              //  height: 90,
+                //  height: 90,
                 width: 50,
                 color: notifire.blackwhite,
                 child: Column(children: [
                   Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
                           onTap: () {
@@ -172,10 +171,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   Container(
                     margin: const EdgeInsets.only(top: 25),
                     height: 80,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    width: MediaQuery.of(context).size.width,
                     color: notifire.topscreenprimerycolor,
                     child: Row(
                       children: [
@@ -196,7 +192,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               height: 30,
                               width: 128,
                               child: Text(
-                                currentUser.displayName.toString(),
+                                FirebaseAuth.instance.currentUser!.displayName
+                                    .toString(),
                                 //getData.read("user")["name"],
                                 style: TextStyle(
                                     fontSize: 14,
@@ -206,11 +203,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             ),
                             Container(
                               margin:
-                              const EdgeInsets.only(left: 15, right: 30),
+                                  const EdgeInsets.only(left: 15, right: 30),
                               height: 20,
                               width: 130,
                               child: Text(
-                                currentUser.email.toString(),
+                                FirebaseAuth.instance.currentUser!.email
+                                    .toString(),
                                 // getData.read("user")["email"],
                                 style: TextStyle(
                                     fontSize: 12,
@@ -292,9 +290,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 status = value;
                               });
                               final prefs =
-                              await SharedPreferences.getInstance();
+                                  await SharedPreferences.getInstance();
                               setState(
-                                    () {
+                                () {
                                   notifire.setlsDark = value;
                                   prefs.setBool("setIsDark", value);
                                 },
@@ -341,6 +339,28 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       )
                     ],
                   ),
+                  if (FirebaseAuth
+                          .instance.currentUser?.providerData[0].providerId ==
+                      'password')
+                    const SizedBox(
+                      height: 15,
+                    ),
+                  if (FirebaseAuth
+                          .instance.currentUser?.providerData[0].providerId ==
+                      'password')
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white),
+                      onPressed: () async {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => editProfile(),
+                            )).then((_) => setState(() {}));
+                      },
+                      child: const Text('Modifica il profilo'),
+                    ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -350,9 +370,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         foregroundColor: Colors.white),
                     onPressed: () async {
                       await firebaseAuth.FirebaseAuth.instance.signOut();
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => Onbording(),
-                      ));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Onbording(),
+                          ));
                     },
                     child: const Text('Logout'),
                   ),
@@ -414,7 +436,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 children: [
                   Container(
                     margin:
-                    const EdgeInsets.only(left: 28, top: 28, right: 130),
+                        const EdgeInsets.only(left: 28, top: 28, right: 130),
                     height: 30,
                     width: 200,
                     child: Text(
@@ -435,20 +457,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         children: [
                           Container(
                             margin: const EdgeInsets.only(left: 20, top: 20),
-                            height: 60,
-                            width: 60,
+                            height: 50,
+                            width: 50,
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     return const SearchResult(
                                         title: 'Vegetali',
-                                        category: off.PnnsGroup2.VEGETABLES);
+                                        category2: off.PnnsGroup2.VEGETABLES);
                                   },
                                 ));
                               },
                               child: Image.asset(
-                                "assets/vegeteble.png",
+                                "assets/vegetable.png",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -463,16 +485,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   builder: (context) {
                                     return const SearchResult(
                                         title: 'Vegetali',
-                                        category: off.PnnsGroup2.VEGETABLES);
+                                        category2: off.PnnsGroup2.VEGETABLES);
                                   },
                                 ));
                               },
-                              child: Text("Vegano",
+                              child: Text("Vegetali",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                      notifire.textshscreenprimerycolor)),
+                                          notifire.textshscreenprimerycolor)),
                             ),
                           ),
                           InkWell(
@@ -481,16 +503,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 builder: (context) {
                                   return const SearchResult(
                                       title: 'Carne',
-                                      category: off.PnnsGroup2.MEAT);
+                                      category2: off.PnnsGroup2.MEAT);
                                 },
                               ));
                             },
                             child: Container(
                               margin: const EdgeInsets.only(left: 20, top: 28),
-                              height: 60,
-                              width: 60,
+                              height: 50,
+                              width: 50,
                               child: Image.asset(
-                                "assets/meat.png",
+                                "assets/beef.png",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -501,7 +523,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 builder: (context) {
                                   return const SearchResult(
                                       title: 'Carne',
-                                      category: off.PnnsGroup2.MEAT);
+                                      category2: off.PnnsGroup2.MEAT);
                                 },
                               ));
                             },
@@ -514,7 +536,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                      notifire.textshscreenprimerycolor)),
+                                          notifire.textshscreenprimerycolor)),
                             ),
                           )
                         ],
@@ -527,17 +549,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 builder: (context) {
                                   return const SearchResult(
                                       title: 'Frutta',
-                                      category: off.PnnsGroup2.FRUITS);
+                                      category2: off.PnnsGroup2.FRUITS);
                                 },
                               ));
                             },
                             child: Container(
                               margin: const EdgeInsets.only(
                                   left: 20, right: 15, top: 20),
-                              height: 60,
-                              width: 60,
+                              height: 50,
+                              width: 50,
                               child: Image.asset(
-                                "assets/fruit.png",
+                                "assets/fruits.png",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -548,7 +570,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 builder: (context) {
                                   return const SearchResult(
                                       title: 'Frutta',
-                                      category: off.PnnsGroup2.FRUITS);
+                                      category2: off.PnnsGroup2.FRUITS);
                                 },
                               ));
                             },
@@ -561,7 +583,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                      notifire.textshscreenprimerycolor)),
+                                          notifire.textshscreenprimerycolor)),
                             ),
                           ),
                           InkWell(
@@ -570,17 +592,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 builder: (context) {
                                   return const SearchResult(
                                       title: 'Dolci',
-                                      category: off.PnnsGroup2.SWEETS);
+                                      category: off.PnnsGroup1.SUGARY_SNACKS);
                                 },
                               ));
                             },
                             child: Container(
                               margin: const EdgeInsets.only(
                                   left: 15, right: 15, top: 28),
-                              height: 60,
-                              width: 60,
+                              height: 50,
+                              width: 50,
                               child: Image.asset(
-                                "assets/frozen.png",
+                                "assets/cupcake.png",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -591,7 +613,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 builder: (context) {
                                   return const SearchResult(
                                       title: 'Dolci',
-                                      category: off.PnnsGroup2.SWEETS);
+                                      category: off.PnnsGroup1.SUGARY_SNACKS);
                                 },
                               ));
                             },
@@ -604,7 +626,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                      notifire.textshscreenprimerycolor)),
+                                          notifire.textshscreenprimerycolor)),
                             ),
                           )
                         ],
@@ -616,9 +638,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      title: 'Mare',
-                                      category:
-                                      off.PnnsGroup2.FISH_AND_SEAFOOD);
+                                      title: 'Legumi',
+                                      category2: off.PnnsGroup2.LEGUMES);
                                 },
                               ));
                             },
@@ -627,7 +648,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               height: 60,
                               width: 60,
                               child: Image.asset(
-                                "assets/sea_food.png",
+                                "assets/legumes.png",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -637,9 +658,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      title: 'Mare',
-                                      category:
-                                      off.PnnsGroup2.FISH_AND_SEAFOOD);
+                                      title: 'Legumi',
+                                      category2: off.PnnsGroup2.LEGUMES);
                                 },
                               ));
                             },
@@ -647,12 +667,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               margin: const EdgeInsets.only(left: 10, top: 12),
                               height: 20,
                               width: 60,
-                              child: Text("Mare",
+                              child: Text("Legumi",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                      notifire.textshscreenprimerycolor)),
+                                          notifire.textshscreenprimerycolor)),
                             ),
                           ),
                           InkWell(
@@ -660,17 +680,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      title: 'Pane',
-                                      category: off.PnnsGroup2.BREAD);
+                                      title: 'Cereali',
+                                      category:
+                                          off.PnnsGroup1.CEREALS_AND_POTATOES);
                                 },
                               ));
                             },
                             child: Container(
                               margin: const EdgeInsets.only(top: 28),
-                              height: 60,
-                              width: 60,
+                              height: 50,
+                              width: 50,
                               child: Image.asset(
-                                "assets/bread.png",
+                                "assets/cereal.png",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -680,8 +701,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      title: 'Pane',
-                                      category: off.PnnsGroup2.BREAD);
+                                      title: 'Cereali',
+                                      category:
+                                          off.PnnsGroup1.CEREALS_AND_POTATOES);
                                 },
                               ));
                             },
@@ -689,12 +711,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               margin: const EdgeInsets.only(left: 20, top: 12),
                               height: 20,
                               width: 50,
-                              child: Text("Pane",
+                              child: Text("Cereali",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                      notifire.textshscreenprimerycolor)),
+                                          notifire.textshscreenprimerycolor)),
                             ),
                           )
                         ],
@@ -706,43 +728,42 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      category:
-                                      off.PnnsGroup2.BREAKFAST_CEREALS);
+                                      title: 'Latte',
+                                      category: off.PnnsGroup1.BEVERAGES);
                                 },
                               ));
                             },
                             child: Container(
                               margin: const EdgeInsets.only(
                                   left: 10, right: 20, top: 20),
-                              height: 60,
-                              width: 60,
+                              height: 50,
+                              width: 50,
                               child: Image.asset(
-                                "assets/milk_egg.png",
+                                "assets/wine-bottles.png",
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const SearchResult(
-                                      category:
-                                      off.PnnsGroup2.BREAKFAST_CEREALS);
-                                },
-                              ));
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return const SearchResult(
+                                    title: 'Bevande',
+                                    category: off.PnnsGroup1.BEVERAGES);
+                              }));
                             },
                             child: Container(
                               margin: const EdgeInsets.only(
                                   left: 15, top: 12, right: 20),
                               height: 20,
                               width: 60,
-                              child: Text("Uova",
+                              child: Text("Bevande",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                      notifire.textshscreenprimerycolor)),
+                                          notifire.textshscreenprimerycolor)),
                             ),
                           ),
                           InkWell(
@@ -750,17 +771,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      category: off.PnnsGroup2.VEGETABLES);
+                                      title: 'Snack',
+                                      category: off.PnnsGroup1.SALTY_SNACKS);
                                 },
                               ));
                             },
                             child: Container(
                               margin: const EdgeInsets.only(
                                   left: 15, right: 20, top: 28),
-                              height: 60,
-                              width: 60,
+                              height: 50,
+                              width: 50,
                               child: Image.asset(
-                                "assets/organic.png",
+                                "assets/snack.png",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -770,21 +792,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
                                   return const SearchResult(
-                                      category: off.PnnsGroup2.VEGETABLES);
+                                      category: off.PnnsGroup1.SALTY_SNACKS);
                                 },
                               ));
                             },
                             child: Container(
                               margin: const EdgeInsets.only(
                                   left: 20, top: 12, right: 20),
+                              padding: const EdgeInsets.only(left: 10),
                               height: 20,
                               width: 60,
-                              child: Text("Verdura",
+                              child: Text("Snack",
                                   style: TextStyle(
-                                      fontSize: 12,
+                                      fontSize: 13,
                                       fontFamily: "AirbnbCereal_W_Md",
                                       color:
-                                      notifire.textshscreenprimerycolor)),
+                                          notifire.textshscreenprimerycolor)),
                             ),
                           )
                         ],
@@ -797,7 +820,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 children: [
                   Container(
                     margin:
-                    const EdgeInsets.only(left: 28, right: 200, top: 28),
+                        const EdgeInsets.only(left: 28, right: 200, top: 28),
                     height: 30,
                     width: 250,
                     child: Text(
@@ -814,21 +837,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 Container(
                   // margin: EdgeInsets.only(top: 10),
                   height: _page * 680,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   // color: Colors.blue,
                   color: notifire.spleshscreenprimerycolor,
 
                   child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 0,
-                        mainAxisSpacing: 0,
-                        mainAxisExtent: 230),
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 0,
+                            mainAxisSpacing: 0,
+                            mainAxisExtent: 230),
                     itemCount: mostScanned?.length,
                     addRepaintBoundaries: true,
                     itemBuilder: (context, index) {
@@ -850,14 +870,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
                                           image: NetworkImage(mostScanned![
-                                          index]
-                                              .imageFrontUrl ??
+                                                      index]
+                                                  .imageFrontUrl ??
                                               'https://static.openfoodfacts.org/images/misc/openfoodfacts-logo-en-178x150.png'),
                                           fit: BoxFit.cover),
                                       border: Border.all(
                                           width: 1,
                                           color:
-                                          notifire.topscreenprimerycolor)),
+                                              notifire.topscreenprimerycolor)),
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(
@@ -870,7 +890,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                         fontSize: 14,
                                         fontFamily: "AirbnbCereal_W_Md",
                                         color:
-                                        notifire.textshscreenprimerycolor),
+                                            notifire.textshscreenprimerycolor),
                                   ),
                                 ),
                                 /*Container(
@@ -911,130 +931,4 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       ),
     );
   }
-
-  List<Widget> _buildSlides() {
-    return _slides.map(_buildSlide).toList();
-  }
-
-  Widget _buildSlide(Slid slid) {
-    notifire = Provider.of<Colornotifire>(context, listen: true);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: notifire.spleshscreenprimerycolor,
-      body: Column(
-        children: <Widget>[
-          // SizedBox(height: Get.height * 0.12),
-
-          // ignore: sized_box_for_whitespace
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            // ignore: sized_box_for_whitespace
-            child: Container(
-              // height: Get.height / 2, //imagee size
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    Image.asset(
-                      slid.image,
-                      fit: BoxFit.cover,
-                      //    height: Get.height / 1.9,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // SizedBox(
-          //   height: Get.height * 0.05,
-          // ),
-        ],
-      ),
-    );
-  }
-
-  _handlingOnPageChanged(int index, StateSetter setState1) {
-    // print('handle page--->$index');
-    // setState(() => _currentPage = index);
-
-    setState1(() => _currentPage = index);
-    //print('handle _currentPage--->$_currentPage');
-  }
-
-  // building page indicator
-  Widget _buildPageIndicator() {
-    Row row = Row(mainAxisAlignment: MainAxisAlignment.center, children: []);
-    for (int i = 0; i < _slides.length; i++) {
-      row.children.add(_buildPageIndicatorItem(i));
-      if (i != _slides.length - 1)
-        // ignore: curly_braces_in_flow_control_structures
-        row.children.add(const SizedBox(
-          width: 10,
-        ));
-      // setState1;
-    }
-    return row;
-  }
-
-  Widget _buildPageIndicatorItem(int index) {
-    // print("index--->$index");
-    // print("currentIndex--->$_currentPage");
-
-    return Container(
-      width: index == _currentPage ? 12 : 8,
-      height: index == _currentPage ? 12 : 8,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: index == _currentPage
-              ? const Color(0xff00AB67)
-              : const Color(0xff00AB67).withOpacity(0.2)),
-    );
-  }
-}
-
-class List1 {
-  String? image1;
-  String? name1;
-  String? name2;
-  String? name3;
-
-  List1({this.image1, this.name1, this.name2, this.name3});
-}
-
-class List2 {
-  String? image1;
-  String? name1;
-  String? name2;
-  String? name3;
-
-  List2({this.image1, this.name1, this.name2, this.name3});
-}
-
-class List3 {
-  String? image1;
-  String? name1;
-  String? name2;
-  String? name3;
-
-  List3({this.image1, this.name1, this.name2, this.name3});
-}
-
-class List4 {
-  String? image1;
-  String? name1;
-  String? name2;
-  String? name3;
-
-  List4({this.image1, this.name1, this.name2, this.name3});
-}
-
-class Slid {
-  String image;
-
-  Slid(this.image);
 }
