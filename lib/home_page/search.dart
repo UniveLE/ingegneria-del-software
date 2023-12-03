@@ -23,9 +23,7 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      FoodService.searchProduct(name: '').then((result) => {products = result});
-    });
+      FoodService.searchProduct(name: '').then((result) => {setState(() {products = result;})});
   }
 
   getdarkmodepreviousstate() async {
@@ -104,16 +102,18 @@ class _SearchState extends State<Search> {
                               child: TextField(
                                 onChanged: (text) {
                                   searchText = text;
-                                  setState(() {
-                                    if(dropdownValue == null) {
+                                    if (dropdownValue == null) {
                                       FoodService.searchProduct(name: text)
-                                          .then((result) => {products = result});
+                                          .then(
+                                              (result) => {setState(() {products = result;})});
                                     } else {
-                                      FoodService.searchProduct(name: text, category: dropdownValue)
-                                          .then((result) => {products = result});
+                                      FoodService.searchProduct(
+                                              name: text,
+                                              category2: dropdownValue)
+                                          .then(
+                                              (result) => {setState(() {products = result;})});
                                     }
                                     //FoodService.getProduct('8013355998832').then((result) => {products?.add(result!)});
-                                  });
                                 },
                                 decoration: const InputDecoration(
                                     disabledBorder: InputBorder.none,
@@ -146,7 +146,7 @@ class _SearchState extends State<Search> {
                                             .then((result) => {
                                                   if (result != null)
                                                     {
-                                                      setState(() {
+                                                      setState(() async{
                                                         products?.clear();
                                                         products = [result];
                                                       })
@@ -191,7 +191,7 @@ class _SearchState extends State<Search> {
                                   child: Text("Cereali"),
                                   value: PnnsGroup2.CEREALS),
                               DropdownMenuItem(
-                                  child: Text("Pesticceria"),
+                                  child: Text("Pasticceria"),
                                   value: PnnsGroup2.PASTRIES),
                               DropdownMenuItem(
                                   child: Text("Patate"),
@@ -245,20 +245,19 @@ class _SearchState extends State<Search> {
                             ],
                             onChanged: (value) {
                               dropdownValue = value;
-                              setState(() {
                                 dropdownValue = value;
                                 print(dropdownValue);
-                                if(searchText != "") {
+                                if (searchText != "") {
                                   FoodService.searchProduct(
                                           name: searchText,
-                                          category: dropdownValue)
-                                      .then((result) => {products = result});
-                                }else{
-                                  FoodService.searchProduct(
-                                      category: dropdownValue)
-                                      .then((result) => {products = result});
+                                          category2: dropdownValue)
+                                      .then((result) => {setState(() {products = result;})});
+                                } else {
+                                   FoodService.searchProduct(
+                                          category2: dropdownValue,
+                                    name: " ",)
+                                      .then((result) => {setState(() {products = result;})});
                                 }
-                              });
                             },
                           ),
                         ],
@@ -293,7 +292,6 @@ class _SearchState extends State<Search> {
                 (context, index) {
                   return GestureDetector(
                       onTap: () {
-                        print("Container clicked AAAAAAAAAAAAAAAAAAA");
                         showProductModal(products![index], context);
                       },
                       child: Row(
