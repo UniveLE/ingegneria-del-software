@@ -72,6 +72,7 @@ class FoodService {
     print('SearchResult: ${searchResult.toJson()}');
 
     if (searchResult.products == null || searchResult.count == null) {
+      //throw Exception('no products found');
       return [];
     }
 
