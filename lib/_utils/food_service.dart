@@ -8,16 +8,18 @@ class FoodService {
   static Future<List<Product>?> searchProduct(
       {String? name,
       String? brand,
-      String? category,
+      PnnsGroup1? category,
+      PnnsGroup2? category2,
       int size = 10,
       int page = 1}) async {
     var cache = await DefaultCacheManager()
         .getFileFromCache('search-$name-$category-$brand-$size-$page');
-    if (cache != null && cache.validTill.isAfter(DateTime.now())) {
+    //TODO: riabilitare la cache
+    /*if (cache != null && cache.validTill.isAfter(DateTime.now())) {
       return jsonDecode(cache.file.readAsStringSync())
           .map<Product>((model) => Product.fromJson(model))
           .toList();
-    }
+    }*/
 
     var parametersList = [
       PageSize(size: size),
@@ -42,7 +44,16 @@ class FoodService {
       parametersList.add(
         TagFilter.fromType(
           tagFilterType: TagFilterType.CATEGORIES,
-          tagName: category,
+          tagName: category.name,
+        ),
+      );
+    }
+
+    if (category2 != null) {
+      parametersList.add(
+        TagFilter.fromType(
+          tagFilterType: TagFilterType.CATEGORIES,
+          tagName: category2.name,
         ),
       );
     }
@@ -58,8 +69,11 @@ class FoodService {
     final SearchResult searchResult =
         await OpenFoodAPIClient.searchProducts(null, configuration);
 
+    print('SearchResult: ${searchResult.toJson()}');
+
     if (searchResult.products == null || searchResult.count == null) {
-      throw Exception('no products found');
+      //throw Exception('no products found');
+      return [];
     }
 
     await DefaultCacheManager().putFile(
@@ -97,7 +111,7 @@ class FoodService {
       );
       return result.product;
     } else {
-      throw Exception('product not found, please insert data for $barcode');
+      return null;
     }
   }
 }

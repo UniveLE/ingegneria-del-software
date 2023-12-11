@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:myfoodtracker/login_screen/register.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
@@ -38,22 +37,8 @@ class _LoginState extends State<Login> {
     if (FirebaseAuth.instance.currentUser != null) {
       Navigator.pushReplacement(
           context, new MaterialPageRoute(builder: (context) => Bottombar()));
-    } /*else {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Login(),
-          ));
-    }*/
+    }
   }
-
-  // @override
-  // void dispose() {
-  //   // Clean up the controller when the widget is disposed.
-  //   passwordController.dispose();
-  //   Phonenumber.dispose();
-  //   super.dispose();
-  // }
 
   getdarkmodepreviousstate() async {
     final prefs = await SharedPreferences.getInstance();
@@ -64,30 +49,6 @@ class _LoginState extends State<Login> {
       notifire.setlsDark = previusstate;
     }
   }
-
-  // Future<bool> _onWillPop() async {
-  //   return (await showDialog(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       title: new Text('Are you sure?'),
-  //       content: new Text('Do you want to exit an App'),
-  //       actions: <Widget>[
-  //         TextButton(
-  //           onPressed: () => Navigator.of(context).pop(false),
-  //           //<-- SEE HERE
-  //           child: new Text('No'),
-  //         ),
-  //         TextButton(
-  //           onPressed: () {
-  //             exit(0);
-  //           }, // <-- SEE HERE
-  //           child: new Text('Yes'),
-  //         ),
-  //       ],
-  //     ),
-  //   )) ??
-  //       false;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -269,11 +230,6 @@ class _LoginState extends State<Login> {
               InkWell(
                 onTap: () {
                   loginapi(context);
-                  /*Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return const Loginnums();
-                    },
-                  ));*/
                 },
                 child: Container(
                   height: 60,
@@ -318,7 +274,7 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         const Text(
-                          'Sign in with Google',
+                          'Login con Google',
                           style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
@@ -337,7 +293,7 @@ class _LoginState extends State<Login> {
                 children: [
                   Container(
                     margin: const EdgeInsets.only(left: 65),
-                    child: Text("I dont't have an account.",
+                    child: Text("Non ho un account.",
                         style: TextStyle(
                             fontSize: 14,
                             fontFamily: "AirbnbCereal_W_Bd",
@@ -353,7 +309,7 @@ class _LoginState extends State<Login> {
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 65),
-                      child: const Text("  Register",
+                      child: const Text("Registrati",
                           style: TextStyle(
                               fontSize: 14,
                               fontFamily: "AirbnbCereal_W_Bd",
@@ -371,9 +327,11 @@ class _LoginState extends State<Login> {
 
   loginapi(context) async {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Bottombar()));
+      /*final credential = */ await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Bottombar()));
     } on FirebaseAuthException catch (e) {
       String errorText = "";
       if (e.message != null) errorText = e.message!;
@@ -398,7 +356,7 @@ class _LoginState extends State<Login> {
 
 void loginWithGoogle(context) async {
   FirebaseAuth auth = FirebaseAuth.instance;
-  User? user;
+  //User? user;
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -414,11 +372,13 @@ void loginWithGoogle(context) async {
     );
 
     try {
-      final UserCredential userCredential =
-          await auth.signInWithCredential(credential);
+      /*final UserCredential userCredential =
+          */
+      await auth.signInWithCredential(credential);
 
-      user = userCredential.user;
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Bottombar()));
+      //user = userCredential.user;
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Bottombar()));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         // handle the error here

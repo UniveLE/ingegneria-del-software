@@ -43,8 +43,8 @@ void main() async {
     return true;
   };
 
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAnalytics.instance;
+  FirebaseFirestore.instance;
 
   OpenFoodAPIConfiguration.userAgent = UserAgent(
     name: 'MyFoodTracker',

@@ -6,8 +6,6 @@ import 'package:myfoodtracker/login_screen/login.dart';
 import 'package:myfoodtracker/theme/theme_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../home_page/home.dart';
 import 'bottombar.dart';
 
 class Register extends StatefulWidget {
@@ -22,10 +20,6 @@ class _RegisterState extends State<Register> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-
-  ///============== email validation ====================
-  //static const String email = 'email@example.com';
-  //final bool isValid = EmailValidator.validate(email);
 
   final _formKey = GlobalKey<FormState>();
   bool status = false;
@@ -43,14 +37,6 @@ class _RegisterState extends State<Register> {
 
   bool t1 = false;
 
-  // void _submit() {
-  //   final isValid = _formKey.currentState!.validate();
-  //
-  //   if (!isValid) {
-  //     return;
-  //   }
-  //   _formKey.currentState!.save();
-  // }
   @override
   Widget build(BuildContext context) {
     notifire = Provider.of<Colornotifire>(context, listen: true);
@@ -89,7 +75,7 @@ class _RegisterState extends State<Register> {
                 Container(
                   margin: const EdgeInsets.only(left: 20, right: 240),
                   child: Text(
-                    "Register",
+                    "Registrati",
                     style: TextStyle(
                         fontFamily: "AirbnbCereal_W_Bd",
                         color: notifire.textshscreenprimerycolor,
@@ -102,7 +88,7 @@ class _RegisterState extends State<Register> {
                 Container(
                   margin: const EdgeInsets.only(right: 250),
                   child: Text(
-                    "Your Name",
+                    "Nome",
                     style: TextStyle(
                         fontSize: 12,
                         color: notifire.mintextscreenprimerycolor,
@@ -137,7 +123,7 @@ class _RegisterState extends State<Register> {
                                 disabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 enabledBorder: InputBorder.none,
-                                hintText: "user name",
+                                hintText: "nome utente",
                                 hintStyle: TextStyle(
                                     color: notifire.mintextscreenprimerycolor,
                                     fontSize: 14)
@@ -211,18 +197,7 @@ class _RegisterState extends State<Register> {
                                 hintText: "Email",
                                 hintStyle: TextStyle(
                                     color: notifire.mintextscreenprimerycolor,
-                                    fontSize: 14)
-                                //  labelText: "user name"
-                                ),
-                            // validator: (value) {
-                            //   if (value!.isEmpty ||
-                            //       !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            //           .hasMatch(value!)) {
-                            //     return 'Enter a valid Email or phone number!';
-                            //   }
-                            //   return null;
-                            // },
-                            // onChanged: (val) {},
+                                    fontSize: 14)),
                           ),
                         )
                       ],
@@ -288,19 +263,7 @@ class _RegisterState extends State<Register> {
                                 hintText: "password",
                                 hintStyle: TextStyle(
                                     color: notifire.mintextscreenprimerycolor,
-                                    fontSize: 14)
-                                //  labelText: "user name"
-                                ),
-                            // validator: (value) {
-                            //   if (value == null || value.isEmpty) {
-                            //     return "incorrect password. Please reenter your password and try again."
-                            //         " If the \n problem persists, try resetting your password by click ForgePassword?";
-                            //   } else if (value.length < 6) {
-                            //     return "password length should be atleast 6";
-                            //   }
-                            //   return null;
-                            // },
-                            // onChanged: (val) {},
+                                    fontSize: 14)),
                           ),
                         ),
                       ],
@@ -366,23 +329,10 @@ class _RegisterState extends State<Register> {
                 const SizedBox(
                   height: 70,
                 ),
-                // InkWell(onTap: () {
-                //  setState(() {
-                //    _submit();
-                //    if(_formKey.currentState!.validate()){
-                //      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //        return login_num();
-                //      },));
-                //    }
-                //  });
-                //  _submit();
-                //  print(name.text);
-                //  print(Phonenumber.text);
-                //  print(passwordController.text);
-                // },
                 InkWell(
                     onTap: () async {
-                      registration(context, nameController.text, emailController.text, passwordController.text);
+                      registration(context, nameController.text,
+                          emailController.text, passwordController.text);
                     },
                     child: Container(
                       height: 60,
@@ -439,19 +389,18 @@ class _RegisterState extends State<Register> {
   }
 }
 
-void registration(context, name, email, password) async{
+void registration(context, name, email, password) async {
   try {
-    await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
-    await FirebaseAuth.instance.currentUser
-        ?.updateDisplayName(name);
+    await FirebaseAuth.instance.currentUser?.updateDisplayName(name);
+    await FirebaseAuth.instance.currentUser?.sendEmailVerification();
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
-        return Bottombar();
+        return const Bottombar();
       },
     ));
   } on FirebaseAuthException catch (e) {
@@ -459,22 +408,19 @@ void registration(context, name, email, password) async{
     if (e.code == 'weak-password') {
       errorText = 'The password provided is too weak.';
     } else if (e.code == 'email-already-in-use') {
-      errorText =
-      'The account already exists for that email.';
+      errorText = 'The account already exists for that email.';
     } else if (e.code == "invalid-email") {
       errorText = "email invalida.";
     }
 
     showDialog(
         context: context,
-        builder: (BuildContext context) =>
-            AlertDialog(
+        builder: (BuildContext context) => AlertDialog(
               title: const Text('Errore'),
               content: Text(errorText),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () =>
-                      Navigator.pop(context, 'OK'),
+                  onPressed: () => Navigator.pop(context, 'OK'),
                   child: const Text('OK'),
                 ),
               ],
