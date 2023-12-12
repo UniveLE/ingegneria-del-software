@@ -146,7 +146,7 @@ class _SearchState extends State<Search> {
                                             .then((result) => {
                                                   if (result != null)
                                                     {
-                                                      setState(() async{
+                                                      setState(() {
                                                         products?.clear();
                                                         products = [result];
                                                       })
