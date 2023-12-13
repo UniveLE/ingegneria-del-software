@@ -7,10 +7,10 @@ Repository dedicata al corso di Ignegneria del Software [CT0090] e al progetto a
   - [Definizione dei gruppi](https://docs.google.com/document/d/1PkdKdY0VVbg5wnJmTqyKyIJd0CjheFJ0VdZq4MZRh6s/edit?usp=sharing) (26/09/2023)
   - [D0 - Proposta iniziale](https://docs.google.com/document/d/1xngqidRZJ17-ISJTAwZ7FoSYlMm0qoQqacum-v72Sa8/edit?usp=sharing) (03/10/2023)
   - [D1 - Piano di Progetto](https://docs.google.com/document/d/1dMfetNAEwDuCpsTE4CXUk1HMZkqXpaCxojGtm54Ku_0/edit?usp=sharing) (17/10/2023)
-  - D2 - Documento dei Requisiti (31/10/2023)
-  - D3 - Piano di Testing (14/11/2023)
-  - D4 - Documento di Progettazione (28/11/2023)
-  - D5 - Versione 1.0 del codice sorgente (15/12/2023)
+  - [D2 - Documento dei Requisiti](https://docs.google.com/document/d/1rHHjMsOf6XeXWFh_xeI8v0ALJ5q-PdNz5aLbpKRV1X0/edit?usp=sharing) (31/10/2023)
+  - [D3 - Piano di Testing](https://docs.google.com/document/d/1aOD5SvG9K_F7wpd5r6O5Gpb5_E9rUpn5p1-TiRSE4vA/edit?usp=sharing)
+  - [D4 - Documento di Progettazione](https://docs.google.com/document/d/1Z53ErYWmjA-ncU59pWgBcD4ndL2ndT2Qz8grg5RYTLg/edit?usp=sharing)
+  - D5 - Versione 1.0 del codice sorgente
   - D6 - Versione 1.1. del codice e allineamento documentazione (15/01/2024)
 
 ## Documentazione generale
