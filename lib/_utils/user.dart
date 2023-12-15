@@ -76,6 +76,18 @@ class User {
     return cards;
   }
 
+  Future<void> removeFidelityCard(String code) async {
+    DocumentSnapshot documentSnapshot = await documentReference.get();
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+
+    if (!data.containsKey('FidelityCards')) {
+      return;
+    }
+
+    data['FidelityCards'].removeWhere((row) => row['code'] == code);
+    await documentReference.update({'FidelityCards': data['FidelityCards']});
+  }
+
   Future<void> addProductToShoppingList(Product product) async {
     DocumentSnapshot documentSnapshot = await documentReference.get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;

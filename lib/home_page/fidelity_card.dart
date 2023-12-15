@@ -92,18 +92,32 @@ class _FidelityCardState extends State<FidelityCard> {
                         border: Border.all(color: Colors.black12, width: 1)),
                     child: Column(
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                              left: 15, right: 20, top: 15),
-                          height: 40,
-                          width: 319,
-                          child: Text(
-                            cards[index].name,
-                            style: TextStyle(
-                                fontFamily: "AirbnbCereal_W_Md",
-                                color: notifire.textshscreenprimerycolor,
-                                fontSize: 16),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 15, right: 20, top: 15),
+                              height: 40,
+                              width: 250,
+                              child: Text(
+                                cards[index].name,
+                                style: TextStyle(
+                                    fontFamily: "AirbnbCereal_W_Md",
+                                    color: notifire.textshscreenprimerycolor,
+                                    fontSize: 16),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                User.getActualUser()
+                                    .removeFidelityCard(cards[index].code)
+                                    .then((value) => {loadCards()});
+                              },
+                              icon: const Icon(Icons.delete),
+                              color: notifire.textshscreenprimerycolor,
+                            )
+                          ],
                         ),
                         BarcodeWidget(
                           data: cards[index].code,
