@@ -303,42 +303,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 28, right: 25),
-                        height: 20,
-                        width: 20,
-                        child: Image.asset("assets/logo/language_1.png"),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          /*Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return const Language();
-                            },
-                          ));*/
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 10, right: 20),
-                          height: 30,
-                          width: 150,
-                          child: Text(
-                            "Cambia lingua",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: notifire.textshscreenprimerycolor,
-                                fontFamily: "AirbnbCereal_W_Md"),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                        width: 30,
-                        child: Image.asset("assets/flag_1.png"),
-                      )
-                    ],
-                  ),
                   if (FirebaseAuth
                           .instance.currentUser?.providerData[0].providerId ==
                       'password')

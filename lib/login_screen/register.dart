@@ -79,7 +79,7 @@ class _RegisterState extends State<Register> {
                     style: TextStyle(
                         fontFamily: "AirbnbCereal_W_Bd",
                         color: notifire.textshscreenprimerycolor,
-                        fontSize: 24),
+                        fontSize: 21),
                   ),
                 ),
                 const SizedBox(
@@ -118,7 +118,7 @@ class _RegisterState extends State<Register> {
                           height: 48,
                           width: 230,
                           child: TextFormField(
-                            // controller: name,
+                            controller: nameController,
                             decoration: InputDecoration(
                                 disabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
@@ -305,7 +305,7 @@ class _RegisterState extends State<Register> {
                         Container(
                           margin: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "I agree with",
+                            "Accetto ",
                             style: TextStyle(
                                 color: notifire.textshscreenprimerycolor,
                                 fontFamily: "AirbnbCereal_W_Bk",
@@ -315,7 +315,7 @@ class _RegisterState extends State<Register> {
                         Container(
                           margin: const EdgeInsets.only(left: 5),
                           child: const Text(
-                            "Terms  & Condition",
+                            "Termini e Condizioni",
                             style: TextStyle(
                                 color: Colors.green,
                                 fontFamily: "AirbnbCereal_W_Bk",
@@ -343,7 +343,7 @@ class _RegisterState extends State<Register> {
                           borderRadius: BorderRadius.circular(20)),
                       child: const Center(
                           child: Text(
-                        "Create account",
+                        "Crea un account",
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.white,
@@ -357,7 +357,7 @@ class _RegisterState extends State<Register> {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(left: 100),
-                      child: Text("I have an account.",
+                      child: Text("Sono già registrato",
                           style: TextStyle(
                               fontSize: 14,
                               fontFamily: "AirbnbCereal_W_Bd",
@@ -396,7 +396,7 @@ void registration(context, name, email, password) async {
       password: password,
     );
 
-    await FirebaseAuth.instance.currentUser?.updateDisplayName(name);
+    FirebaseAuth.instance.currentUser?.updateDisplayName(name);
     await FirebaseAuth.instance.currentUser?.sendEmailVerification();
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {

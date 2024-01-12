@@ -293,7 +293,7 @@ class _LoginState extends State<Login> {
                 children: [
                   Container(
                     margin: const EdgeInsets.only(left: 65),
-                    child: Text("Non ho un account.",
+                    child: Text("Non ho un account",
                         style: TextStyle(
                             fontSize: 14,
                             fontFamily: "AirbnbCereal_W_Bd",

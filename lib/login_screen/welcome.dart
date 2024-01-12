@@ -147,7 +147,7 @@ class _WelcomeState extends State<Welcome> {
                   child: const Center(
                       child: Text("MyFoodTracker",
                           style: TextStyle(
-                              fontSize: 40,
+                              fontSize: 34,
                               color: Color(0xff00AB67),
                               fontFamily: "AirbnbCereal_W_Bd"))),
                 )
