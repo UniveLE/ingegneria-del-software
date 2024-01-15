@@ -10,10 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6731077f-20b4-46a5-8165-a0d1de92722c" name="Changes" comment="bug fix pagina search">
-      <change afterPath="$PROJECT_DIR$/android/google-services2.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/google-services.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Deliverable_0_PropostaIniziale.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Deliverable_0_PropostaIniziale.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Deliverable_1_PianoDiProgetto.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Deliverable_1_PianoDiProgetto.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Deliverable_2_DocumentoDeiRequisiti.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Deliverable_2_DocumentoDeiRequisiti.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Deliverable_3_PianoDiTesting.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Deliverable_3_PianoDiTesting.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Deliverable_4_DocProgettazione.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Deliverable_4_DocProgettazione.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/FormazioneTeam.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/home_page/search_result.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home_page/search_result.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myfoodtracker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/myfoodtracker.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,17 +62,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "/Users/eliacoro/Desktop/Github/ingegneria-del-software",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/eliacoro/Desktop/Github/ingegneria-del-software&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />

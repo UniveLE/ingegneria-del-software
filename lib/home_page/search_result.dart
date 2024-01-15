@@ -16,11 +16,11 @@ class SearchResult extends StatefulWidget {
 
   const SearchResult(
       {Key? key,
-      this.title,
-      this.category,
-      this.category2,
-      this.name,
-      this.brand})
+        this.title,
+        this.category,
+        this.category2,
+        this.name,
+        this.brand})
       : super(key: key);
 
   @override
@@ -157,41 +157,6 @@ class _SearchResultState extends State<SearchResult> {
       backgroundColor: notifire.spleshscreenprimerycolor,
       body: SingleChildScrollView(
         child: Column(children: [
-          Container(
-            margin: const EdgeInsets.only(top: 20, left: 10),
-            height: 50,
-            width: 319,
-            decoration: BoxDecoration(
-              color: notifire.topscreenprimerycolor,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 15),
-                  height: 50,
-                  width: 200,
-                  child: TextField(
-                    decoration: InputDecoration(
-                        disabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        hintText: "Ricarca prodotti",
-                        hintStyle: TextStyle(
-                            color: notifire.mintextscreenprimerycolor,
-                            fontSize: 14)
-                        //  icon: Icon(Icons.search),
-                        //  labelText: "user name"
-                        ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 60),
-                  child: const Icon(Icons.search, color: Color(0x0ffccccc)),
-                )
-              ],
-            ),
-          ),
           const Padding(padding: EdgeInsets.only(top: 20)),
           Column(children: [
             Container(
@@ -228,7 +193,7 @@ class _SearchResultState extends State<SearchResult> {
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       image: NetworkImage(products![index]
-                                              .imageFrontUrl ??
+                                          .imageFrontUrl ??
                                           'https://static.openfoodfacts.org/images/misc/openfoodfacts-logo-en-178x150.png'),
                                       fit: BoxFit.cover),
                                   border: Border.all(
@@ -237,7 +202,7 @@ class _SearchResultState extends State<SearchResult> {
                             ),
                             Container(
                               margin:
-                                  const EdgeInsets.only(left: 28, right: 28),
+                              const EdgeInsets.only(left: 28, right: 28),
                               height: 60,
                               width: 132,
                               child: Text(
