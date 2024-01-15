@@ -43,7 +43,7 @@ class _SearchResultState extends State<SearchResult> {
         brand: widget.brand,
         category: widget.category,
         category2: widget.category2,
-        page: page);
+        size: 100);
     setState(() {});
   }
 
@@ -157,41 +157,6 @@ class _SearchResultState extends State<SearchResult> {
       backgroundColor: notifire.spleshscreenprimerycolor,
       body: SingleChildScrollView(
         child: Column(children: [
-          Container(
-            margin: const EdgeInsets.only(top: 20, left: 10),
-            height: 50,
-            width: 319,
-            decoration: BoxDecoration(
-              color: notifire.topscreenprimerycolor,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 15),
-                  height: 50,
-                  width: 200,
-                  child: TextField(
-                    decoration: InputDecoration(
-                        disabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        hintText: "Ricarca prodotti",
-                        hintStyle: TextStyle(
-                            color: notifire.mintextscreenprimerycolor,
-                            fontSize: 14)
-                        //  icon: Icon(Icons.search),
-                        //  labelText: "user name"
-                        ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 60),
-                  child: const Icon(Icons.search, color: Color(0x0ffccccc)),
-                )
-              ],
-            ),
-          ),
           const Padding(padding: EdgeInsets.only(top: 20)),
           Column(children: [
             Container(
@@ -202,7 +167,7 @@ class _SearchResultState extends State<SearchResult> {
               color: notifire.spleshscreenprimerycolor,
 
               child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
+                //physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 0,

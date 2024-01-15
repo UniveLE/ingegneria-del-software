@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "720190357884-ag0u5mv7ksn7v1p1ldm8188ghtddg35v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myfoodtracker",
+            "certificate_hash": "100a36307de8fd8ff29f954c68a0726b93ca659f"
+          }
+        },
+        {
           "client_id": "720190357884-qt0h15q3dlmukggi4vbr18932npou2ua.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
