@@ -43,7 +43,7 @@ class _SearchResultState extends State<SearchResult> {
         brand: widget.brand,
         category: widget.category,
         category2: widget.category2,
-        page: page);
+        size: 100);
     setState(() {});
   }
 
@@ -202,7 +202,7 @@ class _SearchResultState extends State<SearchResult> {
               color: notifire.spleshscreenprimerycolor,
 
               child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
+                //physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 0,
